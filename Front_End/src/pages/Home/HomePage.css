@@ -1,0 +1,110 @@
+.homepage {
+  text-align: center;
+  padding: 20px;
+}
+
+.header {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+body.dark-mode .header {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+.header h1 {
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+  color: #4CAF50;
+}
+
+body.dark-mode .header h1 {
+  color: #76FF03;
+}
+
+.header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+body.dark-mode .header p {
+  color: #ddd;
+}
+
+.main-content {
+  margin-top: 20px;
+}
+
+.features {
+  text-align: left;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.features h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #388E3C;
+}
+
+body.dark-mode .features h2 {
+  color: #76FF03;
+}
+
+.features ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.features li {
+  background: linear-gradient(145deg, #e7f3ff, #f2f9ff);
+  color: #333;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+body.dark-mode .features li {
+  background: linear-gradient(145deg, #555, #666);
+  color: #f0f0f0;
+}
+
+.features li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cta {
+  margin-top: 20px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button:hover {
+  background-color: #388E3C;
+  transform: translateY(-2px);
+}
+
+body.dark-mode .cta-button {
+  background-color: #76FF03;
+  color: #333;
+}
+
+body.dark-mode .cta-button:hover {
+  background-color: #64DD17;
+}

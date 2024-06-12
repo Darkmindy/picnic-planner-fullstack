@@ -1,0 +1,58 @@
+/* FriendsList.css */
+.friends-list {
+    max-width: 400px;
+    margin: 20px auto; /* Aggiunto margine per centrare e distanziare dal contenuto circostante */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .friends-list h2 {
+    font-size: 1.8rem;
+    color: #454a8f;
+    margin-bottom: 20px;
+  }
+  
+  .friends-list input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dfe1f0;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .friends-list button {
+    background: linear-gradient(135deg, #454a8f, #3a3f75);
+    color: #f7f7f7;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .friends-list button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .friends-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .friends-list li {
+    font-size: 1.1rem;
+    color: #1b1e40;
+    padding: 10px 0;
+    border-bottom: 1px solid #dfe1f0;
+  }
+  
+  .friends-list li:last-child {
+    border-bottom: none;
+  }
+  

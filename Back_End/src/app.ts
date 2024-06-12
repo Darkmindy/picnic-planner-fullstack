@@ -13,5 +13,3 @@ app.get("/", (req, res) => {
 
 app.use("/user", signUpApi);
 app.use("/user", logInApi);
-
-// export default app;

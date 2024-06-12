@@ -1,9 +1,10 @@
 export interface IUser {
-	name?: string;
-	surname?: string;
-	username?: string;
-	email: string;
-	password: string;
-	age?: number;
-	isOnline?: boolean;
+	_id?: String;
+	name: String;
+	surname: String;
+	username: String;
+	email: String;
+	password: String;
+	age: Number;
+	isOnline?: Boolean;
 }

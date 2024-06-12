@@ -1,26 +1,40 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { IUser } from "../interfaces/user.interface";
-import { User } from "../models/user.model";
-import { findByKey } from "../services/user.service";
+import { findByEmail, updateUserStatusHandler } from "../services/user.service";
 
 export const logIn = async (req: Request, res: Response) => {
-	const user: IUser = req.body as { email: string; password: string };
-	const userByEmail = await findByKey(user.email);
-	const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-	if (!userByEmail || userByEmail.password !== hashedPassword) {
-		return res
-			.status(404)
-			.json("You've to register before trying to login");
-	}
-
 	try {
-		userByEmail.isOnline = true;
-		const newUser = new User({ userByEmail });
-		const userSaved = await newUser.save();
-		res.status(200).json(userSaved);
+		// Get user by email
+		const { email, password, ...userData } = req.body as IUser;
+		const userByEmail = await findByEmail(req.body.email);
+		if (!userByEmail) {
+			return res.status(400).json("User not found");
+		}
+		const comparePassword = bcrypt.compare(
+			req.body.password,
+			userByEmail.password.toString()
+		);
+
+		// Check if user exists and password matches
+		if (!userByEmail || !comparePassword) {
+			return res.status(401).json("Invalid email or password");
+		}
+
+		// Update user's online status
+		if (userByEmail._id) {
+			await updateUserStatusHandler(userByEmail._id, true);
+		}
+		// Exclude password from response
+		const responseUser = {
+			username: userByEmail.username,
+			email: userByEmail.email,
+			isOnline: userByEmail.isOnline,
+		};
+
+		res.status(200).json(responseUser);
 	} catch (error) {
+		console.error("Error:", error);
 		res.status(500).json({ message: "Internal server error" });
 	}
 };

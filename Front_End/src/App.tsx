@@ -1,27 +1,39 @@
+// src/App.tsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/Home/HomePage';
-import PicnicPlanner from './components/PicnicPlanner/PicnicPlanner';
-import Navbar from './components/Navbar/Navbar';
-import LoginPage from './pages/LoginPage/LoginPage';
-import AdminPage from './pages/AdminPage/AdminPage';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './services/AuthContext';
+import PrivateRoute from './routes/PrivateRoute';
+import LoginForm1 from './components/LoginForm/LoginForm1';
+import HomePage from './components/HomePage/HomePage';
+import AdminPage from './components/AdminPage/AdminPage';
+import UnauthorizedPage from './components/UnauthorizedPage/UnauthorizedPage';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/planner" element={<PicnicPlanner />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/admin" element={<AdminPage />} />
-          </Routes>
-        </div>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginForm1 />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute allowedRoles={['user', 'admin']}>
+                <HomePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute allowedRoles={['admin']}>
+                <AdminPage />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 

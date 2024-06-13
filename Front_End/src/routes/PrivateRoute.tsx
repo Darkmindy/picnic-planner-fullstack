@@ -1,23 +1,29 @@
-import React from "react";
-import { Route, Navigate } from "react-router-dom";
+// src/PrivateRoute.tsx
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../services/AuthContext';
+import { Role } from '../types/roles';
 
 interface PrivateRouteProps {
-  path: string;
-  element: React.ReactNode;
-  isAuthenticated: boolean; // Flag per indicare se l'utente è autenticato
-  redirectTo: string; // Percorso di reindirizzamento per la pagina di accesso
+  children: JSX.Element;
+  allowedRoles: Role[];
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  isAuthenticated,
-  redirectTo,
-  ...rest
-}) => {
-  return isAuthenticated ? (
-    <Route {...rest} />
-  ) : (
-    <Navigate to={redirectTo} replace />
-  );
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, allowedRoles }) => {
+  const auth = useAuth();
+  const location = useLocation();
+
+  if (!auth.user) {
+    // Utente non autenticato
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
+
+  if (!allowedRoles.includes(auth.user.role)) {
+    // Utente non autorizzato
+    return <Navigate to="/unauthorized" />;
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

@@ -6,5 +6,5 @@ export interface IUser {
 	email: String;
 	password: String;
 	age: Number;
-	isOnline?: Boolean;
+	isOnline: Boolean;
 }

@@ -1,5 +1,9 @@
 import express from "express";
-import { router as logInApi, router as signUpApi } from "./routes/user.route";
+import {
+	router as logInApi,
+	router as logOutApi,
+	router as signUpApi,
+} from "./routes/user.route";
 
 export const app = express();
 
@@ -13,3 +17,4 @@ app.get("/", (req, res) => {
 
 app.use("/user", signUpApi);
 app.use("/user", logInApi);
+app.use("/user", logOutApi);

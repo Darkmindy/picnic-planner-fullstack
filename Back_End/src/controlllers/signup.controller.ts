@@ -5,35 +5,27 @@ import { createUser, findByEmail } from "../services/user.service";
 
 export const signUp = async (req: Request, res: Response) => {
 	try {
-		const { email, password, ...userData } = req.body as IUser;
+		const user = req.body as IUser;
 		const userByEmail = await findByEmail(req.body.email);
 
+		// Check if user exists
 		if (userByEmail) {
-			return res.status(400).json({ message: "User already exists" });
+			return res.status(400).json({ message: "Email already exists!" });
 		}
 
-		//! Hash password --> consideriamo l'ipotesi hashare prima di salvare sul database (poi vi spiego come funziona)
-		const salt = await bcrypt.genSalt(10);
-		const hashedPassword = bcrypt.hash(req.body.password, salt);
-
-		console.log({ userData: userData });
-
-		//! si ferma qui, la variabile newUser non viene assegnata
-		const newUser = await createUser({
-			...userData,
-			password: hashedPassword.toString(),
-			email,
+		const userCreated = await createUser(user);
+		res.status(200).json({
+			user: {
+				_id: userCreated._id,
+				name: userCreated.name,
+				surname: userCreated.surname,
+				age: userCreated.age,
+				username: userCreated.username,
+				email: userCreated.email,
+				isOnline: userCreated.isOnline,
+			},
 		});
-		console.log({ newUser: newUser });
-
-		res.status(200).json(newUser);
-	} catch (error: any) {
-		//! questo if serve a capire di che tipo di ValidationError si tratta nel punto in cui si blocca il codice
-		if (error.name === "ValidationError") {
-			return res.status(400).json({ message: "Missing required fields" });
-		}
-
-		console.error(error);
-		res.status(500).json({ message: "Internal server error" });
+	} catch (error) {
+		return res.status(500).json("Internal server error" + error);
 	}
 };

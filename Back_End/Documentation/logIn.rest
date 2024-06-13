@@ -2,11 +2,11 @@ POST http://localhost:3000/user/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "melo@example.com",
+    "email": "saro@example.com",
     "password": "password123"
 }
 
 ###
 
 # access/ refresh(logic to add, later) token
-# melo papa access token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmIwNDY5ZDY4ZjlmZTQ2MDY1NDI1ZCIsImlhdCI6MTcxODI5MDgwOX0.FbhpUib3aSB5l4RQo26LrQDyg57d9QhVmoiDixsVujc
+# saro papa access token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmIyNDhmZGQwYWIzYjY2M2ZiOTE2MCIsImlhdCI6MTcxODI5OTAyN30.a7V93j7iguHLGl05_qm8IrtUDrk9HTnBuY7bM8_rmXE

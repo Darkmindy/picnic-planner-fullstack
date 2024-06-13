@@ -26,15 +26,6 @@ export const logIn = async (req: Request, res: Response) => {
 			return res.status(401).json("Invalid email or password");
 		}
 
-		//? this logic of statusUpdated is done if we want to see the json updated in the response but don't really need it
-		//let statusUpdated: IUser | null = null;
-		// Exclude password from response
-		// const loggedUser = {
-		// 	username: userByEmail.username,
-		// 	email: userByEmail.email,
-		// 	isOnline: statusUpdated?.isOnline,
-		// };
-
 		const id = userByEmail._id?.toString();
 
 		// Check and Update user's online status + access token
@@ -46,10 +37,10 @@ export const logIn = async (req: Request, res: Response) => {
 				message: "You are logged in!",
 				accessToken: accessToken,
 			});
-		} else if (userByEmail.isOnline === true && userByEmail._id) {
-			return res.status(404).json("User already logged in"); //! check if this status code are properly defined
+		} else if (userByEmail.isOnline === true && id) {
+			return res.status(400).json("User already logged in");
 		} else {
-			return res.status(404).json("User not found"); //! check if this status code are properly defined
+			return res.status(404).json("User not found");
 		}
 	} catch (error) {
 		res.status(500).json("Internal server error" + error);

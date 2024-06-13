@@ -1,8 +1,8 @@
 import React, { FC, FormEvent, ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
 import Input from "../Input/Input";
 import Checkbox from "../Checkbox/Checkbox";
-import Button from "../Button/Button";
 import "./LoginForm.css";
 
 const strengthLabels = ["weak", "medium", "strong"];
@@ -48,20 +48,21 @@ const LoginForm: FC = () => {
     for (const pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    const isAdminLogin = formData.get("check") === "on";
+    const isAdminLogin = formData.get("checked") === "on";
     if (isAdminLogin) {
       navigate("/admin");
     } else {
-      navigate("/main-page");
+      navigate("/");
     }
   };
 
   return (
     <div className="login-card">
+      <img src="assets/Icons/logo.png" alt="Logo" />
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit} className="login-form">
         <div className="username">
-          <Input
+          <Input required
             autoComplete="off"
             spellCheck="false"
             className="control"
@@ -71,7 +72,7 @@ const LoginForm: FC = () => {
           />
           <div id="spinner" className="spinner"></div>
         </div>
-        <Input
+        <Input required
           name="password"
           spellCheck="false"
           className="control"

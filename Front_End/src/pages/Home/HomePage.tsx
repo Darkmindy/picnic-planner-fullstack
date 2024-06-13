@@ -5,7 +5,7 @@ import './HomePage.css';
 const HomePage: React.FC = () => (
   <div className="homepage">
     <header className="header">
-      <h1>Benvenuti su "Chinnicchiennacchi"</h1>
+      <h1>Benvenuti su "Chinnicchinnacchi"</h1>
       <p>Organizza e pianifica il tuo picnic perfetto con amici e familiari.</p>
     </header>
     <main className="main-content">

@@ -1,22 +1,21 @@
+import React, { ComponentProps, FC } from 'react';
 
-import React, { ComponentProps, FC } from 'react'
 interface CheckboxProps extends ComponentProps<'input'> {
-    label: string;
-  }
+  label: string;
+}
 
+const Checkbox: FC<CheckboxProps> = ({ label, ...inputProps }) => {
+  return (
+    <label>
+      <span className='block'>{label}</span>
+      <input
+        {...inputProps}
+        className="form-check-input"
+        aria-describedby="checkboxhelp"
+      />
+    </label>
+  );
+}
 
+export default Checkbox;
 
-const Checkbox: FC<CheckboxProps> = ({ type, label, name }) => {
-    return (
-      <label>
-        <span className='block'>{label}</span>
-        <input name={name}
-          type={type}
-          className="form-check-input"
-          id="Checkbox"
-          aria-describedby="checkboxhelp" />
-      </label>
-    )
-  }
-  
-export default Checkbox

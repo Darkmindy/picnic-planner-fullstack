@@ -1,12 +1,11 @@
-import React from "react";
-import LoginForm from "../../components/Form/LoginForm";
+import React from 'react';
+import LoginForm1 from '../../components/LoginForm/LoginForm1';
+import './LoginPage.css';
 
 const LoginPage = () => {
   return (
-    <div className="container">
-      <div className="flex-row justify-content-center">
-        <LoginForm />
-      </div>
+    <div className="login-page">
+      <LoginForm1 />
     </div>
   );
 };

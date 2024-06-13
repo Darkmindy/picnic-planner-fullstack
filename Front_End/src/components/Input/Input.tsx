@@ -1,13 +1,13 @@
 import React, { FC, InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;  // Label è opzionale ora
 }
 
-const Input: FC<InputProps> = ({ type, label, name, ...rest }) => {
+const Input: FC<InputProps> = ({ type, label = "", name, ...rest }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>{label}</label>
+      {label && <label htmlFor={name}>{label}</label>}
       <input
         {...rest}
         type={type}

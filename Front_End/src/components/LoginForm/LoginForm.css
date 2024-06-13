@@ -1,0 +1,148 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, .wrapper {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #f2f3ff, #d1d4fc);
+  font-family: "Euclid Circular A", sans-serif;
+  color: #1b1e40;
+  animation: rotate 5s infinite alternate linear;
+}
+
+@keyframes rotate {
+  0% {
+    background: linear-gradient(135deg, #f2f3ff, #d1d4fc);
+  }
+  100% {
+    background: linear-gradient(135deg, #d1d4fc, #f2f3ff);
+  }
+}
+
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.login-card {
+  width: 400px;
+  padding: 60px 30px 32px;
+  border-radius: 1.25rem;
+  background: #ffffff;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.login-card h2 {
+  font-size: 36px;
+  font-weight: 600;
+  margin: 0 0 30px;
+  color: #454a8f;
+}
+
+.login-card img {
+  width: 260px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 5px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form {
+  width: 100%;
+  display: grid;
+  gap: 16px;
+}
+
+.login-form input.control::placeholder {
+  color: #9d9fbd;
+}
+
+.control {
+  border: 1.5px solid #dfe1f0;
+  outline: none;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  background: #f6f7ff;
+  color: #1b1e40;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 18px;
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+
+.control:focus {
+  border-color: #454a8f;
+  box-shadow: 0 0 8px rgba(69, 74, 143, 0.3);
+}
+
+button.control {
+  cursor: pointer;
+  background: linear-gradient(135deg, #454a8f, #3a3f75);
+  color: #f7f7f7;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  border-radius: 6px;
+  transition: background 0.375s, transform 0.375s;
+}
+
+button.control:hover {
+  background: linear-gradient(135deg, #3a3f75, #454a8f);
+  transform: translateY(-2px);
+}
+
+.bars {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 6px;
+  border-radius: 3px;
+  background: #dfe1f0;
+}
+
+.bars div {
+  height: 6px;
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.4s, background-color 0.4s;
+}
+
+.bars.weak div {
+  background: #e24c71;
+  width: 33.33%;
+}
+
+.bars.medium div {
+  background: #f39845;
+  width: 66.66%;
+}
+
+.bars.strong div {
+  background: #57c558;
+  width: 100%;
+}
+
+.strength {
+  text-align: left;
+  height: 30px;
+  text-transform: capitalize;
+  color: #868b94;
+}

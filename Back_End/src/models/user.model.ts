@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { IUser } from "../interfaces/user.interface";
 import { hashStuff } from "../utility/commonAuthFunctions";
@@ -9,26 +8,12 @@ const userSchema = new mongoose.Schema<IUser>({
 		type: String,
 		required: true, // !Add required validation (Zod)
 	},
-	surname: {
-		type: String,
-		required: true,
-	},
-	username: {
-		type: String,
-		unique: true, // Add unique constraint for username
-		required: true,
-	},
 	email: {
 		type: String,
-		unique: true, // Add unique constraint for email
 		required: true,
 	},
 	password: {
 		type: String,
-		required: true,
-	},
-	age: {
-		type: Number,
 		required: true,
 	},
 	isOnline: {

@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import {
 	router as logInApi,
@@ -6,9 +7,17 @@ import {
 } from "./routes/user.route";
 
 export const app = express();
+app.use(express.urlencoded({ extended: true }));
 
-//configure the middleware for body requests
-//app.use(express.urlencoded({ extended: false })); // this middleware is used to analyse the http requests with url-encoded payload
+// Configura CORS
+app.use(
+	cors({
+		origin: "http://localhost:5173", // Indica l'origine permessa
+		methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Specifica i metodi permessi
+		credentials: true, // Indica se sono permessi i cookie
+	})
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {

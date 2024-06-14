@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { IDecodedToken } from "../interfaces/decodedToken.interface";
-import { IUser } from "../interfaces/user.interface";
+import { IDecodedToken } from "../validation/decodedToken.interface";
+import { IUser } from "../validation/user.interface";
 import { User } from "../models/user.model";
 import { env } from "../utility/env";
 
@@ -15,16 +15,9 @@ export const findUserById = async (id: string): Promise<IUser | null> => {
 export const findByEmail = async (
 	email: string | undefined
 ): Promise<IUser | null> => {
-	try {
-		if (!email) {
-			throw new Error("Email is undefined");
-		}
-		return await User.findOne({ email: email });
-	} catch (err) {
-		console.error("Error finding user by email:", err);
-		return null;
-	}
-};
+	return await User.findOne({ email: email });
+}
+
 
 export const updateUserStatusHandler = async (
 	id: String,

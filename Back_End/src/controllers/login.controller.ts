@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { IUser } from "../interfaces/user.interface";
+import { IUser } from "../validation/user.interface";
 import { findByEmail, updateUserStatusHandler } from "../services/user.service";
 import { createAccessToken } from "../utility/commonAuthFunctions";
 

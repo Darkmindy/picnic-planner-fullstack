@@ -1,20 +1,17 @@
 import mongoose from "mongoose";
-import { IUser } from "../interfaces/user.interface";
+import { IUser } from "../validation/user.interface";
 import { hashStuff } from "../utility/commonAuthFunctions";
 
 // Create the User schema
 const userSchema = new mongoose.Schema<IUser>({
 	name: {
 		type: String,
-		required: true, // !Add required validation (Zod)
 	},
 	email: {
 		type: String,
-		required: true,
 	},
 	password: {
 		type: String,
-		required: true,
 	},
 	isOnline: {
 		type: Boolean,
@@ -34,5 +31,6 @@ userSchema.pre("save", async function (next) {
 		next(); // Pass on errors to error handling middleware
 	}
 });
+
 // Create the User model
 export const User = mongoose.model("User", userSchema);

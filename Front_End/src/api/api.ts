@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://example.com/api', // Sostituisci con il tuo URL base
+  baseURL: 'http://localhost:3000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,5 +15,10 @@ export const signUp = async (userData: { name: string, email: string, password: 
 
 export const signIn = async (userData: { email: string, password: string }) => {
   const response = await apiClient.post('/login', userData);
+  return response.data;
+};
+
+export const logOut = async (userData: { email: string, password: string }) => {
+  const response = await apiClient.post('/logout', userData);
   return response.data;
 };

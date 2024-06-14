@@ -1,9 +1,9 @@
 import React, { useRef, useState, ChangeEvent, FormEvent } from 'react';
-import './LoginForm1.css';
-import Input from '../Input/Input';
-import Checkbox from '../Checkbox/Checkbox';
-import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
+import Button from '../Button/Button';
+import Input from '../Input/Input';
+import './LoginForm1.css';
+
 
 const strengthLabels = ["weak", "medium", "strong"];
 

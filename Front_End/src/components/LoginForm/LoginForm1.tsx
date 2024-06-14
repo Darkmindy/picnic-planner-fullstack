@@ -1,6 +1,7 @@
 import React, { useRef, useState, ChangeEvent, FormEvent } from 'react';
 import './LoginForm1.css';
 import Input from '../Input/Input';
+import Checkbox from '../Checkbox/Checkbox';
 import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
 
@@ -63,7 +64,7 @@ const LoginForm1: React.FC = () => {
     for (const pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    const isAdminLogin = formData.get("check") === "on";
+    const isAdminLogin = formData.get("checked") === "on";
     if (isAdminLogin) {
       navigate("/admin");
     } else {

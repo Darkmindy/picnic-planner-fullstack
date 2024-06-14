@@ -1,4 +1,5 @@
-import React, { ComponentProps, FC } from 'react';
+import { ComponentProps, FC } from 'react';
+import "./Checkbox.css";
 
 interface CheckboxProps extends ComponentProps<'input'> {
   label: string;
@@ -7,12 +8,13 @@ interface CheckboxProps extends ComponentProps<'input'> {
 const Checkbox: FC<CheckboxProps> = ({ label, ...inputProps }) => {
   return (
     <label>
-      <span className='block'>{label}</span>
       <input
+        type="checkbox"
         {...inputProps}
         className="form-check-input"
         aria-describedby="checkboxhelp"
       />
+      <span className='block'>{label}</span>
     </label>
   );
 }

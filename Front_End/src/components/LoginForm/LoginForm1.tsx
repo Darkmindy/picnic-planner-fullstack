@@ -1,16 +1,23 @@
-import React, { useRef, useState, ChangeEvent, FormEvent } from 'react';
+import React, { useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signIn } from '../../api/api';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import './LoginForm1.css';
+import SignUpForm from '../SignUpForm/SignUpForm';
+import Checkbox from '../Checkbox/Checkbox';
 
-const strengthLabels = ["weak", "medium", "strong"];
 
 const LoginForm1: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const [strength, setStrength] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Stato per gestire l'autenticazione
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    role: "user"
+  });
 
   const handleSignUpClick = () => {
     if (containerRef.current) {
@@ -24,55 +31,38 @@ const LoginForm1: React.FC = () => {
     }
   };
 
-  const getStrength = (password: string) => {
-    let strengthIndicator: number = 0;
-    let upper = false,
-      lower = false,
-      numbers = false;
-
-    for (let index = 0; index < password.length; index++) {
-      const char = password.charCodeAt(index);
-      if (!upper && char >= 65 && char <= 90) {
-        upper = true;
-        strengthIndicator++;
-      }
-
-      if (!numbers && char >= 48 && char <= 57) {
-        numbers = true;
-        strengthIndicator++;
-      }
-
-      if (!lower && char >= 97 && char <= 122) {
-        lower = true;
-        strengthIndicator++;
-      }
-    }
-
-    setStrength(strengthLabels[strengthIndicator] || "");
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name === 'password') {
-      getStrength(event.target.value);
-    }
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formEl = event.currentTarget;
-    const formData = new FormData(formEl);
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-    const isAdminLogin = formData.get("checked") === "on";
-    setIsLoggedIn(true); // Imposta lo stato di autenticazione a true
-
-    if (isAdminLogin) {
-      navigate("/admin");
-    } else {
+    try {
+      const response = await signIn(formData);
+      console.log(response);
+      setIsLoggedIn(true);
       navigate("/");
+    } catch (error) {
+      console.error(error)
+      const err = error as { response: { status: number } };
+      if (err.response.status == 404) {
+        setMessage("Invalid email or password");
+      }
     }
+    // const isAdminLogin = formData.get("checked") === "on";
+    // setIsLoggedIn(true);
+
+    // if (isAdminLogin) {
+    //   navigate("/admin");
+    // } else {
+    //   navigate("/");
+    // }
   };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === "role") {
+      setFormData({ ...formData, role: e.target.checked ? "admin" : "user" });
+    } else {
+      setMessage("");
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  }
 
   const handleLogout = () => {
     setIsLoggedIn(false); // Reimposta lo stato di autenticazione a false
@@ -82,37 +72,7 @@ const LoginForm1: React.FC = () => {
   return (
     <div className="container" ref={containerRef}>
       <div className="form-container sign-up-container">
-        <form onSubmit={handleSubmit}>
-          <h1>Create Account</h1>
-          <div className="social-container">
-            <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-            <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-            <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-          </div>
-          <span>or use your email for registration</span>
-          <Input
-            type="text"
-            placeholder="Name"
-            required
-          />
-          <Input
-            type="email"
-            placeholder="Email"
-            required
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={handleChange}
-            required
-          />
-          <div className={`bars ${strength}`}>
-            <div></div>
-          </div>
-          <div className="strength">{strength && <>{strength} password</>}</div>
-          <Button type="submit" label="Sign Up" />
-        </form>
+        <SignUpForm />
       </div>
       <div className="form-container sign-in-container">
         <form onSubmit={handleSubmit}>
@@ -125,16 +85,24 @@ const LoginForm1: React.FC = () => {
           <span>or use your account</span>
           <Input
             type="email"
+            name="email"
             placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
             required
           />
           <Input
+            name="password"
             type="password"
             placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
             required
           />
+          <Checkbox label="Admin? Check this box" name="role" onChange={handleChange} />
           <a href="#">Forgot your password?</a>
           <Button type="submit" label="Sign In" />
+          <p>{message}</p>
         </form>
       </div>
       <div className="overlay-container">

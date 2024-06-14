@@ -5,7 +5,6 @@ import LoginForm1 from './components/LoginForm/LoginForm1';
 import HomePage from './components/HomePage/HomePage';
 import AdminPage from './components/AdminPage/AdminPage';
 import UnauthorizedPage from './components/UnauthorizedPage/UnauthorizedPage';
-import SignUpForm from './components/SignUpForm/SignUpForm'; // Importa il nuovo componente
 
 const App: React.FC = () => {
   return (
@@ -13,12 +12,11 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginForm1 />} />
-          <Route path="/signup" element={<SignUpForm />} /> {/* Aggiungi il percorso per il form di registrazione */}
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route
             path="/"
             element={
-              <PrivateRoute allowedRoles={['user', 'admin']}>
+              <PrivateRoute allowedRoles={['user']}>
                 <HomePage />
               </PrivateRoute>
             }

@@ -8,6 +8,10 @@ export const createUser = async (user: IUser): Promise<IUser> => {
 	return await User.create(user);
 };
 
+export const findUserById = async (id: string): Promise<IUser | null> => {
+	return await User.findById(id);
+};
+
 export const findByEmail = async (
 	email: string | undefined
 ): Promise<IUser | null> => {

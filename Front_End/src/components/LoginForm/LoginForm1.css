@@ -45,8 +45,8 @@ a {
 
 button {
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border: 1px solid #1e90ff;
+  background-color: #1e90ff;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -161,9 +161,9 @@ input {
 }
 
 .overlay {
-  background: #ff416c;
-  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: #1e90ff;
+  background: -webkit-linear-gradient(to right, #1e90ff, #1c86ee);
+  background: linear-gradient(to right, #1e90ff, #1c86ee);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -267,19 +267,47 @@ footer a {
 }
 
 .bars.weak div:nth-child(1) {
-  background: #ff4b2b;
+  background: #1e90ff;
 }
 
 .bars.medium div:nth-child(-n + 2) {
-  background: #ff4b2b;
+  background: #1e90ff;
 }
 
 .bars.strong div {
-  background: #ff4b2b;
+  background: #1e90ff;
 }
 
 .strength {
   font-size: 12px;
   color: #777;
   margin-top: 5px;
+}
+
+.logout-button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000; /* Assicurati che il bottone sia sopra altri elementi */
+}
+
+.logout-button {
+  border-radius: 20px;
+  border: 1px solid #1e90ff;
+  background-color: #1e90ff;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+}
+
+.logout-button:active {
+  transform: scale(0.95);
+}
+
+.logout-button:focus {
+  outline: none;
 }

@@ -1,9 +1,14 @@
 export type Role = 'admin' | 'user';
 
 export interface User {
-  id: string;
+  //id: string;
   name: string;
+  surname: string;
+  username: string;
   email: string;
+  password: string;
+  age: number;
+  isOnline?: boolean;
   role: Role;
 }
 

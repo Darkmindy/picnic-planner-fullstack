@@ -15,6 +15,6 @@ app.get("/", (req, res) => {
 	res.json({ message: "Server is online" });
 });
 
-app.use("/user", signUpApi);
-app.use("/user", logInApi);
-app.use("/user", logOutApi);
+app.use("/", signUpApi);
+app.use("/", logInApi);
+app.use("/", logOutApi);

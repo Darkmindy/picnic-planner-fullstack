@@ -4,13 +4,13 @@ import Button from '../Button/Button';
 import Input from '../Input/Input';
 import './LoginForm1.css';
 
-
 const strengthLabels = ["weak", "medium", "strong"];
 
 const LoginForm1: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [strength, setStrength] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Stato per gestire l'autenticazione
 
   const handleSignUpClick = () => {
     if (containerRef.current) {
@@ -65,11 +65,18 @@ const LoginForm1: React.FC = () => {
       console.log(pair[0], pair[1]);
     }
     const isAdminLogin = formData.get("checked") === "on";
+    setIsLoggedIn(true); // Imposta lo stato di autenticazione a true
+
     if (isAdminLogin) {
       navigate("/admin");
     } else {
       navigate("/");
     }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Reimposta lo stato di autenticazione a false
+    navigate("/login");
   };
 
   return (
@@ -144,6 +151,11 @@ const LoginForm1: React.FC = () => {
           </div>
         </div>
       </div>
+      {isLoggedIn && (
+        <div className="logout-button-container">
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
+        </div>
+      )}
     </div>
   );
 };

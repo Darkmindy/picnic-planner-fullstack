@@ -1,22 +1,41 @@
 import { Request, Response } from "express";
-import { IUser } from "../interfaces/user.interface";
+import { IUser, ZUserSchema } from "../validation/user.interface";
 import { createUser, findByEmail } from "../services/user.service";
-
+import { fromZodError } from "zod-validation-error";
 export const signUp = async (req: Request, res: Response) => {
 	try {
-		const user: IUser = req.body as {
+
+		const validationError = ZUserSchema.safeParse(req.body as {
+			name: string;
+			email: string;
+			password: string;
+		});
+
+		if (validationError.success === false) {
+			return res.status(400).json(fromZodError(validationError.error).message);
+		}
+
+		const user = validationError.data as {
 			name: string;
 			email: string;
 			password: string;
 		};
-		const userByEmail = await findByEmail(req.body.email);
+
+		const userByEmail = await findByEmail(user.email);
 
 		// Check if user exists
 		if (userByEmail) {
 			return res.status(400).json("Email already exists!");
 		}
+		
+		const newUser : IUser = {
+			name: user.name,
+			email: user.email,
+			password: user.password,
+			isOnline: false,
+		}
 
-		const userCreated = await createUser(user);
+		const userCreated = await createUser(newUser);
 		res.status(200).json({
 			user: {
 				_id: userCreated._id,

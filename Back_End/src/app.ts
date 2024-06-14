@@ -1,9 +1,9 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
 import {
-  router as logInApi,
-  router as logOutApi,
-  router as signUpApi,
+	router as logInApi,
+	router as logOutApi,
+	router as signUpApi,
 } from "./routes/user.route";
 
 export const app = express();
@@ -11,19 +11,17 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configura CORS
 app.use(
-  cors({
-    origin: "http://localhost:5173", // Indica l'origine permessa
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Specifica i metodi permessi
-    credentials: true, // Indica se sono permessi i cookie
-  })
+	cors({
+		origin: "http://localhost:5173", // Indica l'origine permessa
+		methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Specifica i metodi permessi
+		credentials: true, // Indica se sono permessi i cookie
+	})
 );
 
-//configure the middleware for body requests
-//app.use(express.urlencoded({ extended: false })); // this middleware is used to analyse the http requests with url-encoded payload
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Server is online" });
+	res.json({ message: "Server is online" });
 });
 
 app.use("/", signUpApi);

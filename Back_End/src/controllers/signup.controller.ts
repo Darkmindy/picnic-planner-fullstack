@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
+import { IUser } from "../interfaces/user.interface";
 import { createUser, findByEmail } from "../services/user.service";
 
 export const signUp = async (req: Request, res: Response) => {
 	try {
-		const user = req.body as {
+		const user: IUser = req.body as {
 			name: string;
 			email: string;
 			password: string;
@@ -12,11 +13,10 @@ export const signUp = async (req: Request, res: Response) => {
 
 		// Check if user exists
 		if (userByEmail) {
-			return res.status(400).json({ message: "Email already exists!" });
+			return res.status(400).json("Email already exists!");
 		}
 
 		const userCreated = await createUser(user);
-		console.log(userCreated);
 		res.status(200).json({
 			user: {
 				_id: userCreated._id,

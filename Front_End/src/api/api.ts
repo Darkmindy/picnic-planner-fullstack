@@ -8,10 +8,13 @@ const apiClient = axios.create({
 	},
 });
 
+export type Role = "user" | "admin";
+
 export const signUp = async (userData: {
 	name: string;
 	email: string;
 	password: string;
+	role: Role;
 }) => {
 	try {
 		const response = await apiClient.post("/signup", userData);
@@ -36,6 +39,11 @@ export const signUp = async (userData: {
 
 export const signIn = async (userData: { email: string; password: string }) => {
 	const response = await apiClient.post("/login", userData);
+	return response.data;
+};
+
+export const adminSignIn = async (userData: { email: string; password: string }) => {
+	const response = await apiClient.post("/admin-login", userData);
 	return response.data;
 };
 

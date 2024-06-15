@@ -1,2 +1,2 @@
-GET http://localhost:3000/logout HTTP/1.1
+GET http://localhost:3000/fetch-user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiZDBlMjhlZGYyMWI1NzUyZWUxNSIsImlhdCI6MTcxODQ2ODAzNn0.pw7B84cJ_Jh3X7O5AyYBg1Q2vDRgeSC81NUqOW-5h9o

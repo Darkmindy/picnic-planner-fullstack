@@ -4,6 +4,7 @@ import { logOut } from "../controllers/logout.controller";
 import { adminSignUp, signUp } from "../controllers/signup.controller";
 import { authMiddleware } from "../middleware/authorization.middleware";
 import { checkRoleMiddleware } from "../middleware/checkRole.middleware";
+import { fetchUser } from "../controllers/fetchUser.controller";
 
 export const router = Router();
 
@@ -16,3 +17,4 @@ router.get(
 	checkRoleMiddleware(["user", "admin"]),
 	logOut
 );
+router.get("/fetch-user", authMiddleware, fetchUser);

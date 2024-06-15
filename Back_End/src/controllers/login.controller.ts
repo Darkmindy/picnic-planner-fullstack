@@ -36,9 +36,9 @@ export const logIn = async (req: Request, res: Response) => {
 
 			res.cookie("access_token", accessToken, {
 				httpOnly: true,
-				secure: process.env.NODE_ENV === "production",
+				secure: process.env.PROD_DBNAME === 'db_prod', // true for production
 				sameSite: "strict",
-				maxAge: 48 * 60 * 60 * 1000, // 2 days
+				maxAge: 24 * 60 * 60 * 1000, // 1 days
 			})
 		} else if (userByEmail.isOnline === true && id) {
 			return res.status(400).json("User already logged in");

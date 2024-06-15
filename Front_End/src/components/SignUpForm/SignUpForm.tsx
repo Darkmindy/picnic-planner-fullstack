@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { signUp } from '../../api/api';
+import { signUp, adminSignUp } from '../../api/api';
 import Input from '../Input/Input';
 import Checkbox from '../Checkbox/Checkbox';
 
@@ -49,7 +49,7 @@ const SignUpForm: React.FC = () => {
     try {
       const userData = { name, email, password, role };
       console.log(userData)
-      const response = await signUp(userData);
+      const response = role == "admin" ? await adminSignUp(userData) : await signUp(userData);
       setMessage(`User ${response.name} registered successfully!`);
     } catch (error) {
       setMessage('Error registering user');
@@ -100,7 +100,7 @@ const SignUpForm: React.FC = () => {
           <div></div>
         </div>
         <div className="strength">{strength && <>{strength} password</>}</div>
-        <Checkbox label="Admin? Sign up." name="role" onChange={handleCheckbox}/>
+        <Checkbox label="Admin? Sign up." name="role" onChange={handleCheckbox} />
         <button type="submit">Sign Up</button>
       </form>
       <p>{message}</p>

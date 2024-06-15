@@ -37,6 +37,30 @@ export const signUp = async (userData: {
 	}
 };
 
+export const adminSignUp = async (userData: {
+	name: string;
+	email: string;
+	password: string;
+	role: Role;
+}) => {
+	try {
+		const response = await apiClient.post("/admin-signup", userData);
+		console.log("Response data:", response.data);
+		return response.data;
+	} catch (error) {
+		if (axios.isAxiosError(error)) {
+			console.error(
+				"Axios error:",
+				error.response?.data || error.message
+			);
+			throw new Error(error.response?.data || "Failed to sign up");
+		} else {
+			console.error("General error:", error);
+			throw new Error("Failed to sign up");
+		}
+	}
+};
+
 export const signIn = async (userData: { email: string; password: string }) => {
 	const response = await apiClient.post("/login", userData);
 	return response.data;

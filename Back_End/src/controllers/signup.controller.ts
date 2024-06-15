@@ -1,18 +1,21 @@
 import { Request, Response } from "express";
-import { IUser, ZUserSchema } from "../validation/user.interface";
-import { createUser, findByEmail } from "../services/user.service";
 import { fromZodError } from "zod-validation-error";
+import { createUser, findByEmail } from "../services/user.service";
+import { IUser, ZUserSchema } from "../validation/user.interface";
 export const signUp = async (req: Request, res: Response) => {
 	try {
+		const validationError = ZUserSchema.safeParse(
+			req.body as {
+				name: string;
+				email: string;
+				password: string;
+			}
+		);
 
-		const validationError = ZUserSchema.safeParse(req.body as {
-			name: string;
-			email: string;
-			password: string;
-		});
-
-		if (validationError.success === false) {
-			return res.status(400).json(fromZodError(validationError.error).message);
+		if (!validationError.success) {
+			return res
+				.status(400)
+				.json(fromZodError(validationError.error).message);
 		}
 
 		const user = validationError.data as {
@@ -27,13 +30,14 @@ export const signUp = async (req: Request, res: Response) => {
 		if (userByEmail) {
 			return res.status(400).json("Email already exists!");
 		}
-		
-		const newUser : IUser = {
+
+		// Create new user
+		const newUser: IUser = {
 			name: user.name,
 			email: user.email,
 			password: user.password,
 			isOnline: false,
-		}
+		};
 
 		const userCreated = await createUser(newUser);
 		res.status(200).json({
@@ -49,18 +53,20 @@ export const signUp = async (req: Request, res: Response) => {
 	}
 };
 
-
 export const adminSignUp = async (req: Request, res: Response) => {
 	try {
-
-		const validationError = ZUserSchema.safeParse(req.body as {
-			name: string;
-			email: string;
-			password: string;
-		});
+		const validationError = ZUserSchema.safeParse(
+			req.body as {
+				name: string;
+				email: string;
+				password: string;
+			}
+		);
 
 		if (validationError.success === false) {
-			return res.status(400).json(fromZodError(validationError.error).message);
+			return res
+				.status(400)
+				.json(fromZodError(validationError.error).message);
 		}
 
 		const user = validationError.data as {
@@ -76,16 +82,16 @@ export const adminSignUp = async (req: Request, res: Response) => {
 			return res.status(400).json("Email already exists!");
 		}
 
-		if(userByEmail !== "admin@admin.it"){
+		if (user.email !== "admin@admin.it") {
 			return res.status(400).json("Invalid admin email");
 		}
-		
-		const newUser : IUser = {
+
+		const newUser: IUser = {
 			name: user.name,
 			email: user.email,
 			password: user.password,
 			isOnline: false,
-		}
+		};
 
 		const userCreated = await createUser(newUser);
 		res.status(200).json({

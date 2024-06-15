@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { fromZodError } from "zod-validation-error";
 import { createUser, findByEmail } from "../services/user.service";
+import { env } from "../utility/env";
 import { IUser, ZUserSchema } from "../validation/user.interface";
 export const signUp = async (req: Request, res: Response) => {
 	try {
@@ -84,7 +85,9 @@ export const adminSignUp = async (req: Request, res: Response) => {
 			return res.status(400).json("Email already exists!");
 		}
 
-		if (user.email !== "admin@admin.it") {
+		const protectedEmails = env.PROTECTED_EMAILS.split(",");
+
+		if (!protectedEmails.includes(user.email)) {
 			return res.status(400).json("Invalid admin email");
 		}
 

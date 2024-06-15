@@ -1,4 +1,4 @@
-import { ZodTypeAny, z } from 'zod';
+import { ZodTypeAny, z } from "zod";
 
 //port validation
 const portCast = (port: ZodTypeAny) =>
@@ -9,7 +9,7 @@ const portCast = (port: ZodTypeAny) =>
 			parseInt(value, 10) < 1 ||
 			parseInt(value, 10) > 65535
 		) {
-			throw new Error('Invalid port format');
+			throw new Error("Invalid port format");
 		}
 		return true;
 	});
@@ -27,6 +27,8 @@ const envSchema = z.object({
 	LOCAL_PORT: portCast(z.string()), //effectively validating the port format.
 	DEV_PORT: portCast(z.string()),
 	PROD_PORT: portCast(z.string()),
+
+	PROTECTED_EMAILS: z.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);

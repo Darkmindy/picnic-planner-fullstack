@@ -9,7 +9,7 @@ const SignUpForm: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [role, setRole] = useState<'user' | 'admin'>('user');
   const [message, setMessage] = useState<string>('');
-  const strengthLabels = ["weak", "medium", "strong"];
+  const strengthLabels = ["", "weak", "medium", "strong"];
 
   const [strength, setStrength] = useState("");
 
@@ -37,7 +37,7 @@ const SignUpForm: React.FC = () => {
       }
     }
 
-    setStrength(strengthLabels[strengthIndicator] || "");
+    setStrength(strengthLabels[strengthIndicator]);
   };
 
   const handleStrength = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,12 +48,14 @@ const SignUpForm: React.FC = () => {
     e.preventDefault();
     try {
       const userData = { name, email, password, role };
-      console.log(userData)
       const response = role == "admin" ? await adminSignUp(userData) : await signUp(userData);
       setMessage(`User ${response.name} registered successfully!`);
     } catch (error) {
+      const err = error as {message: string};
+      if(err.message.split(" ").includes('"name"')) {
+        setMessage('Name is required');
+      } else
       setMessage('Error registering user');
-      console.error(error);
     }
   };
 
@@ -62,6 +64,7 @@ const SignUpForm: React.FC = () => {
     setState: React.Dispatch<React.SetStateAction<string>>
   ) => {
     setState(e.target.value);
+    setMessage("")
   };
 
   const handleCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
@@ -99,11 +102,13 @@ const SignUpForm: React.FC = () => {
         <div className={`bars ${strength}`}>
           <div></div>
         </div>
-        <div className="strength">{strength && <>{strength} password</>}</div>
+        <div className="strength">{strength && `${strength} password`}</div>
         <Checkbox label="Admin? Sign up." name="role" onChange={handleCheckbox} />
+        <p>{message}</p>
         <button type="submit">Sign Up</button>
+
       </form>
-      <p>{message}</p>
+      
     </>
   );
 };

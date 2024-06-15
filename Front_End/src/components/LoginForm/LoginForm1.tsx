@@ -1,6 +1,6 @@
 import React, { useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signIn, adminSignIn } from '../../api/api';
+import { signIn } from '../../api/api';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import './LoginForm1.css';
@@ -34,25 +34,15 @@ const LoginForm1: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await signIn(formData);
-      console.log(response);
+      await signIn(formData);
       setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
-      console.error(error)
       const err = error as { response: { status: number } };
       if (err.response.status == 404) {
         setMessage("Invalid email or password");
       }
     }
-    // const isAdminLogin = formData.get("checked") === "on";
-    // setIsLoggedIn(true);
-
-    // if (isAdminLogin) {
-    //   navigate("/admin");
-    // } else {
-    //   navigate("/");
-    // }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -256,26 +256,35 @@ footer a {
 .bars {
   display: flex;
   margin: 10px 0;
+  width: 60%;
+  transition: opacity 0.5s ease;
 }
 
 .bars div {
-  flex: 1;
   height: 5px;
   margin: 0 2px;
+  opacity: 0;
+
   background: #ddd;
-  transition: background 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out, width 0.5s ease;
 }
 
-.bars.weak div:nth-child(1) {
-  background: #1e90ff;
+.bars.weak div {
+  background: #ff1e1e;
+  width: 33%;
+  opacity: 1;
 }
 
-.bars.medium div:nth-child(-n + 2) {
+.bars.medium div {
   background: #1e90ff;
+  width: 66%;
+  opacity: 1;
 }
 
 .bars.strong div {
-  background: #1e90ff;
+  background: #21ff33;
+  width: 100%;
+  opacity: 1;
 }
 
 .strength {

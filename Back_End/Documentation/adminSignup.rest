@@ -6,3 +6,4 @@ Content-Type: application/json
     "email": "melo@admin.com",
     "password": "password123"
 }
+

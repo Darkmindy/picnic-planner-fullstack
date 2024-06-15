@@ -7,8 +7,8 @@ import { createAccessToken } from "../utility/commonAuthFunctions";
 export const logIn = async (req: Request, res: Response) => {
 	try {
 		// Get user by email
-		const { email, password, ...userData } = req.body as IUser;
-		const userByEmail = await findByEmail(req.body.email);
+		const { email, password } = req.body as IUser;
+		const userByEmail = await findByEmail(email);
 
 		// Check if user exists
 		if (!userByEmail) {
@@ -17,7 +17,7 @@ export const logIn = async (req: Request, res: Response) => {
 
 		// compare password
 		const validPassword = await bcrypt.compare(
-			req.body.password,
+			password,
 			userByEmail.password.toString()
 		);
 
@@ -31,7 +31,7 @@ export const logIn = async (req: Request, res: Response) => {
 		// Check and Update user's online status + access token
 		if (userByEmail.isOnline === false && id) {
 			const accessToken = createAccessToken(id);
-			updateUserStatusHandler(id, true);
+			await updateUserStatusHandler(id, true);
 
 			return res.status(200).json({
 				message: "You are logged in!",

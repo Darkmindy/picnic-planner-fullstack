@@ -31,6 +31,7 @@ export const signUp = async (req: Request, res: Response) => {
 			return res.status(400).json("Email already exists!");
 		}
 
+		// Create new user
 		const newUser: IUser = {
 			name: user.name,
 			email: user.email,

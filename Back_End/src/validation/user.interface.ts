@@ -1,5 +1,5 @@
-import {z} from "zod"
 import mongoose from "mongoose";
+import { z } from "zod";
 
 export const ZUserSchema = z.object({
 	name: z.string().min(1),
@@ -12,4 +12,3 @@ export const ZUserSchema = z.object({
 export interface IUser extends z.infer<typeof ZUserSchema> {
 	_id?: mongoose.Types.ObjectId;
 }
-

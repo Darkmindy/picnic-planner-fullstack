@@ -36,6 +36,7 @@ export const signUp = async (req: Request, res: Response) => {
 			name: user.name,
 			email: user.email,
 			password: user.password,
+			role: "user",
 			isOnline: false,
 		};
 
@@ -45,6 +46,7 @@ export const signUp = async (req: Request, res: Response) => {
 				_id: userCreated._id,
 				name: userCreated.name,
 				email: userCreated.email,
+				role: userCreated.role,
 				isOnline: userCreated.isOnline,
 			},
 		});
@@ -90,6 +92,7 @@ export const adminSignUp = async (req: Request, res: Response) => {
 			name: user.name,
 			email: user.email,
 			password: user.password,
+			role: "admin",
 			isOnline: false,
 		};
 
@@ -99,6 +102,7 @@ export const adminSignUp = async (req: Request, res: Response) => {
 				_id: userCreated._id,
 				name: userCreated.name,
 				email: userCreated.email,
+				role: userCreated.role,
 				isOnline: userCreated.isOnline,
 			},
 		});

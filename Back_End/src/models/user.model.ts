@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { IUser } from "../validation/user.interface";
 import { hashStuff } from "../utility/commonAuthFunctions";
+import { IUser, Roles } from "../validation/user.interface";
 
 // Create the User schema
 const userSchema = new mongoose.Schema<IUser>({
@@ -12,6 +12,11 @@ const userSchema = new mongoose.Schema<IUser>({
 	},
 	password: {
 		type: String,
+	},
+	role: {
+		type: String,
+		enum: Roles,
+		default: "user",
 	},
 	isOnline: {
 		type: Boolean,

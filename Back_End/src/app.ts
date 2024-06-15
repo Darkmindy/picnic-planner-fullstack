@@ -4,7 +4,9 @@ import {
 	router as logInApi,
 	router as logOutApi,
 	router as signUpApi,
+	router as fetchUserApi,
 } from "./routes/user.route";
+import { fetchUser } from "./controllers/fetchUser.controller";
 
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -27,3 +29,4 @@ app.get("/", (req, res) => {
 app.use("/", signUpApi);
 app.use("/", logInApi);
 app.use("/", logOutApi);
+app.use("/", fetchUserApi);

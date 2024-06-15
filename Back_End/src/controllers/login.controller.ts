@@ -31,6 +31,7 @@ export const logIn = async (req: Request, res: Response) => {
 		// Check and Update user's online status + access token
 		if (userByEmail.isOnline === false && id) {
 			const accessToken = createAccessToken(id);
+			console.log(accessToken)
 			await updateUserStatusHandler(id, true);
 
 			res.cookie("access_token", accessToken, {

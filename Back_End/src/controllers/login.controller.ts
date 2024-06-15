@@ -33,10 +33,12 @@ export const logIn = async (req: Request, res: Response) => {
 			const accessToken = createAccessToken(id);
 			await updateUserStatusHandler(id, true);
 
-			return res.status(200).json({
-				message: "You are logged in!",
-				accessToken: accessToken,
-			});
+			res.cookie("access_token", accessToken, {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === "production",
+				sameSite: "strict",
+				maxAge: 48 * 60 * 60 * 1000, // 2 days
+			})
 		} else if (userByEmail.isOnline === true && id) {
 			return res.status(400).json("User already logged in");
 		} else {

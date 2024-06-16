@@ -62,8 +62,13 @@ export const adminSignUp = async (userData: {
 };
 
 export const signIn = async (userData: { email: string; password: string }) => {
+	try {
 	const response = await apiClient.post("/login", userData);
+	console.log(response.data);
 	return response.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 export const adminSignIn = async (userData: { email: string; password: string }) => {
@@ -73,5 +78,9 @@ export const adminSignIn = async (userData: { email: string; password: string })
 
 export const logOut = async (userData: { email: string; password: string }) => {
 	const response = await apiClient.post("/logout", userData);
+	return response.data;
+};
+export const fetchUser = async (userData: { email: string; password: string }) => {
+	const response = await apiClient.post("/fetch-user", userData);
 	return response.data;
 };

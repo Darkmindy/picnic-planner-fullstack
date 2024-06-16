@@ -10,7 +10,12 @@ export interface User {
 }
 
 export interface AuthContextType {
-	user: User | null;
-	signIn: (email: string, password: string) => Promise<void>;
-	signOut: () => void;
+	user: Temp | null;
+	setUser: React.Dispatch<React.SetStateAction<Temp | null>>;
+}
+
+export interface Temp {
+	name: string;
+	email: string;
+	role: Role;
 }

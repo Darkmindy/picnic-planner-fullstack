@@ -20,14 +20,15 @@ export const findByEmail = async (
 
 
 export const updateUserStatusHandler = async (
-	id: String,
-	status: Boolean
+	id: string,
+	status: boolean
 ): Promise<IUser | null> => {
-	return await User.findOneAndUpdate(
-		{ _id: id },
-		{ $set: { isOnline: status } },
-		{ new: true }
-	);
+		const user = await User.findOneAndUpdate(
+			{ _id: id },
+			{ $set: { isOnline: status } },
+			{ new: true }
+		);
+		return user;
 };
 
 // class that is responsible for decoded token verification and retrieval

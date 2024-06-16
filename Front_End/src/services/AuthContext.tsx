@@ -1,24 +1,14 @@
 // src/AuthContext.tsx
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { User, AuthContextType } from '../types/roles';
-import { signIn as signInApi } from '../api/api'; // Assumiamo che esista una funzione API di sign-in
+import { AuthContextType, Temp } from '../types/roles';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  const signIn = async (email: string, password: string) => {
-    const response = await signInApi({ email, password });
-    setUser(response.user); // Supponendo che l'API restituisca l'oggetto utente
-  };
-
-  const signOut = () => {
-    setUser(null);
-  };
+  const [user, setUser] = useState<Temp | null>(null);
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

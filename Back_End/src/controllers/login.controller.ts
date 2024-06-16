@@ -40,6 +40,8 @@ export const logIn = async (req: Request, res: Response) => {
 				sameSite: "strict",
 				maxAge: 24 * 60 * 60 * 1000, // 1 days
 			})
+			return res.status(200).json("Login Successful");
+
 		} else if (userByEmail.isOnline === true && id) {
 			return res.status(400).json("User already logged in");
 		} else {

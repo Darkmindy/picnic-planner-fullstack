@@ -18,7 +18,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, allowedRoles }) =
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  if (!allowedRoles.includes(auth.user.role)) {
+  if (!allowedRoles.includes(auth.user.role?.valueOf() as Role)) {
     // Utente non autorizzato
     return <Navigate to="/unauthorized" />;
   }

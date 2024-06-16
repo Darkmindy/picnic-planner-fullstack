@@ -1,6 +1,7 @@
 import React, { useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signIn } from '../../api/api';
+import { fetchUser, signIn } from '../../api/api';
+import { useAuth } from '../../services/AuthContext';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import './LoginForm1.css';
@@ -11,7 +12,7 @@ import Checkbox from '../Checkbox/Checkbox';
 const LoginForm1: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, setUser } = useAuth();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -35,13 +36,10 @@ const LoginForm1: React.FC = () => {
     event.preventDefault();
     try {
       await signIn(formData);
-      setIsLoggedIn(true);
+      setUser({ name: "Matteo", email: formData.email, role: "user" });
       navigate("/");
     } catch (error) {
-      const err = error as { response: { status: number } };
-      if (err.response.status == 404) {
-        setMessage("Invalid email or password");
-      }
+      console.error(error);
     }
   };
 
@@ -54,10 +52,7 @@ const LoginForm1: React.FC = () => {
     }
   }
 
-  const handleLogout = () => {
-    setIsLoggedIn(false); // Reimposta lo stato di autenticazione a false
-    navigate("/login");
-  };
+  
 
   return (
     <div className="container" ref={containerRef}>
@@ -109,11 +104,6 @@ const LoginForm1: React.FC = () => {
           </div>
         </div>
       </div>
-      {isLoggedIn && (
-        <div className="logout-button-container">
-          <button className="logout-button" onClick={handleLogout}>Logout</button>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,13 +1,15 @@
 import { Response } from "express";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
+import { RefreshToken } from "../models/refreshToken.model";
 import {
 	findUserById,
 	updateUserStatusHandler,
 } from "../services/user.service";
+import { IRefreshToken } from "../validation/refreshToken.interface";
 
 export const logOut = async (req: ExtendedRequest, res: Response) => {
 	try {
-		const id = req.user?._id;
+		const id = req.user?._id as string;
 
 		if (id) {
 			const loggedIn = await findUserById(id);
@@ -16,13 +18,13 @@ export const logOut = async (req: ExtendedRequest, res: Response) => {
 				return res.status(400).json("User already logged out");
 			}
 
-			res.clearCookie('accessToken', {
-				httpOnly: true,
-				secure: process.env.PROD_DBNAME === 'db_prod', // true for production
-				sameSite: 'strict',
-			});
-
 			await updateUserStatusHandler(id, false);
+			(await RefreshToken.findOneAndDelete({
+				user: id,
+			})) as IRefreshToken;
+
+			//! need to delete the user's refresh token from the database
+
 			return res.status(200).json("Successfully logged out");
 		}
 	} catch (error) {

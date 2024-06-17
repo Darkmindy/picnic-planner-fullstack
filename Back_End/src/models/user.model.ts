@@ -3,7 +3,7 @@ import { hashStuff } from "../utility/commonAuthFunctions";
 import { IUser, Roles } from "../validation/user.interface";
 
 // Create the User schema
-const userSchema = new mongoose.Schema<IUser>({
+export const userSchema = new mongoose.Schema<IUser>({
 	name: {
 		type: String,
 	},

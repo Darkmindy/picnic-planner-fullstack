@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { IUser } from "../validation/user.interface";
+import { RefreshToken } from "../models/refreshToken.model";
 import { findByEmail, updateUserStatusHandler } from "../services/user.service";
-import { createAccessToken } from "../utility/commonAuthFunctions";
+import { createToken } from "../utility/commonAuthFunctions";
+import { IUser } from "../validation/user.interface";
 
 export const logIn = async (req: Request, res: Response) => {
 	try {
@@ -30,18 +31,22 @@ export const logIn = async (req: Request, res: Response) => {
 
 		// Check and Update user's online status + access token
 		if (userByEmail.isOnline === false && id) {
-			const accessToken = createAccessToken(id);
-			console.log(accessToken)
+			const token = createToken(id);
+
 			await updateUserStatusHandler(id, true);
 
-			res.cookie("access_token", accessToken, {
-				httpOnly: true,
-				secure: process.env.PROD_DBNAME === 'db_prod', // true for production
-				sameSite: "strict",
-				maxAge: 24 * 60 * 60 * 1000, // 1 days
-			})
-			return res.status(200).json("Login Successful");
-
+			// const newRefreshToken = new RefreshToken({
+			// 	token: token.refreshToken,
+			// 	user: userByEmail._id,
+			// });
+			await RefreshToken.create({
+				token: token.refreshToken,
+				user: userByEmail._id,
+			});
+			return res
+				.status(200)
+				.header("Authorization", `Bearer ${token.accessToken}`)
+				.json("Login Successful");
 		} else if (userByEmail.isOnline === true && id) {
 			return res.status(400).json("User already logged in");
 		} else {

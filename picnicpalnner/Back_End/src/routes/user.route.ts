@@ -19,4 +19,4 @@ router.get(
   logOut
 );
 router.get("/fetch-user", authMiddleware, fetchUser);
-router.post("/token", fetchingNewToken);
+router.get("/token", fetchingNewToken);

@@ -34,25 +34,32 @@ export const updateUserStatusHandler = async (
 export class authorizationHandler {
   private decodedToken?: IDecodedToken;
   async verifyToken(token: string): Promise<IDecodedToken | null> {
-    try {
-      let decoded: JwtPayload;
-      try {
-        decoded = jwt.verify(token, env.ACCESS_SECRET_TOKEN) as JwtPayload;
-      } catch (error) {
-        decoded = jwt.verify(token, env.REFRESH_SECRET_TOKEN) as JwtPayload;
-      }
+      let decoded = jwt.verify(token, env.ACCESS_SECRET_TOKEN) as JwtPayload;
+      if (!decoded) {
+        return null;
+      } else {
       this.decodedToken = {
         id: decoded.id,
       };
       return this.decodedToken;
-    } catch (error) {
-      console.error("Error verifying token or invalid token:", error);
-      return null;
     }
   }
+
+  async verifyRefreshToken(token: string): Promise<IDecodedToken | null> {
+      let decoded = jwt.verify(token, env.REFRESH_SECRET_TOKEN) as JwtPayload;
+      if (!decoded) {
+        return null;
+      } else {
+      this.decodedToken = {
+        id: decoded.id,
+      };
+      return this.decodedToken;
+      }
+    }
 
   // method that returns the decoded token
   getDecodedToken(): IDecodedToken | undefined {
     return this.decodedToken;
   }
+ 
 }

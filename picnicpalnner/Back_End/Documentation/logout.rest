@@ -1,0 +1,2 @@
+GET http://localhost:3000/logout HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzJkOGI1N2U1NWVjYTdiN2UyYzlmNyIsImlhdCI6MTcxODgwMjYyMSwiZXhwIjoxNzE4ODAyNjIyfQ.wfW2gngdDMMfpe-6G3oMcujwEuUSJGYf1_xLH2FPHv4

@@ -9,21 +9,21 @@ import { Response } from "express";
 
 export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
   try {
-    const refreshToken = req.headers["refresh-token"] as string;
-    const findingRefreshToken = RefreshToken.findOne({ refreshToken });
+    const refreshToken = req.headers["refreshToken"] as string;
+    const findingRefreshToken = RefreshToken.findOne({ refreshToken }); //
     if (!findingRefreshToken) {
       return res
         .status(401)
         .json("Unauthorized: Invalid token, your access may be expired")
-        .redirect("/login");
+        /*.redirect("/login");*/
     }
     const verifyingRefreshToken: IDecodedToken | null =
       await authHandler.verifyToken(refreshToken);
     if (!verifyingRefreshToken) {
       return res
-        .status(401)
-        .json("Unauthorized: Invalid token, your access may be expired")
-        .redirect("/login");
+      .status(401)
+      .json("Unauthorized: Invalid token, your access may be expired")
+       /* .redirect("/login");*/
     }
     const id = verifyingRefreshToken?.toString();
     const newToken = createToken(id);
@@ -39,8 +39,8 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
     res.redirect("/logout");
   } catch (error) {
     return res
-      .status(401)
+      /*.status(401)
       .json("Unauthorized: Invalid token, your access may be expired")
-      .redirect("/login");
+      */.redirect("/login");
   }
 };

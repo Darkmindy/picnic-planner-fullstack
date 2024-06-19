@@ -23,7 +23,9 @@ export const createToken = (id: string) => {
 	}
 
 	const accessToken = jwt.sign({ id }, accessSecret, { expiresIn: "5m" });
-	const refreshToken = jwt.sign({ id }, refreshSecret, { expiresIn: "10m" });
+	const refreshToken = jwt.sign({ id }, refreshSecret, {
+		expiresIn: env.REFRESH_TOKEN_EXPIRATION_DAYS,
+	});
 
 	return { accessToken, refreshToken };
 };

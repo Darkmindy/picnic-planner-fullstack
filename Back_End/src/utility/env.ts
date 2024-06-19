@@ -20,6 +20,10 @@ const envSchema = z.object({
 	ACCESS_SECRET_TOKEN: z.string().min(1),
 	REFRESH_SECRET_TOKEN: z.string().min(1),
 
+	PROTECTED_EMAILS: z.string().min(1),
+
+	REFRESH_TOKEN_EXPIRATION_DAYS: z.number().positive(),
+
 	LOCAL_DBNAME: z.string().min(1),
 	DEV_DBNAME: z.string().min(1),
 	PROD_DBNAME: z.string().min(1),
@@ -27,8 +31,6 @@ const envSchema = z.object({
 	LOCAL_PORT: portCast(z.string()), //effectively validating the port format.
 	DEV_PORT: portCast(z.string()),
 	PROD_PORT: portCast(z.string()),
-
-	PROTECTED_EMAILS: z.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);

@@ -3,6 +3,10 @@ MONGODB_URI=mongodb://localhost:27017/
 ACCESS_SECRET_TOKEN=generate random key
 REFRESH_SECRET_TOKEN=generate random key
 
+PROTECTED_EMAILS=<admin@amin.it> (could cointains more that one, just separate them with a comma)
+
+REFRESH_TOKEN_EXPIRATION_DAYS=<number of days you want that the refresh token expires>
+
 LOCAL=local
 DEV=dev
 PROD=prod

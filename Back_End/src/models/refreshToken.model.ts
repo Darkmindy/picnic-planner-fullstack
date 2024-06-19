@@ -13,9 +13,15 @@ const refreshTokenSchema = new mongoose.Schema<IRefreshToken>({
 		type: Date,
 		default: Date.now,
 	},
-	expiration: {
-		type: Number,
-	},
 });
+
+// pre save hook
+// refreshTokenSchema.pre("save", async function (next) {
+// 	const refreshToken = this; // Use 'this' to access the document being saved
+// 	const expires =
+// 		typeof env.REFRESH_TOKEN_EXPIRATION_DAYS === "string"
+// 			? parseInt(env.REFRESH_TOKEN_EXPIRATION_DAYS)
+// 			: env.REFRESH_TOKEN_EXPIRATION_DAYS;
+// });
 
 export const RefreshToken = mongoose.model("RefreshToken", refreshTokenSchema);

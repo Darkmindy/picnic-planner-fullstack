@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { User } from "../models/user.model";
-import { env } from "../utility/env";
+import { env } from "../utility2/env";
 import { IDecodedToken } from "../validation/decodedToken.interface";
 import { IUser } from "../validation/user.interface";
 
@@ -34,10 +34,10 @@ export const updateUserStatusHandler = async (
 export class authorizationHandler {
   private decodedToken?: IDecodedToken;
   async verifyToken(token: string): Promise<IDecodedToken | null> {
-      let decoded = jwt.verify(token, env.ACCESS_SECRET_TOKEN) as JwtPayload;
-      if (!decoded) {
-        return null;
-      } else {
+    let decoded = jwt.verify(token, env.ACCESS_SECRET_TOKEN) as JwtPayload;
+    if (!decoded) {
+      return null;
+    } else {
       this.decodedToken = {
         id: decoded.id,
       };
@@ -46,20 +46,19 @@ export class authorizationHandler {
   }
 
   async verifyRefreshToken(token: string): Promise<IDecodedToken | null> {
-      let decoded = jwt.verify(token, env.REFRESH_SECRET_TOKEN) as JwtPayload;
-      if (!decoded) {
-        return null;
-      } else {
+    let decoded = jwt.verify(token, env.REFRESH_SECRET_TOKEN) as JwtPayload;
+    if (!decoded) {
+      return null;
+    } else {
       this.decodedToken = {
         id: decoded.id,
       };
       return this.decodedToken;
-      }
     }
+  }
 
   // method that returns the decoded token
   getDecodedToken(): IDecodedToken | undefined {
     return this.decodedToken;
   }
- 
 }

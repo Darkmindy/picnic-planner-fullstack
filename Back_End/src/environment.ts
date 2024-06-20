@@ -1,6 +1,6 @@
 //permette di poter settare vari ambienti
 
-import { env } from "./utility2/env";
+import { env } from "./utility/env";
 
 //enum è un modo per creare delle variabili che devono essere fisse
 enum Environments {

@@ -17,7 +17,7 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
         .json("Unauthorized: Invalid token, your access may be expired");
       /*.redirect("/login");*/
     }
-    console.log("refredToken found in the database!")
+    console.log("refreshToken found in the database!")
     const verifyingRefreshToken: IDecodedToken | null =
       await authHandler.verifyRefreshToken(refreshToken);
     if (!verifyingRefreshToken) {

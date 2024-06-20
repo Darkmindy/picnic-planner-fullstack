@@ -24,23 +24,24 @@ export const authMiddleware = async (
   }
 
   try {
-    const decoded: IDecodedToken | null = await authHandler.verifyToken(token);
+    const decoded = await authHandler.verifyToken(token);
+    console.log(decoded);
     if (!decoded) {
       try {
-        const refreshToken = req.headers["refresh-token"] as string;
-        const findingRefreshToken = RefreshToken.findOne({ refreshToken });
+        const refreshToken = req.headers["refreshToken"] as string;
+        const findingRefreshToken = await RefreshToken.findOne({
+          refreshToken,
+        });
         if (!findingRefreshToken) {
           return res
             .status(401)
-            .json("Unauthorized: Invalid token, your access may be expired")
-            // .redirect("/login");  compito del front-end
+            .json("Unauthorized: Invalid token, your access may be expired");
+          // .redirect("/login");  compito del front-end
         }
         const verifyingRefreshToken: IDecodedToken | null =
-          await authHandler.verifyToken(refreshToken);
+          await authHandler.verifyRefreshToken(refreshToken);
         if (!verifyingRefreshToken) {
-          return res
-            .status(401)
-            .json("Unauthorized: Invalid token, your access may be expired");
+          return res.status(401).json("Unauthorized: Invalid token");
           // .redirect("/login");  compito del front-end
         }
         const id = verifyingRefreshToken?.toString();
@@ -48,9 +49,8 @@ export const authMiddleware = async (
         await RefreshToken.findOneAndUpdate({
           refreshToken: newToken.refreshToken,
         });
-        const decoded: IDecodedToken | null = await authHandler.verifyToken(
-          newToken.accessToken
-        );
+        const decoded: IDecodedToken | null =
+          await authHandler.verifyRefreshToken(newToken.accessToken);
         req.user = { _id: decoded?.id } as ExtendedRequest["user"]; //specifying as EXtend.. because it does not take a paramater that could be null otherwise
         next();
       } catch (error) {
@@ -67,6 +67,19 @@ export const authMiddleware = async (
 
     next();
   } catch (error) {
-    return res.status(500).json("Internal Server Error" + error);
+    if (error instanceof Error) {
+      console.error("Error verifying token:", error);
+    
+    // Differentiate between errors
+    if (error.name === "ValidationError") {
+      // Example: Database validation error
+      return res.status(400).json("Bad Request: Invalid refresh token format");
+    } else {
+      console.error("Error generating new token:", error);
+      return res
+        .status(500)
+        .json("Internal Server Error: Failed to generate new token");
+    }
   }
-};
+}
+}

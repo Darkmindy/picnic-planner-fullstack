@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { User } from "../models/user.model";
-import { env } from "../utility2/env";
+import { env } from "../utility/env";
 import { IDecodedToken } from "../validation/decodedToken.interface";
 import { IUser } from "../validation/user.interface";
 
@@ -35,6 +35,7 @@ export class authorizationHandler {
   private decodedToken?: IDecodedToken;
   async verifyToken(token: string): Promise<IDecodedToken | null> {
     let decoded = jwt.verify(token, env.ACCESS_SECRET_TOKEN) as JwtPayload;
+    console.log(decoded);
     if (!decoded) {
       return null;
     } else {

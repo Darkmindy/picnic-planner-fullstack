@@ -33,10 +33,10 @@ export const logOut = async (req: ExtendedRequest, res: Response) => {
 				console.log("Token expired");
 				return res.status(401).json("Unauthorized: Token expired");
 			}
-			return res.status(500).json("Internal Server Error: " + error.message);
+			return res.status(500).json("Internal Server Error1: " + error.message);
 		} else {
 			console.error("Unknown error:", error);
-			return res.status(500).json("Internal Server Error");
+			return res.status(500).json("Internal Server Error2");
 		}
 	}
 	

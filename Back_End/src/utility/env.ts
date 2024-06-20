@@ -32,7 +32,8 @@ const envSchema = z.object({
 
   PROTECTED_EMAILS: z.string().min(1),
 
-  REFRESH_TOKEN_EXPIRATION_DAYS: daysCast(z.string()),
+  ACCESS_TOKEN_EXPIRATION_TIME: z.string().min(1),
+  REFRESH_TOKEN_EXPIRATION_TIME: z.string().min(1),
 
   LOCAL_DBNAME: z.string().min(1),
   DEV_DBNAME: z.string().min(1),

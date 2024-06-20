@@ -2,9 +2,6 @@ import mongoose from "mongoose";
 import { env } from "../utility/env";
 import { IRefreshToken } from "../validation/refreshToken.interface";
 
-const refreshTokenExpirationInMs =
-	parseInt(env.REFRESH_TOKEN_EXPIRATION_TIME, 10) * 24 * 60 * 60 * 1000; // Convert days to milliseconds
-
 const refreshTokenSchema = new mongoose.Schema<IRefreshToken>({
 	token: {
 		type: String,
@@ -17,29 +14,35 @@ const refreshTokenSchema = new mongoose.Schema<IRefreshToken>({
 		type: Date,
 		default: Date.now,
 	},
-	expiresAt: {
-		type: Date,
-	},
 });
 
-// pre save hook
-refreshTokenSchema.pre("save", async function (next) {
-	// Only calculate expiration if the document is newly created (not updated)
-	if (!this.isNew) {
-		return next();
-	}
-
-	// Update expiresAt based on current time and expiration days
-	this.expiresAt = new Date(Date.now() + refreshTokenExpirationInMs);
-
-	next();
-});
-
-// Virtual property to check if the token has expired //!to implement
+// Virtual property approach (to check if the token has expired and allow to acces at this property in other files)
 refreshTokenSchema.virtual("isExpired", {
 	get() {
-		return this.expiresAt < Date.now();
+		const refreshTokenExpirationInMs =
+			parseInt(env.REFRESH_TOKEN_EXPIRATION_TIME, 10) *
+			24 *
+			60 *
+			60 *
+			1000;
+		return (
+			this.createdAt.getTime() + refreshTokenExpirationInMs < Date.now()
+		);
 	},
 });
+
+// pre save hook approach
+// refreshTokenSchema.pre("save", async function (next) {
+// 	// Only calculate expiration if the document is newly created (not updated)
+// 	if (!this.isNew) {
+// 		return next();
+// 	}
+// 	const refreshTokenExpirationInMs =
+// 	parseInt(env.REFRESH_TOKEN_EXPIRATION_TIME, 10) * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+// 	// Update expiresAt based on current time and expiration days
+// 	this.expiresAt = new Date(Date.now() + refreshTokenExpirationInMs);
+
+// 	next();
+// });
 
 export const RefreshToken = mongoose.model("RefreshToken", refreshTokenSchema);

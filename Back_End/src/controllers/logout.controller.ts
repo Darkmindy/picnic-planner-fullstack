@@ -1,43 +1,33 @@
 import { Response } from "express";
+import { ObjectId } from "mongoose";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import { RefreshToken } from "../models/refreshToken.model";
 import {
-  findUserById,
-  updateUserStatusHandler,
+	findUserById,
+	updateUserStatusHandler,
 } from "../services/user.service";
 import { IRefreshToken } from "../validation/refreshToken.interface";
-import { ObjectId } from "mongoose";
 
 export const logOut = async (req: ExtendedRequest, res: Response) => {
-  try {
-    const id = req.user?._id as string | ObjectId;
+	try {
+		const id = req.user?._id as string | ObjectId;
 
-    if (id) {
-      const loggedIn = await findUserById(id as string);
+		if (id) {
+			const loggedIn = await findUserById(id as string);
 
-      if (loggedIn?.isOnline === false) {
-        return res.status(400).json("User already logged out");
-      }
-
-      await updateUserStatusHandler(id as string, false);
-      (await RefreshToken.findOneAndDelete({
-        user: id as ObjectId,
-      })) as IRefreshToken;
-
-      return res.status(200).json("Successfully logged out");
-    }
-  } catch (error) {
-		if (error instanceof Error) {
-			console.error("Error verifying token:", error);
-			if (error.name === 'TokenExpiredError') {
-				console.log("Token expired");
-				return res.status(401).json("Unauthorized: Token expired");
+			// check if user is already offline
+			if (loggedIn?.isOnline === false) {
+				return res.status(400).json("User already logged out");
 			}
-			return res.status(500).json("Internal Server Error1: " + error.message);
-		} else {
-			console.error("Unknown error:", error);
-			return res.status(500).json("Internal Server Error2");
+
+			await updateUserStatusHandler(id as string, false);
+			(await RefreshToken.findOneAndDelete({
+				user: id as ObjectId,
+			})) as IRefreshToken;
+
+			return res.status(200).json("Successfully logged out");
 		}
+	} catch (error) {
+		res.status(500).json("Internal server error: " + error);
 	}
-	
 };

@@ -23,7 +23,7 @@ export const createToken = (id: string) => {
 	}
 
 	const accessToken = jwt.sign({ id }, accessSecret, {
-		expiresIn: env.ACCESS_TOKEN_EXPIRATION_TIME + "s",
+		expiresIn: env.ACCESS_TOKEN_EXPIRATION_TIME + "m",
 	});
 	const refreshToken = jwt.sign({ id }, refreshSecret, {
 		expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "d",

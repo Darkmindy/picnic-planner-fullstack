@@ -1,16 +1,15 @@
 MONGODB_URI=mongodb://localhost:27017/
 
-/* to generate random key, write on your terminal
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" */
-
 ACCESS_SECRET_TOKEN=generate random key
 REFRESH_SECRET_TOKEN=generate random key
+
+PROTECTED_EMAILS=<admin@amin.it> (could cointains more that one, just separate them with a comma)
+
+REFRESH_TOKEN_EXPIRATION_DAYS=<number of days you want that the refresh token expires>
 
 LOCAL=local
 DEV=dev
 PROD=prod
-
-/* you can rename the _DBNAME as you prefer for your specific project */
 
 LOCAL_DBNAME=db_local
 DEV_DBNAME=db_dev
@@ -19,5 +18,3 @@ PROD_DBNAME=db_prod
 LOCAL_PORT=3***
 DEV_PORT=808*
 PROD_PORT=808*
-
-PROTECTED_EMAILS=a list of "admin@admin.it" emails'example (no double-quotes and separated by a comma)

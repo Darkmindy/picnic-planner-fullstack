@@ -1,4 +1,4 @@
-import React, { useRef, useState, FormEvent, ChangeEvent } from 'react';
+import React, { useRef, useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchUser, signIn } from '../../api/api';
 import { useAuth } from '../../services/AuthContext';
@@ -12,7 +12,7 @@ import Checkbox from '../Checkbox/Checkbox';
 const LoginForm1: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { setUser, setRefreshToken, setAccessToken } = useAuth();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -35,8 +35,12 @@ const LoginForm1: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await signIn(formData);
+      const data = await signIn(formData); // Access token
+      // const username = await fetchUser({email})
+      setAccessToken(data && data[1].split(" ")[1]);
+      setRefreshToken(data && data[0].refreshToken);
       setUser({ name: "Matteo", email: formData.email, role: "user" });
+      setFormData(prev => ({email: prev.email, password: "", role: prev.role}))
       navigate("/");
     } catch (error) {
       console.error(error);

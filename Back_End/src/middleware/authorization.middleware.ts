@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { authorizationHandler } from "../services/user.service";
 
 // create an instance of the authorizationHandler() class, in order to use it
-const authHandler = new authorizationHandler();
+export const authHandler = new authorizationHandler();
 
 // Interface for request with decoded user information
 export interface ExtendedRequest extends Request {
@@ -23,7 +23,11 @@ export const authMiddleware = async (
 	try {
 		const decoded = await authHandler.verifyToken(token);
 		if (!decoded) {
-			return res.status(401).json("Unauthorized: Invalid token");
+			return res
+				.status(401)
+				.json(
+					"Unauthorized: Invalid token or expired, please use refresh token to get a new one"
+				);
 		}
 
 		if (decoded) {
@@ -32,6 +36,7 @@ export const authMiddleware = async (
 
 		next();
 	} catch (error) {
+		console.error(error);
 		return res.status(500).json("Internal Server Error" + error);
 	}
 };

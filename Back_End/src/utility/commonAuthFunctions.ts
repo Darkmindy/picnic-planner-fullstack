@@ -11,11 +11,23 @@ export async function hashStuff(password: string | undefined): Promise<string> {
 	return await bcrypt.hash(password, salt);
 }
 
-// Create access token --> for now it's never expired
-export const createAccessToken = (id: string /*time: string*/) => {
-	const secret = env.ACCESS_SECRET_TOKEN;
-	if (!secret) {
-		throw new Error("Missing environment variable JWT_SECRET");
+// Create token
+export const createToken = (id: string) => {
+	const accessSecret = env.ACCESS_SECRET_TOKEN;
+	const refreshSecret = env.REFRESH_SECRET_TOKEN;
+
+	if (!accessSecret || !refreshSecret) {
+		throw new Error(
+			"Missing environment variables ACCESS_SECRET_TOKEN or REFRESH_SECRET_TOKEN"
+		);
 	}
-	return jwt.sign({ id }, secret /*{ expiresIn: time }*/);
+
+	const accessToken = jwt.sign({ id }, accessSecret, {
+		expiresIn: env.ACCESS_TOKEN_EXPIRATION_TIME + "m",
+	});
+	const refreshToken = jwt.sign({ id }, refreshSecret, {
+		expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "d",
+	});
+
+	return { accessToken, refreshToken };
 };

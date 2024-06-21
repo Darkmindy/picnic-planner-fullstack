@@ -1,10 +1,9 @@
-// src/api/api.ts
 import axios from "axios";
 
 const apiClient = axios.create({
 	baseURL: "http://localhost:3000",
 	headers: {
-		"Content-Type": "application/json",
+		"Content-Type": "application/json"
 	},
 });
 
@@ -21,19 +20,8 @@ export const signUp = async (userData: {
 		console.log("Response data:", response.data);
 		return response.data;
 	} catch (error) {
-		// Gestione degli errori
-		if (axios.isAxiosError(error)) {
-			// Errore di Axios
-			console.error(
-				"Axios error:",
-				error.response?.data || error.message
-			);
-			throw new Error(error.response?.data || "Failed to sign up");
-		} else {
-			// Errore generico
-			console.error("General error:", error);
-			throw new Error("Failed to sign up");
-		}
+		console.error("Error:", error);
+		throw new Error("Failed to sign up");
 	}
 };
 
@@ -48,24 +36,20 @@ export const adminSignUp = async (userData: {
 		console.log("Response data:", response.data);
 		return response.data;
 	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			console.error(
-				"Axios error:",
-				error.response?.data || error.message
-			);
-			throw new Error(error.response?.data || "Failed to sign up");
-		} else {
-			console.error("General error:", error);
-			throw new Error("Failed to sign up");
-		}
+		console.error("Error:", error);
+		throw new Error("Failed to sign up");
 	}
 };
 
 export const signIn = async (userData: { email: string; password: string }) => {
 	try {
-	const response = await apiClient.post("/login", userData);
-	console.log(response.data);
-	return response.data;
+		const response = await apiClient.post("/login", {
+			...userData, headers: {
+				'Content-Type': 'application/json',
+			}
+		});
+		console.log(response.data);
+		return [response.data, response.headers["authorization"]];
 	} catch (error) {
 		console.error(error);
 	}
@@ -76,11 +60,14 @@ export const adminSignIn = async (userData: { email: string; password: string })
 	return response.data;
 };
 
-export const logOut = async (userData: { email: string; password: string }) => {
-	const response = await apiClient.post("/logout", userData);
+export const logOut = async ( accessToken: string ) => {
+	const response = await apiClient.get("/logout", {headers: {
+		"Authorization": `Bearer ${accessToken}`
+	}});
+	console.log(accessToken);
 	return response.data;
 };
-export const fetchUser = async (userData: { email: string; password: string }) => {
+export const fetchUser = async (userData: { email: string }) => {
 	const response = await apiClient.post("/fetch-user", userData);
 	return response.data;
 };

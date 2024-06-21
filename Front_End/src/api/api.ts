@@ -71,3 +71,11 @@ export const fetchUser = async (userData: { email: string }) => {
 	const response = await apiClient.post("/fetch-user", userData);
 	return response.data;
 };
+
+export const fetchNewToken = async (refreshToken: string) => {
+	const response = await apiClient.get("/token", {headers: {
+		"refresh-token": refreshToken,
+	}});
+	console.log(response.data);
+	return response.data;
+};

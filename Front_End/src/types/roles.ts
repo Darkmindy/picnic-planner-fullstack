@@ -16,6 +16,12 @@ export interface AuthContextType {
 	setAccessToken: React.Dispatch<React.SetStateAction<string>>;
 	refreshToken: string;
 	setRefreshToken: React.Dispatch<React.SetStateAction<string>>;
+	accessTokenExp: number;
+	setAccessTokenExp: React.Dispatch<React.SetStateAction<number>>
+	// refreshTokenExp: number;
+	// setRefreshTokenExp: React.Dispatch<React.SetStateAction<number>>
+	show: boolean;
+	setShow: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface Temp {

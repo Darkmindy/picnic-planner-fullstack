@@ -12,7 +12,7 @@ import Checkbox from '../Checkbox/Checkbox';
 const LoginForm1: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { setUser, setRefreshToken, setAccessToken } = useAuth();
+  const { setUser, setRefreshToken, setAccessToken, setShow } = useAuth();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -35,13 +35,21 @@ const LoginForm1: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = await signIn(formData); // Access token
+      await signIn(formData).then((data) => {
+        if (data) {
+          setTimeout(() => {
+            setShow(true);
+          }, +data[0].accessTokenExp - 2000)
+        }
+        setAccessToken(data && data[1].split(" ")[1]);
+        setRefreshToken(data && data[0].refreshToken);
+        setUser({ name: "Matteo", email: formData.email, role: "user" });
+        setFormData(prev => ({ email: prev.email, password: "", role: prev.role }));
+        navigate("/");
+      }
+      ) // Access token
       // const username = await fetchUser({email})
-      setAccessToken(data && data[1].split(" ")[1]);
-      setRefreshToken(data && data[0].refreshToken);
-      setUser({ name: "Matteo", email: formData.email, role: "user" });
-      setFormData(prev => ({email: prev.email, password: "", role: prev.role}))
-      navigate("/");
+
     } catch (error) {
       console.error(error);
     }
@@ -56,7 +64,7 @@ const LoginForm1: React.FC = () => {
     }
   }
 
-  
+
 
   return (
     <div className="container" ref={containerRef}>

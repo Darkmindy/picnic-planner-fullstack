@@ -16,7 +16,7 @@ app.use(
 	cors({
 		origin: "http://localhost:5173", // Indica l'origine permessa
 		methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Specifica i metodi permessi
-		allowedHeaders: ['Content-Type', 'Authorization'], // Indica gli headers permessi
+		allowedHeaders: ['Content-Type', 'Authorization', 'refresh-token'], // Indica gli headers permessi
     	exposedHeaders: ['Authorization'], // Indica gli headers che possono apparire sul Front-End
 		credentials: true, // Indica se sono permessi i cookie
 	})

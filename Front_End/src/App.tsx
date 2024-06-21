@@ -5,10 +5,13 @@ import LoginForm1 from './components/LoginForm/LoginForm1';
 import HomePage from './components/HomePage/HomePage';
 import AdminPage from './components/AdminPage/AdminPage';
 import UnauthorizedPage from './components/UnauthorizedPage/UnauthorizedPage';
+import { Modal } from 'bootstrap';
+import TokenModal from './components/Modal/TokenModal';
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
+      <TokenModal />
       <Router>
         <Routes>
           <Route path="/login" element={<LoginForm1 />} />

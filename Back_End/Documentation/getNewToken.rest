@@ -1,5 +1,4 @@
 GET http://localhost:3000/token HTTP/1.1
-Content-Type: application/json
 refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzQwNmU2N2I0MjU4ZjFlNDg4ZjVkZiIsImlhdCI6MTcxODg5ODg5NywiZXhwIjoxNzIwMTA4NDk3fQ.IUFTNT4E8Q8MHxsPs2j32fwl_eyBRv1A_fC-l2r0VLU
 
 

@@ -12,6 +12,10 @@ export interface User {
 export interface AuthContextType {
 	user: Temp | null;
 	setUser: React.Dispatch<React.SetStateAction<Temp | null>>;
+	accessToken: string;
+	setAccessToken: React.Dispatch<React.SetStateAction<string>>;
+	refreshToken: string;
+	setRefreshToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface Temp {

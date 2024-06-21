@@ -5,11 +5,18 @@ import { useAuth } from '../../services/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
-  const { user, setUser } = useAuth();
+  const { setUser, accessToken, setAccessToken, setRefreshToken } = useAuth();
   const navigate = useNavigate();
   const handleLogout = async () => {
-    setUser(null);
-    navigate("/login");
+    try {
+      await logOut(accessToken)
+      setUser(null);
+      setAccessToken("");
+      setRefreshToken("");
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>

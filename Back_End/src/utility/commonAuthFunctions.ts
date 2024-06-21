@@ -31,3 +31,10 @@ export const createToken = (id: string) => {
 
 	return { accessToken, refreshToken };
 };
+
+// calculate exact expiration time for access token
+export const calculateAccessTokenExpiresAt = () => {
+	const accessTokenExpTime = env.ACCESS_TOKEN_EXPIRATION_TIME;
+	const accessTokenExpTimeInMs = accessTokenExpTime * 60 * 1000;
+	return accessTokenExpTimeInMs;
+};

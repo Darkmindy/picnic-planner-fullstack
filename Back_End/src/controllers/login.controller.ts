@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { RefreshToken } from "../models/refreshToken.model";
+import { createRefreshToken } from "../services/refreshToken.service";
 import { findByEmail, updateUserStatusHandler } from "../services/user.service";
 import {
 	calculateAccessTokenExpiresAt,
@@ -36,20 +37,12 @@ export const logIn = async (req: Request, res: Response) => {
 		if (userByEmail.isOnline === false && id) {
 			const token = createToken(id);
 
+			// calculate exact expiration time for access token
 			const accessTokenExp = calculateAccessTokenExpiresAt();
 
 			await updateUserStatusHandler(id, true);
 
-			// const newRefreshToken = new RefreshToken({
-			// 	token: token.refreshToken,
-			// 	user: userByEmail._id,
-			// });
-			await (
-				await RefreshToken.create({
-					token: token.refreshToken,
-					user: userByEmail._id,
-				})
-			).populate("User");
+			await createRefreshToken(token.refreshToken, id);
 
 			return res
 				.status(200)

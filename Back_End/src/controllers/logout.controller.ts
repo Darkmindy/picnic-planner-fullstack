@@ -1,16 +1,14 @@
 import { Response } from "express";
-import { ObjectId } from "mongoose";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
-import { RefreshToken } from "../models/refreshToken.model";
+import { removeItemFromUserRefreshTokens } from "../services/refreshToken.service";
 import {
 	findUserById,
 	updateUserStatusHandler,
 } from "../services/user.service";
-import { IRefreshToken } from "../validation/refreshToken.interface";
 
 export const logOut = async (req: ExtendedRequest, res: Response) => {
 	try {
-		const id = req.user?._id as string | ObjectId;
+		const id = req.user?._id as string;
 
 		if (id) {
 			const loggedIn = await findUserById(id as string);
@@ -21,9 +19,7 @@ export const logOut = async (req: ExtendedRequest, res: Response) => {
 			}
 
 			await updateUserStatusHandler(id as string, false);
-			(await RefreshToken.findOneAndDelete({
-				user: id as ObjectId,
-			})) as IRefreshToken;
+			await removeItemFromUserRefreshTokens(id);
 
 			return res.status(200).json("Successfully logged out");
 		}

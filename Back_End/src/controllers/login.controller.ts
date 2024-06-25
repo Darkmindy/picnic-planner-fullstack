@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { RefreshToken } from "../models/refreshToken.model";
 import { createRefreshToken } from "../services/refreshToken.service";
 import { findByEmail, updateUserStatusHandler } from "../services/user.service";
 import {

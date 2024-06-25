@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { env } from "../utility/env";
 import { ZUserSchema } from "./user.interface";
 
 export const ZRefreshTokenSchema = z.object({

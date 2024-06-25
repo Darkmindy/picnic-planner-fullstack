@@ -31,18 +31,4 @@ refreshTokenSchema.virtual("isExpired", {
 	},
 });
 
-// pre save hook approach
-// refreshTokenSchema.pre("save", async function (next) {
-// 	// Only calculate expiration if the document is newly created (not updated)
-// 	if (!this.isNew) {
-// 		return next();
-// 	}
-// 	const refreshTokenExpirationInMs =
-// 	parseInt(env.REFRESH_TOKEN_EXPIRATION_TIME, 10) * 24 * 60 * 60 * 1000; // Convert days to milliseconds
-// 	// Update expiresAt based on current time and expiration days
-// 	this.expiresAt = new Date(Date.now() + refreshTokenExpirationInMs);
-
-// 	next();
-// });
-
 export const RefreshToken = mongoose.model("RefreshToken", refreshTokenSchema);

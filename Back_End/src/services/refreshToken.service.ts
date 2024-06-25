@@ -8,7 +8,7 @@ export const createRefreshToken = async (
 	return await RefreshToken.create({ token, user });
 };
 
-// delete the user's refreshToken from the database //! to implement there are soome errors!
+// delete the user's refreshToken from the database
 export const removeItemFromUserRefreshTokens = async (
 	userId: string
 ): Promise<IRefreshToken | null> => {
@@ -23,7 +23,6 @@ export const findRefreshToken = async (
 };
 
 // find the user's refreshToken and update it
-
 export const updateRefreshToken = async (
 	token: string,
 	newToken: string

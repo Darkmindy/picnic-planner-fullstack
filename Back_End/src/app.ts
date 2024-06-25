@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import {
+	router as expiredSessionApi,
 	router as fetchUserApi,
 	router as fetchingNewTokenApi,
 	router as logInApi,
@@ -16,8 +17,8 @@ app.use(
 	cors({
 		origin: "http://localhost:5173", // Indica l'origine permessa
 		methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Specifica i metodi permessi
-		allowedHeaders: ['Content-Type', 'Authorization', 'refresh-token'], // Indica gli headers permessi
-    	exposedHeaders: ['Authorization'], // Indica gli headers che possono apparire sul Front-End
+		allowedHeaders: ["Content-Type", "Authorization", "refresh-token"], // Indica gli headers permessi
+		exposedHeaders: ["Authorization"], // Indica gli headers che possono apparire sul Front-End
 		credentials: true, // Indica se sono permessi i cookie
 	})
 );
@@ -33,3 +34,4 @@ app.use("/", logInApi);
 app.use("/", logOutApi);
 app.use("/", fetchUserApi);
 app.use("/", fetchingNewTokenApi);
+app.use("/", expiredSessionApi);

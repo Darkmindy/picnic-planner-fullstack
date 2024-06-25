@@ -20,7 +20,6 @@ export const userSchema = new mongoose.Schema<IUser>({
 	},
 	isOnline: {
 		type: Boolean,
-		default: false, // Set default value to false
 	},
 });
 

@@ -1,18 +1,37 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { fromZodError } from "zod-validation-error";
 import { createRefreshToken } from "../services/refreshToken.service";
 import { findByEmail, updateUserStatusHandler } from "../services/user.service";
 import {
 	calculateAccessTokenExpiresAt,
 	createToken,
 } from "../utility/commonAuthFunctions";
-import { IUser } from "../validation/user.interface";
+import { ZUserSchema } from "../validation/user.interface";
 
 export const logIn = async (req: Request, res: Response) => {
 	try {
-		// Get user by email
-		const { email, password } = req.body as IUser;
-		const userByEmail = await findByEmail(email);
+		// validate request
+		const validationError = ZUserSchema.safeParse(
+			req.body as {
+				email: string;
+				password: string;
+			}
+		);
+
+		if (!validationError.success) {
+			return res
+				.status(400)
+				.json(fromZodError(validationError.error).message);
+		}
+
+		// Get user by email and password
+		const user = validationError.data as {
+			email: string;
+			password: string;
+		};
+
+		const userByEmail = await findByEmail(validationError.data.email);
 
 		// Check if user exists
 		if (!userByEmail) {
@@ -21,7 +40,7 @@ export const logIn = async (req: Request, res: Response) => {
 
 		// compare password
 		const validPassword = await bcrypt.compare(
-			password,
+			user.password,
 			userByEmail.password.toString()
 		);
 

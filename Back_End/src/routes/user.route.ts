@@ -12,7 +12,7 @@ export const router = Router();
 
 router.post("/signup", signUp);
 router.post("/admin-signup", adminSignUp);
-router.post("/login", checkRoleMiddleware(["user", "admin"]), logIn);
+router.post("/login", logIn, checkRoleMiddleware(["user", "admin"]));
 router.get(
 	"/logout",
 	authMiddleware,

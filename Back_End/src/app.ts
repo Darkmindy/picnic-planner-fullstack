@@ -1,7 +1,6 @@
 import cors from "cors";
 import express from "express";
 import {
-	router as expiredSessionApi,
 	router as fetchUserApi,
 	router as fetchingNewTokenApi,
 	router as logInApi,
@@ -34,4 +33,3 @@ app.use("/", logInApi);
 app.use("/", logOutApi);
 app.use("/", fetchUserApi);
 app.use("/", fetchingNewTokenApi);
-app.use("/", expiredSessionApi);

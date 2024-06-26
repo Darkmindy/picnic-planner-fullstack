@@ -7,12 +7,14 @@ import {
 	findRefreshToken,
 	updateRefreshToken,
 } from "../services/refreshToken.service";
-import { createToken } from "../utility/commonAuthFunctions";
+import {
+	calculateAccessTokenExpiresAt,
+	createToken,
+} from "../utility/commonAuthFunctions";
 import { IDecodedToken } from "../validation/decodedToken.interface";
 
 export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 	try {
-		//* validate request
 		// get refresh token
 		const refreshToken = req.get("refresh-token") as string;
 
@@ -68,11 +70,17 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 				);
 		}
 
+		// calculate exact expiration time for access token
+		const accessTokenExp = calculateAccessTokenExpiresAt();
+
 		req.user = { _id: decoded.id } as ExtendedRequest["user"]; //specifying as ExtendRequest because it does not take a paramater that could be null otherwise
-		return res.status(200).json({
-			accessToken: newToken.accessToken,
-			refreshToken: newToken.refreshToken,
-		});
+		return res
+			.status(200)
+			.header("Authorization", `Bearer ${newToken.accessToken}`)
+			.json({
+				message: "New access token generated successfully",
+				accessTokenExp: accessTokenExp,
+			});
 	} catch (error) {
 		res.status(500).json(
 			"Internal Server Error: Failed to fetch new token" + error

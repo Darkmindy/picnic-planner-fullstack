@@ -80,6 +80,7 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 			.json({
 				message: "New access token generated successfully",
 				accessTokenExp: accessTokenExp,
+				refreshToken: newToken.refreshToken, //send new refresh token
 			});
 	} catch (error) {
 		res.status(500).json(

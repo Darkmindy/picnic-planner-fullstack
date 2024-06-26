@@ -68,6 +68,7 @@ export const logIn = async (req: Request, res: Response) => {
 				.json({
 					message: `User logged in successfully!`,
 					accessTokenExp: accessTokenExp,
+					refreshToken: token.refreshToken, // send refresh token
 				});
 		} else if (userByEmail.isOnline === true && id) {
 			return res.status(400).json("User already logged in");

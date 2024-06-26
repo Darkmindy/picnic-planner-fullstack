@@ -12,6 +12,8 @@ import { IDecodedToken } from "../validation/decodedToken.interface";
 
 export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 	try {
+		//* validate request
+		// get refresh token
 		const refreshToken = req.get("refresh-token") as string;
 
 		if (!refreshToken) {

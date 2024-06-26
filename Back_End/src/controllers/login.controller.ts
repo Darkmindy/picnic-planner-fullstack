@@ -66,7 +66,7 @@ export const logIn = async (req: Request, res: Response) => {
 				.status(200)
 				.header("Authorization", `Bearer ${token.accessToken}`)
 				.json({
-					message: `The user with ${id} as id is logged in successfully!`,
+					message: `User logged in successfully!`,
 					accessTokenExp: accessTokenExp,
 					refreshToken: token.refreshToken,
 				});

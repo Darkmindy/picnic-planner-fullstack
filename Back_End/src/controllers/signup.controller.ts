@@ -44,13 +44,11 @@ export const signUp = async (req: Request, res: Response) => {
 
 		const userCreated = await createUser(newUser);
 		res.status(200).json({
-			user: {
-				_id: userCreated._id,
-				name: userCreated.name,
-				email: userCreated.email,
-				role: userCreated.role,
-				isOnline: userCreated.isOnline,
-			},
+			_id: userCreated._id,
+			name: userCreated.name,
+			email: userCreated.email,
+			role: userCreated.role,
+			isOnline: userCreated.isOnline,
 		});
 	} catch (error) {
 		return res.status(500).json("Internal server error" + error);

@@ -1,6 +1,0 @@
-POST http://localhost:3000/session-expired HTTP/1.1
-Content-Type: application/json
-
-{
-    "email": "melo@example.com"
-}

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { expiredSessionHandler } from "../controllers/expiredSession.controller";
 import { fetchUser } from "../controllers/fetchUser.controller";
 import { fetchingNewToken } from "../controllers/fetchingNewToken.controller";
 import { logIn } from "../controllers/login.controller";
@@ -21,4 +20,3 @@ router.get(
 );
 router.get("/fetch-user", authMiddleware, fetchUser);
 router.get("/token", fetchingNewToken); //? hp of add authMiddleware in this route
-router.post("/session-expired", expiredSessionHandler);

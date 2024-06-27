@@ -11,7 +11,7 @@ import {
 	calculateAccessTokenExpiresAt,
 	createToken,
 } from "../utility/commonAuthFunctions";
-import { IDecodedToken } from "../validation/decodedToken.interface";
+import { IDecodedToken } from "../validation/decodedToken.validation";
 
 export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 	try {

@@ -1,0 +1,10 @@
+POST http://localhost:3000/add-event HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2Q0NjMxMzc1ZDUyNTY5MjRjNzc5YyIsImlhdCI6MTcxOTUwNTY3MiwiZXhwIjoxNzE5NTExNjcyfQ.-R09ouAW4heQBRAOPyDBQie0TxCb7roVCqhuRs0fAb0
+Content-Type: application/json
+
+{
+    "title": "Pineta",
+    "description": "Posto bello",
+    "location": "Catania",
+    "date": "27/06/2024"
+}

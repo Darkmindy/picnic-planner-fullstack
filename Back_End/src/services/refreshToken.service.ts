@@ -1,5 +1,5 @@
 import { RefreshToken } from "../models/refreshToken.model";
-import { IRefreshToken } from "../validation/refreshToken.interface";
+import { IRefreshToken } from "../validation/refreshToken.validation";
 
 export const createRefreshToken = async (
 	token: string,

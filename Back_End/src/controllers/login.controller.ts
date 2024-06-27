@@ -7,7 +7,7 @@ import {
 	calculateAccessTokenExpiresAt,
 	createToken,
 } from "../utility/commonAuthFunctions";
-import { ZUserSchema } from "../validation/user.interface";
+import { ZUserSchema } from "../validation/user.validation";
 
 export const logIn = async (req: Request, res: Response) => {
 	try {

@@ -1,8 +1,8 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { User } from "../models/user.model";
 import { env } from "../utility/env";
-import { IDecodedToken } from "../validation/decodedToken.interface";
-import { IUser } from "../validation/user.interface";
+import { IDecodedToken } from "../validation/decodedToken.validation";
+import { IUser } from "../validation/user.validation";
 
 export const createUser = async (user: IUser): Promise<IUser> => {
 	return await User.create(user);

@@ -3,6 +3,7 @@ import { User } from "../models/user.model";
 import { env } from "../utility/env";
 import { IDecodedToken } from "../validation/decodedToken.validation";
 import { IUser } from "../validation/user.validation";
+import { IEvent } from "../validation/event.valitation";
 
 export const createUser = async (user: IUser): Promise<IUser> => {
 	return await User.create(user);
@@ -70,3 +71,6 @@ export class authorizationHandler {
 		return this.decodedToken;
 	}
 }
+export const updateUserEvents = async (userId: string, events: IEvent[]) => {
+	return User.findByIdAndUpdate(userId, { events }, { new: true });
+};

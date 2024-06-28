@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { IEvent } from "../validation/event.valitation";
 
-const eventSchema = new mongoose.Schema<IEvent>({
+export const eventSchema = new mongoose.Schema<IEvent>({
     title: {
         type: String,
     },

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { hashStuff } from "../utility/commonAuthFunctions";
 import { IUser, Roles } from "../validation/user.validation";
+import { eventSchema } from "./event.model";
 
 // Create the User schema
 export const userSchema = new mongoose.Schema<IUser>({
@@ -21,6 +22,12 @@ export const userSchema = new mongoose.Schema<IUser>({
 	isOnline: {
 		type: Boolean,
 	},
+	events: [
+		{
+			type: eventSchema,
+			ref: "Event",
+		},
+	],
 });
 
 // pre save hook

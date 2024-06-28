@@ -6,5 +6,6 @@ export const ZEventSchema = z.object({
     date: z.string().min(10).max(10), // implement later with date() format
 })
 
+
 export type IEvent = z.infer<typeof ZEventSchema>;
 

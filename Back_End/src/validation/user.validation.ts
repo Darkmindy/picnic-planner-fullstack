@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { z } from "zod";
-
+import { ZEventSchema } from "./event.valitation";
 // create enum for roles
 export const Roles = ["admin", "user"] as const; //? hp of adding 'guest' role
 
@@ -10,6 +10,7 @@ export const ZUserSchema = z.object({
 	password: z.string().min(8).max(32),
 	role: z.enum(Roles).default("user"),
 	isOnline: z.boolean().optional().default(false),
+	events: z.array(ZEventSchema).optional(),
 });
 
 // ZLogoutSchema

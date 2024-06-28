@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { fromZodError } from "zod-validation-error";
 import { createUser, findByEmail } from "../services/user.service";
 import { env } from "../utility/env";
-import { IUser, ZUserSchema } from "../validation/user.interface";
+import { IUser, ZUserSchema } from "../validation/user.validation";
 export const signUp = async (req: Request, res: Response) => {
 	try {
 		// Validate request

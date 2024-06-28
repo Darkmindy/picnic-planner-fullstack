@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { signUp, adminSignUp } from '../../api/api';
+import { signUp, adminSignUp } from '../../api/userApi';
 import Input from '../Input/Input';
 import Checkbox from '../Checkbox/Checkbox';
 

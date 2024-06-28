@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { env } from "../utility/env";
-import { IRefreshToken } from "../validation/refreshToken.interface";
+import { IRefreshToken } from "../validation/refreshToken.validation";
 
 const refreshTokenSchema = new mongoose.Schema<IRefreshToken>({
 	token: {

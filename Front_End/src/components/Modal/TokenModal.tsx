@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { fetchNewToken } from '../../api/api';
+import { fetchNewToken } from '../../api/userApi';
 import { useAuth } from '../../services/AuthContext';
 
 

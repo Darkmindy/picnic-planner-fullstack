@@ -1,12 +1,12 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './services/AuthContext';
 import PrivateRoute from './routes/PrivateRoute';
 import LoginForm1 from './components/LoginForm/LoginForm1';
-import HomePage from './components/HomePage/HomePage';
-import AdminPage from './components/AdminPage/AdminPage';
-import UnauthorizedPage from './components/UnauthorizedPage/UnauthorizedPage';
-import { Modal } from 'bootstrap';
 import TokenModal from './components/Modal/TokenModal';
+import HomePage from './pages/Home/HomePage';
+import AdminPage from './pages/AdminPage/AdminPage';
+import CreateEvent from './components/CreateEvent/CreateEvent';
 
 const App: React.FC = () => {
   return (
@@ -15,7 +15,6 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginForm1 />} />
-          <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route
             path="/"
             element={
@@ -29,6 +28,14 @@ const App: React.FC = () => {
             element={
               <PrivateRoute allowedRoles={['admin']}>
                 <AdminPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-event"
+            element={
+              <PrivateRoute allowedRoles={['user', 'admin']}>
+                <CreateEvent />
               </PrivateRoute>
             }
           />

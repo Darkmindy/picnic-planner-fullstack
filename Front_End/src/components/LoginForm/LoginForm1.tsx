@@ -1,12 +1,12 @@
-import React, { useRef, useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import React, { useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchUser, signIn } from '../../api/api';
 import { useAuth } from '../../services/AuthContext';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import './LoginForm1.css';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import Checkbox from '../Checkbox/Checkbox';
+import { signIn } from '../../api/api';
 
 
 const LoginForm1: React.FC = () => {
@@ -35,21 +35,17 @@ const LoginForm1: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await signIn(formData).then((data) => {
-        if (data) {
-          setTimeout(() => {
-            setShow(true);
-          }, +data[0].accessTokenExp - 2000)
-        }
-        setAccessToken(data && data[1].split(" ")[1]);
-        setRefreshToken(data && data[0].refreshToken);
-        setUser({ name: "Matteo", email: formData.email, role: "user" });
-        setFormData(prev => ({ email: prev.email, password: "", role: prev.role }));
-        navigate("/");
+      const data = await signIn(formData);
+      if (data) {
+        setTimeout(() => {
+          setShow(true);
+        }, +data[0].accessTokenExp - 2000);
       }
-      ) // Access token
-      // const username = await fetchUser({email})
-
+      setAccessToken(data && data[1].split(" ")[1]);
+      setRefreshToken(data && data[0].refreshToken);
+      setUser({ name: "Matteo", email: formData.email, role: "user" });
+      setFormData(prev => ({ ...prev, password: "" }));
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -62,9 +58,7 @@ const LoginForm1: React.FC = () => {
       setMessage("");
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
-  }
-
-
+  };
 
   return (
     <div className="container" ref={containerRef}>
@@ -121,3 +115,4 @@ const LoginForm1: React.FC = () => {
 };
 
 export default LoginForm1;
+

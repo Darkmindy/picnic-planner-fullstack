@@ -1,0 +1,68 @@
+/* EventCalendar.css */
+
+/* Stili per il calendario degli eventi */
+.event-calendar {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+.event-form {
+  margin-bottom: 20px;
+}
+
+.event-form label {
+  font-weight: bold;
+}
+
+.event-form input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.calendar {
+  margin-top: 20px;
+}
+
+/* Stili per il titolo del calendario */
+.calendar h2 {
+  margin-bottom: 10px;
+}
+
+/* Stili per le celle del calendario */
+.calendar-day {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.calendar-day.has-events {
+  background-color: #f0f0f0;
+}
+
+/* Stili per gli indicatori di eventi */
+.event-indicators {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-indicators li {
+  margin-bottom: 3px;
+}
+
+.event-indicators li:last-child {
+  margin-bottom: 0;
+}
+
+/* Stili per la visualizzazione degli eventi */
+.event-list {
+  margin-top: 10px;
+}
+
+.event-list div {
+  margin-bottom: 5px;
+}

@@ -6,7 +6,7 @@ const mongoURI = env.MONGODB_URI;
 const PORT = environment.getPort();
 
 const CONNECTION_URL: string = mongoURI + environment.getDBName();
-mongoose.set("strictPopulate", false);
+// mongoose.set("strictPopulate", false);
 const DB = async () => {
   try {
     await mongoose.connect(CONNECTION_URL);

@@ -6,7 +6,7 @@ import {
 	findUserById,
 	updateUserStatusHandler,
 } from "../services/user.service";
-import { ZLogOutSchema } from "../validation/user.interface";
+import { ZLogOutSchema } from "../validation/user.validation";
 
 export const logOut = async (req: ExtendedRequest, res: Response) => {
 	try {

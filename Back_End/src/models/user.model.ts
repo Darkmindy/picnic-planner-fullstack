@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { hashStuff } from "../utility/commonAuthFunctions";
-import { IUser, Roles } from "../validation/user.interface";
+import { IUser, Roles } from "../validation/user.validation";
 
 // Create the User schema
 export const userSchema = new mongoose.Schema<IUser>({

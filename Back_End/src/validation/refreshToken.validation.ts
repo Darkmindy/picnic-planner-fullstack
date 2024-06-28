@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ZUserSchema } from "./user.interface";
+import { ZUserSchema } from "./user.validation";
 
 export const ZRefreshTokenSchema = z.object({
 	token: z.string().min(1),

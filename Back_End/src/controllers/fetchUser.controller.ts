@@ -4,10 +4,18 @@ import { findUserById } from "../services/user.service";
 
 export const fetchUser = async (req: ExtendedRequest, res: Response) => {
     try {
-        const user = await findUserById(req.user?._id!);
+        const userId = req.user?._id;
+
+        if (!userId) {
+            return res.status(404).json("User not found");
+        }
+
+        const user = await findUserById(userId);
+
         if (!user) {
             return res.status(404).json("User not found");
         }
+        
         console.log(user.name);
         return res.status(200).json(user.name);
     } catch (error) {

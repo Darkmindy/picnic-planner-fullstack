@@ -1,6 +1,6 @@
 // src/components/HomePage.tsx
 import React from 'react';
-import { logOut } from '../../api/api';
+import { logOut } from '../../api/userApi';
 import { useAuth } from '../../services/AuthContext';
 import { useNavigate } from 'react-router-dom';
 

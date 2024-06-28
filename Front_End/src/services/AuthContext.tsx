@@ -9,7 +9,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [accessToken, setAccessToken] = useState<string>('');
   const [refreshToken, setRefreshToken] = useState<string>('');
   const [accessTokenExp, setAccessTokenExp] = useState<number>(0);
-  const [refreshTokenExp, setRefreshTokenExp] = useState<number>(0);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -19,6 +18,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     console.log(refreshToken)
   }, [refreshToken])
+
+  
 
   return (
     <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, refreshToken, setRefreshToken, accessTokenExp, setAccessTokenExp, show, setShow }}>

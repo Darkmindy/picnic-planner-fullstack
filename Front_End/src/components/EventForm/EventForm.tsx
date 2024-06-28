@@ -1,6 +1,7 @@
 import { createEvent, EventData } from '../../api/eventApi';
 import React, { useState } from 'react';
 import { useAuth } from '../../services/AuthContext'; 
+import { logOut } from 'api/userApi';
 import './EventForm.css';
 
 const EventForm: React.FC = () => {
@@ -48,6 +49,7 @@ const EventForm: React.FC = () => {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="event-form">
       <h2>Crea un nuovo evento</h2>
       <div>
@@ -92,6 +94,7 @@ const EventForm: React.FC = () => {
       {successMessage && <p>{successMessage}</p>}
       {error && <p>Error creating event: {error}</p>}
     </form>
+    </>
   );
 };
 

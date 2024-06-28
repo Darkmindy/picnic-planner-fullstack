@@ -5,6 +5,9 @@ import EventCard from '../../components/EventCard/EventCard';
 import InvitedCard from '../../components/InvitedCard/InvitedCard';
 import EventForm from '../../components/EventForm/EventForm';
 import './HomePage.css';
+import { logOut } from '../../api/userApi';
+import { useAuth } from '../../services/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const user = {
     name: 'Nome Utente',
@@ -26,6 +29,19 @@ const invitedUsers = [
 
 
 const HomePage: React.FC = () => {
+    const { setUser, accessToken, setAccessToken, setRefreshToken } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await logOut(accessToken)
+      setUser(null);
+      setAccessToken("");
+      setRefreshToken("");
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
     const userImageURL = user.profileImage;
 
 const [showEventForm, setShowEventForm] = React.useState(false);
@@ -141,6 +157,7 @@ const [showEventForm, setShowEventForm] = React.useState(false);
                     </Col>
                 </Row>
             </Container>
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
     );
 };

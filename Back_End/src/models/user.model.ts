@@ -28,6 +28,12 @@ export const userSchema = new mongoose.Schema<IUser>({
 			ref: "Event",
 		},
 	],
+	friends: [
+		{
+			type: String,// perhaps is best to use: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		}
+	]
 });
 
 // pre save hook

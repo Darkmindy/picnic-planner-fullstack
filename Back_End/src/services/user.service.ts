@@ -74,3 +74,14 @@ export class authorizationHandler {
 export const updateUserEvents = async (userId: string, events: IEvent[]) => {
 	return User.findByIdAndUpdate(userId, { events }, { new: true });
 };
+
+export const addFriendUser = async (userId: string, friendId: string) => {
+	return User.findByIdAndUpdate(
+		userId,
+		{ $push: { friends: friendId } },
+		{ new: true }
+	);
+};
+
+export const isFriendAlreadyAdded = async (userId: string, friendId: string): Promise<boolean> => 
+    User.findById(userId, 'friends').then(user => user && user.friends!.includes(friendId) ? true : false);

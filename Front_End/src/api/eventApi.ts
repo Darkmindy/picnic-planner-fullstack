@@ -14,7 +14,7 @@ export const createEvent = async (
   try {
     const response = await apiClient.post("/add-event", eventData, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        "Authorization": `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
     });

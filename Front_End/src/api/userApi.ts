@@ -74,7 +74,7 @@ export const logOut = async (accessToken: string) => {
   try {
     const response = await apiClient.get("/logout", {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        "Authorization": `Bearer ${accessToken}`,
       },
     });
     console.log(accessToken);

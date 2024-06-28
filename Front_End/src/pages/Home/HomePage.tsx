@@ -3,6 +3,7 @@ import { Container, Row, Col, Navbar as BootstrapNavbar, Nav, Button, Dropdown, 
 import { Link } from 'react-router-dom';
 import EventCard from '../../components/EventCard/EventCard';
 import InvitedCard from '../../components/InvitedCard/InvitedCard';
+import EventForm from '../../components/EventForm/EventForm';
 import './HomePage.css';
 
 const user = {
@@ -23,8 +24,11 @@ const invitedUsers = [
     // Aggiungi altri invitati secondo necessità
 ];
 
+
 const HomePage: React.FC = () => {
     const userImageURL = user.profileImage;
+
+const [showEventForm, setShowEventForm] = React.useState(false);
 
     const handleAccept = (id: string) => {
         // Logica per accettare l'invito, ad esempio aggiornare lo stato degli invitati
@@ -130,10 +134,10 @@ const HomePage: React.FC = () => {
                             <Col md={12}>
                                 <h2>Have a Good Day, Wendy</h2>
                                 <p>Fuel your days with the boundless enthusiasm of a lifelong explorer.</p>
-                                <Button variant="primary">I want to...</Button>
-                            </Col>
+                                <Button variant="primary" onClick={() => setShowEventForm(true)}>I want to...</Button>
+                        </Col>
                         </Row>
-
+                        { showEventForm && <EventForm />}
                     </Col>
                 </Row>
             </Container>

@@ -6,8 +6,7 @@ import LoginForm1 from './components/LoginForm/LoginForm1';
 import TokenModal from './components/Modal/TokenModal';
 import HomePage from './pages/Home/HomePage';
 import AdminPage from './pages/AdminPage/AdminPage';
-import CreateEvent from './components/CreateEvent/CreateEvent';
-
+import EventForm from './components/EventForm/EventForm';
 const App: React.FC = () => {
   return (
     <AuthProvider>
@@ -35,7 +34,7 @@ const App: React.FC = () => {
             path="/create-event"
             element={
               <PrivateRoute allowedRoles={['user', 'admin']}>
-                <CreateEvent />
+                <EventForm />
               </PrivateRoute>
             }
           />

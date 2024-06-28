@@ -1,13 +1,12 @@
 import React, { useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchUser, signIn } from '../../api/userApi';
+import { signIn } from '../../api/userApi';
 import { useAuth } from '../../services/AuthContext';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import './LoginForm1.css';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import Checkbox from '../Checkbox/Checkbox';
-import { signIn } from '../../api/api';
 
 
 const LoginForm1: React.FC = () => {

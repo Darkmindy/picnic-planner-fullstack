@@ -17,13 +17,10 @@ const TokenModal: React.FC = () => {
     await fetchNewToken(refreshToken);
     setShow(false);
   }
-  const handleShow = () => setShow(true);
+  //const handleShow = () => setShow(true);
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch static backdrop modal
-      </Button>
 
       <Modal
         show={show}

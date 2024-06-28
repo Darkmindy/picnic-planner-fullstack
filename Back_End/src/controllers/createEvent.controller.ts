@@ -3,7 +3,7 @@ import { Response } from "express";
 import { ZEventSchema } from "../validation/event.valitation";
 import { fromZodError } from "zod-validation-error";
 import { createEvent, getEventByTitle } from "../services/event.service";
-import { findUserById } from "../services/user.service";
+import { findUserById, updateUserEvents } from "../services/user.service";
 
 /* 
 - validate request
@@ -44,8 +44,14 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 				.status(400)
 				.json(`Event with title ${event.title} already exists`);
 		}
-
 		const createdEvent = await createEvent(event);
+		if (createdEvent) {
+			existingUser.events!.push(createdEvent);
+			if (existingUser._id && existingUser.events) {
+				const userId = existingUser._id.toString();
+				await updateUserEvents(userId, existingUser.events);
+			}
+		}
 		res.status(201).json(createdEvent);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);

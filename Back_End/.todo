@@ -1,0 +1,16 @@
+// user
+☐ creare array di eventi negli utenti
+☐ creare rotta mostra tutti gli amici
+☐ creare rotta con tutti gli eventi del singolo user
+
+//eventi
+☐ implementare data e ora in formato date
+☐ implentare stato [attivo, concluso]
+☐ evento accesso libero, ad invito, a pagamento
+☐ contatore numero di partecipanti
+☐ contatore mi piace
+☐ contatore non mi piace
+☐ implentare ordine cronologico eventi (front o back)
+☐ creare rotta con tutti gli eventi
+☐ rotta modifica evento
+☐ rotta elimina evento

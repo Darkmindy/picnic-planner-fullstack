@@ -1,99 +1,98 @@
-import { createEvent, EventData } from "api/eventApi"; // Assumendo che tu abbia una funzione createEvent
-import React, { useState } from "react";
-import { useAuth } from "services/AuthContext";
-import "./EventForm.css";
+import { createEvent, EventData } from '../../api/eventApi';
+import React, { useState } from 'react';
+import { useAuth } from '../../services/AuthContext'; 
+import './EventForm.css';
 
 const EventForm: React.FC = () => {
-	const [title, setEventTitle] = useState("");
-	const [description, setEventDescription] = useState("");
-	const [location, setEventLocation] = useState("");
-	const [date, setEventDate] = useState("");
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const [result, setResult] = useState<any | null>(null);
+  const [title, setEventTitle] = useState('');
+  const [description, setEventDescription] = useState('');
+  const [location, setEventLocation] = useState('');
+  const [date, setEventDate] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-	const { accessToken } = useAuth();
+  const { accessToken } = useAuth();
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsSubmitting(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+    setSuccessMessage(null);
 
-		const eventData: EventData = { title, description, location, date };
+    const eventData: EventData = { title, description, location, date };
 
-		try {
-			if (!accessToken) {
-				throw new Error("Access token not available");
-			}
+    try {
+      if (!accessToken) {
+        throw new Error('Access token not available');
+      }
 
-			const result = await createEvent(accessToken, eventData); // Utilizzo della funzione API createEvent
-			setResult(result);
-			console.log("Event created:", result);
+      await createEvent(accessToken, eventData);
+      setSuccessMessage('Event created successfully!');
 
-			console.log("Event Name:", title);
-			console.log("Event Date:", date);
+      console.log('Event created:', eventData);
 
-			// Reset form fields
-			setEventTitle("");
-			setEventDescription("");
-			setEventLocation("");
-			setEventDate("");
-		} catch (error) {
-			if (error instanceof Error) {
-				setError(error.message);
-				console.error(error.message);
-			}
-		} finally {
-			setIsSubmitting(false);
-		}
-	};
+      // Reset form fields
+      setEventTitle('');
+      setEventDescription('');
+      setEventLocation('');
+      setEventDate('');
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+        console.error('Error creating event:', error.message);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-	return (
-		<form onSubmit={handleSubmit} className="event-form">
-			<h2>Crea un nuovo evento</h2>
-			<div>
-				<label>Nome dell'evento:</label>
-				<input
-					type="text"
-					value={title}
-					onChange={(e) => setEventTitle(e.target.value)}
-				/>
-			</div>
-			<div>
-				<label>Descrizione dell'evento:</label>
-				<textarea
-					value={description}
-					onChange={(e) => setEventDescription(e.target.value)}
-				/>
-			</div>
-			<div>
-				<label>Luogo dell'evento:</label>
-				<input
-					type="text"
-					value={location}
-					onChange={(e) => setEventLocation(e.target.value)}
-				/>
-			</div>
-			<div>
-				<label>Data dell'evento:</label>
-				<input
-					type="text"
-					value={date}
-					onChange={(e) => setEventDate(e.target.value)}
-				/>
-			</div>
-			{isSubmitting && <p>Submitting event...</p>}{" "}
-			{/*Conditionally render
-			loading indicator */}
-			<button type="submit" disabled={isSubmitting}>
-				Crea evento
-			</button>{" "}
-			{/* Disable button during submission */}
-			{result && <p>Event created successfully!</p>}{" "}
-			{/* Display success message after successful response */}
-			{error && <p>Error creating event: {error}</p>}{" "}
-			{/* Display error message if any */}
-		</form>
-	);
+  return (
+    <form onSubmit={handleSubmit} className="event-form">
+      <h2>Crea un nuovo evento</h2>
+      <div>
+        <label>Nome dell'evento:</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setEventTitle(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Descrizione dell'evento:</label>
+        <textarea
+          value={description}
+          onChange={(e) => setEventDescription(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Luogo dell'evento:</label>
+        <input
+          type="text"
+          value={location}
+          onChange={(e) => setEventLocation(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Data dell'evento:</label>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setEventDate(e.target.value)}
+          required
+        />
+      </div>
+      {isSubmitting && <p>Submitting event...</p>}
+      <button type="submit" disabled={isSubmitting}>
+        Crea evento
+      </button>
+      {successMessage && <p>{successMessage}</p>}
+      {error && <p>Error creating event: {error}</p>}
+    </form>
+  );
 };
 
 export default EventForm;

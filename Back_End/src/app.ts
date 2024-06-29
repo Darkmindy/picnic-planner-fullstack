@@ -7,7 +7,7 @@ import {
 	router as logOutApi,
 	router as signUpApi,
 } from "./routes/user.route";
-import { router as createEventApi } from "./routes/event.route";
+import { router as EventApi } from "./routes/event.route";
 import { router as friendApi } from "./routes/friend.route";
 export const app = express();
 app.use(express.urlencoded({ extended: true })); // This setting allows parsing of nested objects and arrays within the data
@@ -34,5 +34,5 @@ app.use("/", logInApi);
 app.use("/", logOutApi);
 app.use("/", fetchUserApi);
 app.use("/", fetchingNewTokenApi);
-app.use("/", createEventApi);
+app.use("/", EventApi);
 app.use("/", friendApi);

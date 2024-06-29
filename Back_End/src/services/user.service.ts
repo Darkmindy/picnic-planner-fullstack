@@ -71,10 +71,15 @@ export class authorizationHandler {
 		return this.decodedToken;
 	}
 }
-export const updateUserEvents = async (userId: string, events: IEvent[]) => {
+export const createUserEvents = async (userId: string, events: IEvent[]) => {
 	return User.findByIdAndUpdate(userId, { events }, { new: true });
 };
 
+export const updateUserEvents = async (userId: string, events: IEvent[]) => {
+	return User.findByIdAndUpdate(userId, { events }, { new: true });
+}
+
+// TODO forse è meglio utilizzare create e non findByIdAndUpdate
 export const addFriendUser = async (userId: string, friendId: string) => {
 	return User.findByIdAndUpdate(
 		userId,

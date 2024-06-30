@@ -14,7 +14,11 @@ export const getEventById = async (id: string) : Promise<IEvent | null> => {
     return await EventModel.findById(id);
 }
 
-export const updateSpecificUserEvent = async (userId: string, eventId: string, updatedEvent: IEvent) : Promise<IEvent | null> => {
+export const showEvents = async () : Promise<IEvent[]> => {
+    return await EventModel.find();
+}
+
+/* export const updateSpecificUserEvent = async (userId: string, eventId: string, updatedEvent: IEvent) : Promise<IEvent | null> => {
     // Trova l'utente nel database
     const user = await User.findById(userId);
 
@@ -36,4 +40,4 @@ export const updateSpecificUserEvent = async (userId: string, eventId: string, u
     await user.save();
 
     return user.events[eventIndex];
-};
+}; */

@@ -6,7 +6,8 @@ import {
 	createEvent,
 	getEventById,
 	getEventByTitle,
-	updateSpecificUserEvent,
+	showEvents,
+	//updateSpecificUserEvent,
 } from "../services/event.service";
 import {
 	createUserEvents,
@@ -67,7 +68,8 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 	}
 };
 
-export const updateEvent = async (req: ExtendedRequest, res: Response) => {
+// TODO da rivedere!!!
+/* export const updateEvent = async (req: ExtendedRequest, res: Response) => {
 	try {
 		// validate request
 		const validationResult = ZEventSchema.safeParse(req.body);
@@ -108,11 +110,20 @@ export const updateEvent = async (req: ExtendedRequest, res: Response) => {
 		res.status(200).json(updatedUserEvent);
 		//TODO c'è un bug perchè l'evento si modifica all'interno dell'utente ma non nella sezione events dell'utente
 		//existingUser.events!.push(event);
-		/* if (existingUser._id && existingUser.events) {
+		 if (existingUser._id && existingUser.events) {
 			const userId = existingUser._id.toString();
 			await createUserEvents(userId, existingUser.events);
 		}
-		res.status(201).json(createdEvent); */
+		res.status(201).json(createdEvent);
+	} catch (error) {
+		res.status(500).json("Internal server error: " + error);
+	}
+}; */
+
+export const getEvents = async (req: ExtendedRequest, res: Response) => {
+	try {
+		const allEvents = await showEvents();
+		res.status(200).json(allEvents);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}

@@ -7,6 +7,16 @@ export interface EventData {
   date: string;
 }
 
+export const fetchEvents = async () => {
+  try {
+    const response = await apiClient.get("/fetch-events");
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to fetch events");
+  }
+}
+
 export const createEvent = async (
   accessToken: string,
   eventData: EventData

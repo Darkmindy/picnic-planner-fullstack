@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Navbar as BootstrapNavbar, Nav, Button, Dropdown, Image, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import EventCard from '../../components/EventCard/EventCard';
@@ -8,29 +8,34 @@ import './HomePage.css';
 import { logOut } from '../../api/userApi';
 import { useAuth } from '../../services/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Event } from '../../types/IEvent';
+import { useState } from 'react';
+import { fetchEvents } from '../../api/eventApi';
 
-const user = {
+
+const HomePage: React.FC = () => {
+    const { setUser, accessToken, refreshToken, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const user = {
     name: 'Nome Utente',
     profileImage: 'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=740&t=st=1719444878~exp=1719445478~hmac=db2fad68971db4f83df5f6ab0eab1d99315cff993c7831f43b5f5482f016feda',
 };
 
-const events = [
-
-    { id:'1', title: 'Picnic al parco', date: '25 luglio 2024', time:'11:00 AM', location: 'Parco delle Cascine', partecipants: ['User 1', 'User 2'], status: 'In pianificazione' },
-        { id:'2', title: 'Passeggiata in montagna', date: '27 Giugno 2024', time:'13:00 PM', location: 'Monte Etna', partecipants: ['User 3', 'User 4'], status: 'Completato' },
-    // Aggiungi altri eventi secondo necessità
-];
+    const [events, setEvents] = useState<Event[]>([]);
+    useEffect(() => {
+        const getEvents = async () => {
+            const data = await fetchEvents();
+            setEvents(data);
+        };
+        getEvents();
+    }, []);
 
 const invitedUsers = [
     { id: '1', name: 'User 1', status: 'Confermato' },
     { id: '2', name: 'User 2', status: 'In attesa' },
     // Aggiungi altri invitati secondo necessità
 ];
-
-
-const HomePage: React.FC = () => {
-    const { setUser, accessToken, refreshToken, isLoggedIn } = useAuth();
-  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await logOut(accessToken.current);

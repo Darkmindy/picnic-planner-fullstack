@@ -1,7 +1,7 @@
 // user
-☐ creare array di eventi negli utenti
-☐ creare rotta mostra tutti gli amici
-☐ creare rotta con tutti gli eventi del singolo user
+✔ creare array di eventi negli utenti @started(24-06-28 22:27) @done(24-06-28 22:29) @lasted(2m26s)
+✔ creare rotta mostra tutti gli amici @started(24-06-28 22:30) @done(24-06-28 23:16) @lasted(46m10s)
+☐ creare rotta con tutti gli eventi del singolo user @started(24-06-28 23:38)
 
 //eventi
 ☐ implementare data e ora in formato date

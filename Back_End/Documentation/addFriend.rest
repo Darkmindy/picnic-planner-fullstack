@@ -1,0 +1,8 @@
+POST http://localhost:3000/add-friend HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2YyNzc2OGUzYzAzZDI3YmMxMTYxZiIsImlhdCI6MTcxOTYwOTIwOCwiZXhwIjoxNzE5NjE1MjA4fQ.XFuOC1SUGFEtz9cvdAwetghijMWqvk3lSq_2BQWqTOQ
+Content-Type: application/json
+
+{
+    "email": "ciccio@example.com",
+    "password": "password123"
+}

@@ -11,6 +11,7 @@ export const ZUserSchema = z.object({
 	role: z.enum(Roles).default("user"),
 	isOnline: z.boolean().optional().default(false),
 	events: z.array(ZEventSchema).optional(),
+	friends: z.array(z.string()).optional(),
 });
 
 // ZLogoutSchema

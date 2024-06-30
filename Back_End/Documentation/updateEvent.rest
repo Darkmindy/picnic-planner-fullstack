@@ -1,9 +1,9 @@
-POST http://localhost:3000/add-event HTTP/1.1
+PUT http://localhost:3000/update-event/66800b8d74756f22b024f0ae
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODAwYjYxNzQ3NTZmMjJiMDI0ZjBhNiIsImlhdCI6MTcxOTY2NzU2MywiZXhwIjoxNzE5NzI3NTYzfQ.PRMiZ2Mv2YDa1XqNIn2OWpRdllZwm5r2by6MxZj5pPE
 Content-Type: application/json
 
 {
-    "title": "Pineta",
+    "title": "Pinetaaaaa",
     "description": "Posto bello",
     "location": "Catania",
     "date": "27/06/2024"

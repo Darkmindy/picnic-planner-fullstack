@@ -1,3 +1,5 @@
+import { MutableRefObject } from "react";
+
 export type Role = "admin" | "user";
 
 export interface User {
@@ -12,16 +14,11 @@ export interface User {
 export interface AuthContextType {
 	user: Temp | null;
 	setUser: React.Dispatch<React.SetStateAction<Temp | null>>;
-	accessToken: string;
-	setAccessToken: React.Dispatch<React.SetStateAction<string>>;
-	refreshToken: string;
-	setRefreshToken: React.Dispatch<React.SetStateAction<string>>;
-	accessTokenExp: number;
-	setAccessTokenExp: React.Dispatch<React.SetStateAction<number>>
-	// refreshTokenExp: number;
-	// setRefreshTokenExp: React.Dispatch<React.SetStateAction<number>>
-	show: boolean;
-	setShow: React.Dispatch<React.SetStateAction<boolean>>
+	accessToken: MutableRefObject<string>;
+	refreshToken: MutableRefObject<string>;
+	accessTokenExp: MutableRefObject<number>;
+	handleTokenRefresh: (expirationDate: number) => void;
+	isLoggedIn: MutableRefObject<boolean>;
 }
 
 export interface Temp {

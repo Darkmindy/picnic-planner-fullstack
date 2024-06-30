@@ -29,14 +29,15 @@ const invitedUsers = [
 
 
 const HomePage: React.FC = () => {
-    const { setUser, accessToken, setAccessToken, setRefreshToken } = useAuth();
+    const { setUser, accessToken, refreshToken, isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      await logOut(accessToken)
+      await logOut(accessToken.current);
       setUser(null);
-      setAccessToken("");
-      setRefreshToken("");
+      accessToken.current = "";
+      refreshToken.current = "";
+      isLoggedIn.current = false;
       navigate("/login");
     } catch (error) {
       console.error(error);

@@ -7,6 +7,7 @@ import {
 	getEventById,
 	getEventByTitle,
 	updateEvent,
+	updateUserEvent,
 } from "../services/event.service";
 import {
 	createOrUpdateUserEvents,
@@ -45,22 +46,27 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 
 		const event = validationResult.data;
 
+		// check if event already exists
 		const existingEvent = await getEventByTitle(event.title);
 
-		// check if event already exists
 		if (existingEvent) {
 			return res
 				.status(400)
 				.json(`Event with title ${event.title} already exists`);
 		}
+		
+
+		// create event
 		const createdEvent = await createEvent(event);
+		// create event inside the user events array
 		if (createdEvent) {
 			existingUser.events!.push(createdEvent);
+
 			if (existingUser._id && existingUser.events) {
 				const userId = existingUser._id.toString();
 				await createOrUpdateUserEvents(userId, existingUser.events);
 			}
-		}
+		} 
 		res.status(201).json(createdEvent);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
@@ -104,30 +110,26 @@ export const updateEventHandler = async (
 		}
 
 		// validate request
-		const validationError = ZOptionalEvent.safeParse(req.body);
-		if (!validationError.success) {
+		const validationResult = ZOptionalEvent.safeParse(req.body);
+		if (!validationResult.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationError.error).message);
+				.json(fromZodError(validationResult.error).message);
 		}
 
 		const updateExtingEvent = await updateEvent(
 			eventId,
-			validationError.data
+			validationResult.data
 		);
 		if (!updateExtingEvent) {
 			return res
 				.status(400)
 				.json(`Event with id ${eventId} not found in user's events`);
 		}
-		res.status(201).json(updateExtingEvent);
 
-		//TODO c'è un bug perchè l'evento si modifica all'interno dell'utente ma non nella sezione events dell'utente
-		existingUser.events!.push(updateExtingEvent);
-		if (existingUser._id && existingUser.events) {
-			const userId = existingUser._id.toString();
-			await createOrUpdateUserEvents(userId, existingUser.events);
-		}
+		// update the event inside the user
+		await updateUserEvent(existingUser, eventId, updateExtingEvent);
+		res.status(201).json(updateExtingEvent);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}

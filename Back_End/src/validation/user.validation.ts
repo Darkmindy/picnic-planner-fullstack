@@ -21,8 +21,8 @@ export const ZLogOutSchema = z.object({
 
 // create interface
 // create optional interface
-// export const ZOptionalUser = ZUserSchema.partial();
-// export type IOptionalUser = z.infer<typeof ZOptionalUser>;
+export const ZOptionalUser = ZUserSchema.partial();
+export type IOptionalUser = z.infer<typeof ZOptionalUser>;
 export interface IUser extends z.infer<typeof ZUserSchema> {
 	_id?: mongoose.Types.ObjectId;
 }

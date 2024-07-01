@@ -75,16 +75,13 @@ export const createOrUpdateUserEvents = async (
 	userId: string,
 	events: IEvent[]
 ): Promise<IUser | null> => {
-	return User.findByIdAndUpdate(userId, { $set: events }, { new: true });
+	return await User.findByIdAndUpdate(userId, { events }, { new: true });
 };
 
-// export const updateUserEvents = async (userId: string, events: IEvent[]) => {
-// 	return User.findByIdAndUpdate(userId, { events }, { new: true });
-// }
 
 // TODO forse è meglio utilizzare create e non findByIdAndUpdate
 export const addFriendUser = async (userId: string, friendId: string) => {
-	return User.findByIdAndUpdate(
+	return await User.findByIdAndUpdate(
 		userId,
 		{ $push: { friends: friendId } },
 		{ new: true }
@@ -95,6 +92,6 @@ export const isFriendAlreadyAdded = async (
 	userId: string,
 	friendId: string
 ): Promise<boolean> =>
-	User.findById(userId, "friends").then((user) =>
+	await User.findById(userId, "friends").then((user) =>
 		user && user.friends!.includes(friendId) ? true : false
 	);

@@ -1,5 +1,5 @@
 POST http://localhost:3000/add-event HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODI4N2Q2YWVjOTkxZWFkMTAxMDZlZCIsImlhdCI6MTcxOTgzMDQ5NSwiZXhwIjoxNzE5ODMxMzk1fQ.VeO1TGm-D4Jing925EuQxgyZZoxGhZ77uMm5IdT2ZHY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODJjMGYwZWVhZmExZDYyZjZlNzdiNCIsImlhdCI6MTcxOTg0NTExMSwiZXhwIjoxNzI1ODQ1MTExfQ.CjfiX6AlxF5Lkpfrup7LQ6NljPwrtthlMqGvhCaK7bI
 Content-Type: application/json
 
 {

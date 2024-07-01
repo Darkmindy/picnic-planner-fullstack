@@ -1,6 +1,7 @@
 import { EventModel } from "../models/event.model";
+import { User } from "../models/user.model";
 import { IEvent, IOptionalEvent } from "../validation/event.valitation";
-
+import { IOptionalUser, IUser } from "../validation/user.validation";
 export const getEventByTitle = async (
 	title: string
 ): Promise<IEvent | null> => {
@@ -24,4 +25,20 @@ export const updateEvent = async (
 		{ $set: event },
 		{ new: true }
 	);
+};
+
+export const updateUserEvent = async (
+	user: IUser,
+	eventId: string,
+	eventUpdated: IEvent
+): Promise<IUser | null> => {
+	const result = await User.updateOne(
+		{ _id: user._id, "events._id": eventId },
+		{ $set: { "events.$": eventUpdated } }
+	);
+
+	if(!result){
+		return null;
+	}
+	return await User.findById(user._id);
 };

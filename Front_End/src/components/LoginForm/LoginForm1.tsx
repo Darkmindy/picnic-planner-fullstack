@@ -12,7 +12,7 @@ import Checkbox from '../Checkbox/Checkbox';
 const LoginForm1: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { setUser, setRefreshToken, setAccessToken, setShow } = useAuth();
+  const { setUser, handleTokenRefresh, accessToken, refreshToken, isLoggedIn, accessTokenExp } = useAuth();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -35,16 +35,14 @@ const LoginForm1: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = await signIn(formData);
-      if (data) {
-        setTimeout(() => {
-          setShow(true);
-        }, +data[0].accessTokenExp - 2000);
-      }
-      setAccessToken(data && data[1].split(" ")[1]);
-      setRefreshToken(data && data[0].refreshToken);
+      const data = await signIn(formData)
+      accessToken.current = data && data[1].split(" ")[1];
+      refreshToken.current = data && data[0].refreshToken;
+      accessTokenExp.current = data && data[0].accessTokenExp;
+      handleTokenRefresh(accessTokenExp.current);
       setUser({ name: "Matteo", email: formData.email, role: "user" });
-      setFormData(prev => ({ ...prev, password: "" }));
+      isLoggedIn.current = true;
+      setFormData(prev => ({ email: prev.email, password: "", role: prev.role }));
       navigate("/");
     } catch (error) {
       console.error(error);

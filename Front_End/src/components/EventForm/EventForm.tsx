@@ -1,7 +1,7 @@
 import { createEvent, EventData } from '../../api/eventApi';
 import React, { useState } from 'react';
 import { useAuth } from '../../services/AuthContext'; 
-import { logOut } from 'api/userApi';
+//import { logOut } from 'api/userApi';
 import './EventForm.css';
 
 const EventForm: React.FC = () => {
@@ -24,11 +24,11 @@ const EventForm: React.FC = () => {
     const eventData: EventData = { title, description, location, date };
 
     try {
-      if (!accessToken) {
+      if (!accessToken.current) {
         throw new Error('Access token not available');
       }
 
-      await createEvent(accessToken, eventData);
+      await createEvent(accessToken.current, eventData);
       setSuccessMessage('Event created successfully!');
 
       console.log('Event created:', eventData);

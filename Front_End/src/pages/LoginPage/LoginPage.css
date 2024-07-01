@@ -10,36 +10,3 @@
     flex-direction: row;
   }
   
-  .justify-content-center {
-    justify-content: center;
-  }
-  
-  /* Stile per il form */
-  .form-container {
-    width: 300px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-  }
-  
-  .form-container input[type="text"],
-  .form-container input[type="password"],
-  .form-container button {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  .form-container button {
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .form-container button:hover {
-    background-color: #0056b3;
-  }
-  

@@ -10,9 +10,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Montserrat", sans-serif;
   height: 100vh;
   margin: 0;
+}
+.login-page > * {
+  font-family: "Montserrat", sans-serif;
 }
 
 h1 {
@@ -89,7 +91,7 @@ input {
   width: 100%;
 }
 
-.container {
+.login-form-container {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -106,21 +108,20 @@ input {
   top: 0;
   height: 100%;
   width: 50%;
-  background-color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  padding: 20px;
+  transition: all 0.6s ease-in-out;
 }
 
 .form-container input,
 .form-container button {
-  width: 100%;
   margin-bottom: 15px;
   padding: 12px;
-  border: 1px solid #dfe1f0;
   border-radius: 6px;
   font-size: 16px;
   transition: border-color 0.4s, box-shadow 0.4s;
+}
+.form-container input {
+  border: 1px solid #dfe1f0;
+
 }
 
 .form-container input:focus,
@@ -135,7 +136,6 @@ input {
   color: #f7f7f7;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 1px;
   transition: background 0.375s, transform 0.375s;

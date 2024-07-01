@@ -8,6 +8,7 @@ import {
 	getEventByTitle,
 	updateEvent,
 	updateUserEvent,
+	showEvents,
 } from "../services/event.service";
 import {
 	createOrUpdateUserEvents,
@@ -130,6 +131,27 @@ export const updateEventHandler = async (
 		// update the event inside the user
 		await updateUserEvent(existingUser, eventId, updateExtingEvent);
 		res.status(201).json(updateExtingEvent);
+		const updatedUserEvent = await updateSpecificUserEvent(userId, eventId, validationResult.data);
+		if(!updatedUserEvent) {
+			return res.status(400).json(`Event with id ${eventId} not found in user's events`);
+		}
+		res.status(200).json(updatedUserEvent);
+		//TODO c'è un bug perchè l'evento si modifica all'interno dell'utente ma non nella sezione events dell'utente
+		//existingUser.events!.push(event);
+		 if (existingUser._id && existingUser.events) {
+			const userId = existingUser._id.toString();
+			await createUserEvents(userId, existingUser.events);
+		}
+		res.status(201).json(createdEvent);
+	} catch (error) {
+		res.status(500).json("Internal server error: " + error);
+	}
+}; */
+
+export const getEvents = async (req: ExtendedRequest, res: Response) => {
+	try {
+		const allEvents = await showEvents();
+		res.status(200).json(allEvents);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}

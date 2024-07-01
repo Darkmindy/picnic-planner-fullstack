@@ -3,8 +3,10 @@
 ✔ creare rotta mostra tutti gli amici @started(24-06-28 22:30) @done(24-06-28 23:16) @lasted(46m10s)
 ☐ creare rotta con tutti gli eventi del singolo user @started(24-06-28 23:38)
 ☐ gestire errore relativo ad un utente che prova a loggare senza essere registrato
+✔ creare rotta con tutti gli eventi del singolo user @started(24-06-30 20:04) @done(24-06-30 20:16) @lasted(12m46s)
 
 //eventi
+☐ creare rotta con tutti gli eventi
 ☐ implementare data e ora in formato date
 ☐ implentare stato [attivo, concluso]
 ☐ evento accesso libero, ad invito, a pagamento
@@ -12,6 +14,5 @@
 ☐ contatore mi piace
 ☐ contatore non mi piace
 ☐ implentare ordine cronologico eventi (front o back)
-☐ creare rotta con tutti gli eventi
 ☐ rotta modifica evento
 ☐ rotta elimina evento

@@ -77,16 +77,12 @@ export const logOut = async (accessToken: string) => {
         "Authorization": `Bearer ${accessToken}`,
       },
     });
-    console.log(accessToken);
     return response.data;
   } catch (error) {
     console.log(error);
     throw new Error("Failed to sign out");
   }
 };
-
-
-
 
 
 export const fetchNewToken = async (refreshToken: string) => {
@@ -97,10 +93,9 @@ export const fetchNewToken = async (refreshToken: string) => {
       },
     });
     console.log(response.data);
-    return response.data;
+    return [response.data, response.headers["authorization"]];
   } catch (error) {
-    console.log(error);
-    throw new Error("Failed to fetch new token");
+    console.error(error);
   }
 };
 

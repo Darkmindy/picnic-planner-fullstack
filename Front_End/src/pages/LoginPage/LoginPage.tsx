@@ -1,4 +1,3 @@
-import React from 'react';
 import LoginForm1 from '../../components/LoginForm/LoginForm1';
 import './LoginPage.css';
 

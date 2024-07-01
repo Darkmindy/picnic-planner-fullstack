@@ -2,18 +2,18 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './services/AuthContext';
 import PrivateRoute from './routes/PrivateRoute';
-import LoginForm1 from './components/LoginForm/LoginForm1';
 import TokenModal from './components/Modal/TokenModal';
 import HomePage from './pages/Home/HomePage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import EventForm from './components/EventForm/EventForm';
+import LoginPage from './pages/LoginPage/LoginPage';
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <TokenModal />
       <Router>
         <Routes>
-          <Route path="/login" element={<LoginForm1 />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route
             path="/"
             element={

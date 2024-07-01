@@ -1,28 +1,47 @@
 // src/AuthContext.tsx
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from 'react';
 import { AuthContextType, Temp } from '../types/roles';
+import { fetchNewToken } from '../api/userApi';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<Temp | null>(null);
-  const [accessToken, setAccessToken] = useState<string>('');
-  const [refreshToken, setRefreshToken] = useState<string>('');
-  const [accessTokenExp, setAccessTokenExp] = useState<number>(0);
-  const [show, setShow] = useState(false);
+  const accessToken = useRef<string>('');
+  const refreshToken = useRef<string>('');
+  const accessTokenExp = useRef<number>(0);
+  const isLoggedIn = useRef<boolean>(false);
 
   useEffect(() => {
     console.log(accessToken)
-  }, [accessToken])
+  }, [accessToken.current])
 
   useEffect(() => {
     console.log(refreshToken)
-  }, [refreshToken])
+  }, [refreshToken.current])
 
-  
+  const handleTokenRefresh = (expirationDate: number) => {
+    setTimeout(async () => {
+      if(!isLoggedIn.current) return;
+      try {
+        const data = await fetchNewToken(refreshToken.current)
+        if (data) {
+          accessToken.current = data[1].split(" ")[1];
+          refreshToken.current = data[0].refreshToken;
+          accessTokenExp.current = data[0].accessTokenExp;
+          console.log(accessToken.current)
+          console.log(refreshToken.current)
+        }
+        handleTokenRefresh(accessTokenExp.current);
+      } catch (error) {
+        console.error(error)
+      }
+    }, expirationDate - 2000);
+  };
+
 
   return (
-    <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, refreshToken, setRefreshToken, accessTokenExp, setAccessTokenExp, show, setShow }}>
+    <AuthContext.Provider value={{ user, setUser, accessToken, refreshToken, accessTokenExp, handleTokenRefresh, isLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

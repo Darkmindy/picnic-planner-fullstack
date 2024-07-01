@@ -1,6 +1,8 @@
 // user
 ✔ creare array di eventi negli utenti @started(24-06-28 22:27) @done(24-06-28 22:29) @lasted(2m26s)
 ✔ creare rotta mostra tutti gli amici @started(24-06-28 22:30) @done(24-06-28 23:16) @lasted(46m10s)
+☐ creare rotta con tutti gli eventi del singolo user @started(24-06-28 23:38)
+☐ gestire errore relativo ad un utente che prova a loggare senza essere registrato
 ✔ creare rotta con tutti gli eventi del singolo user @started(24-06-30 20:04) @done(24-06-30 20:16) @lasted(12m46s)
 
 //eventi

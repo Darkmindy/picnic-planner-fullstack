@@ -1,10 +1,10 @@
-PUT http://localhost:3000/update-event/66800b8d74756f22b024f0ae
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODAwYjYxNzQ3NTZmMjJiMDI0ZjBhNiIsImlhdCI6MTcxOTY2NzU2MywiZXhwIjoxNzE5NzI3NTYzfQ.PRMiZ2Mv2YDa1XqNIn2OWpRdllZwm5r2by6MxZj5pPE
+PUT http://localhost:3000/update-event/6682c165eeafa1d62f6e77bc
+Authorization: Bearere eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODJjMGYwZWVhZmExZDYyZjZlNzdiNCIsImlhdCI6MTcxOTg0NTExMSwiZXhwIjoxNzI1ODQ1MTExfQ.CjfiX6AlxF5Lkpfrup7LQ6NljPwrtthlMqGvhCaK7bI
 Content-Type: application/json
 
 {
-    "title": "Pinetaaaaa",
-    "description": "Posto bello",
+    "title": "Pineta5",
+    "description": "Posto molto beeeeeeeelllloooooo",
     "location": "Catania",
-    "date": "27/06/2024"
+    "date": "07/07/2024"
 }

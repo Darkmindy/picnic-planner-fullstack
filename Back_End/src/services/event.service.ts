@@ -1,10 +1,12 @@
 import { EventModel } from "../models/event.model";
 import { User } from "../models/user.model";
-import { IEvent } from "../validation/event.valitation";
+import { IEvent, IOptionalEvent } from "../validation/event.valitation";
 
-export const getEventByTitle = async (title: string) : Promise<IEvent | null> => {
-    return await EventModel.findOne({ title });
-}
+export const getEventByTitle = async (
+	title: string
+): Promise<IEvent | null> => {
+	return await EventModel.findOne({ title });
+};
 
 export const createEvent  = async (event: IEvent) : Promise<IEvent | null> => {
     return await EventModel.create(event);
@@ -18,26 +20,37 @@ export const showEvents = async () : Promise<IEvent[]> => {
     return await EventModel.find();
 }
 
-/* export const updateSpecificUserEvent = async (userId: string, eventId: string, updatedEvent: IEvent) : Promise<IEvent | null> => {
-    // Trova l'utente nel database
-    const user = await User.findById(userId);
+export const createEvent = async (event: IEvent): Promise<IEvent | null> => {
+	return await EventModel.create(event);
+};
 
-    if (!user) {
-        return null;
-    }
+export const getEventById = async (id: string): Promise<IEvent | null> => {
+	return await EventModel.findById(id);
+};
 
-    // Trova l'evento specifico nell'array 'events'
-    const eventIndex = user!.events!.findIndex(event => event._id!.toString() === eventId);
+export const updateEvent = async (
+	eventId: string,
+	event: IOptionalEvent
+): Promise<IEvent | null> => {
+	return await EventModel.findOneAndUpdate(
+		{ _id: eventId },
+		{ $set: event },
+		{ new: true }
+	);
+};
 
-    if (eventIndex === -1) {
-        return null;
-    }
+export const updateUserEvent = async (
+	user: IUser,
+	eventId: string,
+	eventUpdated: IEvent
+): Promise<IUser | null> => {
+	const result = await User.updateOne(
+		{ _id: user._id, "events._id": eventId },
+		{ $set: { "events.$": eventUpdated } }
+	);
 
-    // Aggiorna l'evento specifico
-    user.events[eventIndex] = { ...user.events[eventIndex].toObject(), ...updatedEvent };
-
-    // Salva le modifiche nel database
-    await user.save();
-
-    return user.events[eventIndex];
-}; */
+	if(!result){
+		return null;
+	}
+	return await User.findById(user._id);
+};

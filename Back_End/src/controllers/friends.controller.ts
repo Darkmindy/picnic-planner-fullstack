@@ -1,18 +1,18 @@
 import { addFriendUser, findByEmail, isFriendAlreadyAdded } from "../services/user.service";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import { Response } from "express";
-import { ZUserSchema } from "../validation/user.validation";
+import { ZOptionalUser, ZUserSchema } from "../validation/user.validation";
 import { fromZodError } from "zod-validation-error";
 
 export const addFriend = async (req: ExtendedRequest, res: Response) => {
     try {
         // Validate request
-        const validationResult = ZUserSchema.safeParse(req.body);
+        const validationResult = ZOptionalUser.safeParse(req.body as {email: string});
         if (!validationResult.success) {
             return res.status(400).json(fromZodError(validationResult.error).message);
         }
         
-        const friendEmail = req.body.email;
+        const friendEmail = validationResult.data.email;
         
         // Check if user (the new friend) exists
         const findUser = await findByEmail(friendEmail);

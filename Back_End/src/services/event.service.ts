@@ -1,6 +1,7 @@
 import { EventModel } from "../models/event.model";
 import { User } from "../models/user.model";
 import { IEvent, IOptionalEvent } from "../validation/event.valitation";
+import { IUser } from "../validation/user.validation";
 
 export const getEventByTitle = async (
 	title: string
@@ -12,17 +13,9 @@ export const createEvent  = async (event: IEvent) : Promise<IEvent | null> => {
     return await EventModel.create(event);
 }
 
-export const getEventById = async (id: string) : Promise<IEvent | null> => {
-    return await EventModel.findById(id);
-}
-
 export const showEvents = async () : Promise<IEvent[]> => {
     return await EventModel.find();
 }
-
-export const createEvent = async (event: IEvent): Promise<IEvent | null> => {
-	return await EventModel.create(event);
-};
 
 export const getEventById = async (id: string): Promise<IEvent | null> => {
 	return await EventModel.findById(id);

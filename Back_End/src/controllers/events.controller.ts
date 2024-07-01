@@ -6,9 +6,9 @@ import {
 	createEvent,
 	getEventById,
 	getEventByTitle,
+	showEvents,
 	updateEvent,
 	updateUserEvent,
-	showEvents,
 } from "../services/event.service";
 import {
 	createOrUpdateUserEvents,
@@ -47,27 +47,22 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 
 		const event = validationResult.data;
 
-		// check if event already exists
 		const existingEvent = await getEventByTitle(event.title);
 
+		// check if event already exists
 		if (existingEvent) {
 			return res
 				.status(400)
 				.json(`Event with title ${event.title} already exists`);
 		}
-		
-
-		// create event
 		const createdEvent = await createEvent(event);
-		// create event inside the user events array
 		if (createdEvent) {
 			existingUser.events!.push(createdEvent);
-
 			if (existingUser._id && existingUser.events) {
 				const userId = existingUser._id.toString();
 				await createOrUpdateUserEvents(userId, existingUser.events);
 			}
-		} 
+		}
 		res.status(201).json(createdEvent);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
@@ -82,7 +77,6 @@ export const updateEventHandler = async (
 		// find the id of the event to update
 		const eventId = req.params.id;
 		console.log("eventId: " + eventId);
-
 		// check if eventId is valid
 		const validEventId = mongoose.Types.ObjectId.isValid(eventId);
 		if (!validEventId) {
@@ -90,21 +84,17 @@ export const updateEventHandler = async (
 				.status(400)
 				.json(`Invalid event id, please provide a valid id`);
 		}
-
 		// check if event exists
 		const existingEvent = await getEventById(eventId);
 		if (!existingEvent) {
 			return res.status(400).json(`Event with id ${eventId} not found`);
 		}
-
 		// control if userid exists
 		const userId = req.user?._id as string;
 		const existingUser = await findUserById(userId);
-
 		if (!existingUser) {
 			return res.status(400).json(`User not found`);
 		}
-
 		// check if user is online
 		if (existingUser.isOnline === false) {
 			return res.status(400).json(`User not logged in`);
@@ -131,22 +121,10 @@ export const updateEventHandler = async (
 		// update the event inside the user
 		await updateUserEvent(existingUser, eventId, updateExtingEvent);
 		res.status(201).json(updateExtingEvent);
-		const updatedUserEvent = await updateSpecificUserEvent(userId, eventId, validationResult.data);
-		if(!updatedUserEvent) {
-			return res.status(400).json(`Event with id ${eventId} not found in user's events`);
-		}
-		res.status(200).json(updatedUserEvent);
-		//TODO c'è un bug perchè l'evento si modifica all'interno dell'utente ma non nella sezione events dell'utente
-		//existingUser.events!.push(event);
-		 if (existingUser._id && existingUser.events) {
-			const userId = existingUser._id.toString();
-			await createUserEvents(userId, existingUser.events);
-		}
-		res.status(201).json(createdEvent);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}
-}; */
+};
 
 export const getEvents = async (req: ExtendedRequest, res: Response) => {
 	try {

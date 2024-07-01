@@ -31,6 +31,10 @@ export const updateUserStatusHandler = async (
 	return user;
 };
 
+//! to implement later: check if user is already registered
+//* export const isUserAlreadyRegistered = async (id: string): Promise<boolean> =>
+//*	!!(await User.findOne({ id }));
+
 // class that is responsible for decoded token verification and retrieval
 export class authorizationHandler {
 	private decodedToken?: IDecodedToken;
@@ -71,6 +75,7 @@ export class authorizationHandler {
 		return this.decodedToken;
 	}
 }
+
 export const createOrUpdateUserEvents = async (
 	userId: string,
 	events: IEvent[]
@@ -78,8 +83,6 @@ export const createOrUpdateUserEvents = async (
 	return await User.findByIdAndUpdate(userId, { events }, { new: true });
 };
 
-
-// TODO forse è meglio utilizzare create e non findByIdAndUpdate
 export const addFriendUser = async (userId: string, friendId: string) => {
 	return await User.findByIdAndUpdate(
 		userId,

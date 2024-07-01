@@ -1,7 +1,7 @@
 POST http://localhost:3000/add-friend HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODJjMGYwZWVhZmExZDYyZjZlNzdiNCIsImlhdCI6MTcxOTg0NTExMSwiZXhwIjoxNzI1ODQ1MTExfQ.CjfiX6AlxF5Lkpfrup7LQ6NljPwrtthlMqGvhCaK7bI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODJjMGYwZWVhZmExZDYyZjZlNzdiNCIsImlhdCI6MTcxOTg0OTI2MCwiZXhwIjoxNzI1ODQ5MjYwfQ.lg4B1PCV3Kb_ttDgIgiTMN64kdmpFyQCyjCJ0FYPtKc
 Content-Type: application/json
 
 {
-    "email": "ciccio@example.com"
+    "email": "melo@example.com"
 }

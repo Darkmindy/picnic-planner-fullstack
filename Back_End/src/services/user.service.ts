@@ -2,8 +2,8 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { User } from "../models/user.model";
 import { env } from "../utility/env";
 import { IDecodedToken } from "../validation/decodedToken.validation";
-import { IUser } from "../validation/user.validation";
 import { IEvent } from "../validation/event.valitation";
+import { IUser } from "../validation/user.validation";
 
 export const createUser = async (user: IUser): Promise<IUser> => {
 	return await User.create(user);
@@ -71,13 +71,16 @@ export class authorizationHandler {
 		return this.decodedToken;
 	}
 }
-export const createUserEvents = async (userId: string, events: IEvent[]) => {
-	return User.findByIdAndUpdate(userId, { events }, { new: true });
+export const createOrUpdateUserEvents = async (
+	userId: string,
+	events: IEvent[]
+): Promise<IUser | null> => {
+	return User.findByIdAndUpdate(userId, { $set: events }, { new: true });
 };
 
-export const updateUserEvents = async (userId: string, events: IEvent[]) => {
-	return User.findByIdAndUpdate(userId, { events }, { new: true });
-}
+// export const updateUserEvents = async (userId: string, events: IEvent[]) => {
+// 	return User.findByIdAndUpdate(userId, { events }, { new: true });
+// }
 
 // TODO forse è meglio utilizzare create e non findByIdAndUpdate
 export const addFriendUser = async (userId: string, friendId: string) => {
@@ -88,5 +91,10 @@ export const addFriendUser = async (userId: string, friendId: string) => {
 	);
 };
 
-export const isFriendAlreadyAdded = async (userId: string, friendId: string): Promise<boolean> => 
-    User.findById(userId, 'friends').then(user => user && user.friends!.includes(friendId) ? true : false);
+export const isFriendAlreadyAdded = async (
+	userId: string,
+	friendId: string
+): Promise<boolean> =>
+	User.findById(userId, "friends").then((user) =>
+		user && user.friends!.includes(friendId) ? true : false
+	);

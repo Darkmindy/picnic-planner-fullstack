@@ -1,18 +1,18 @@
-import { ExtendedRequest } from "../middleware/authorization.middleware";
 import { Response } from "express";
-import { ZEventSchema } from "../validation/event.valitation";
+import mongoose from "mongoose";
 import { fromZodError } from "zod-validation-error";
+import { ExtendedRequest } from "../middleware/authorization.middleware";
 import {
 	createEvent,
 	getEventById,
 	getEventByTitle,
-	updateSpecificUserEvent,
+	updateEvent,
 } from "../services/event.service";
 import {
-	createUserEvents,
+	createOrUpdateUserEvents,
 	findUserById,
-	updateUserEvents,
 } from "../services/user.service";
+import { ZEventSchema, ZOptionalEvent } from "../validation/event.valitation";
 
 /* 
 - validate request
@@ -58,7 +58,7 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 			existingUser.events!.push(createdEvent);
 			if (existingUser._id && existingUser.events) {
 				const userId = existingUser._id.toString();
-				await createUserEvents(userId, existingUser.events);
+				await createOrUpdateUserEvents(userId, existingUser.events);
 			}
 		}
 		res.status(201).json(createdEvent);
@@ -67,14 +67,27 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 	}
 };
 
-export const updateEvent = async (req: ExtendedRequest, res: Response) => {
+export const updateEventHandler = async (
+	req: ExtendedRequest,
+	res: Response
+) => {
 	try {
-		// validate request
-		const validationResult = ZEventSchema.safeParse(req.body);
-		if (!validationResult.success) {
+		// find the id of the event to update
+		const eventId = req.params.id;
+		console.log("eventId: " + eventId);
+
+		// check if eventId is valid
+		const validEventId = mongoose.Types.ObjectId.isValid(eventId);
+		if (!validEventId) {
 			return res
 				.status(400)
-				.json(fromZodError(validationResult.error).message);
+				.json(`Invalid event id, please provide a valid id`);
+		}
+
+		// check if event exists
+		const existingEvent = await getEventById(eventId);
+		if (!existingEvent) {
+			return res.status(400).json(`Event with id ${eventId} not found`);
 		}
 
 		// control if userid exists
@@ -90,29 +103,31 @@ export const updateEvent = async (req: ExtendedRequest, res: Response) => {
 			return res.status(400).json(`User not logged in`);
 		}
 
-		// find the id of the event to update
-
-		const eventId = req.params.id;
-		console.log("eventId: " + eventId);
-
-		// check if event exists
-		const existingEvent = await getEventById(eventId);
-		if (!existingEvent) {
-			return res.status(400).json(`Event with id ${eventId} not found`);
+		// validate request
+		const validationError = ZOptionalEvent.safeParse(req.body);
+		if (!validationError.success) {
+			return res
+				.status(400)
+				.json(fromZodError(validationError.error).message);
 		}
 
-		const updatedUserEvent = await updateSpecificUserEvent(userId, eventId, validationResult.data);
-		if(!updatedUserEvent) {
-			return res.status(400).json(`Event with id ${eventId} not found in user's events`);
+		const updateExtingEvent = await updateEvent(
+			eventId,
+			validationError.data
+		);
+		if (!updateExtingEvent) {
+			return res
+				.status(400)
+				.json(`Event with id ${eventId} not found in user's events`);
 		}
-		res.status(200).json(updatedUserEvent);
+		res.status(201).json(updateExtingEvent);
+
 		//TODO c'è un bug perchè l'evento si modifica all'interno dell'utente ma non nella sezione events dell'utente
-		//existingUser.events!.push(event);
-		/* if (existingUser._id && existingUser.events) {
+		existingUser.events!.push(updateExtingEvent);
+		if (existingUser._id && existingUser.events) {
 			const userId = existingUser._id.toString();
-			await createUserEvents(userId, existingUser.events);
+			await createOrUpdateUserEvents(userId, existingUser.events);
 		}
-		res.status(201).json(createdEvent); */
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}

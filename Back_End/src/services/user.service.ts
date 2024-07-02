@@ -3,9 +3,9 @@ import { User } from "../models/user.model";
 import { env } from "../utility/env";
 import { IDecodedToken } from "../validation/decodedToken.validation";
 import { IEvent } from "../validation/event.valitation";
-import { IUser } from "../validation/user.validation";
+import { IFormattedUser, IUser } from "../validation/user.validation";
 
-export const createUser = async (user: IUser): Promise<IUser> => {
+export const createUser = async (user: IFormattedUser): Promise<IUser> => {
 	return await User.create(user);
 };
 
@@ -30,18 +30,6 @@ export const updateUserStatusHandler = async (
 	);
 	return user;
 };
-
-//! to implement later: check if user is already registered
-// export const isUserAlreadyRegistered = async (id: string): Promise<boolean> => {
-// 	try {
-// 	  const user = await User.findOne({ _id: id });
-// 	  return !!user;
-// 	} catch (error) {
-// 	  console.error("Error checking user registration:", error);
-// 	  // Puoi anche restituire false o un valore di errore personalizzato
-// 	  return false;
-// 	}
-//   }
 
 // class that is responsible for decoded token verification and retrieval
 export class authorizationHandler {

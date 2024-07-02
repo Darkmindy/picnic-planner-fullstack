@@ -9,3 +9,8 @@ export const ZRefreshTokenSchema = z.object({
 
 // create interface
 export type IRefreshToken = z.infer<typeof ZRefreshTokenSchema>;
+
+// formatted refreshToken interface
+export interface IFormattedRefreshToken {
+	token: string;
+}

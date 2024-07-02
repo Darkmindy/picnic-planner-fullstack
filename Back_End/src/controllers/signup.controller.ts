@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import { fromZodError } from "zod-validation-error";
 import { createUser, findByEmail } from "../services/user.service";
 import { env } from "../utility/env";
-import { IUser, ZUserSchema } from "../validation/user.validation";
+import {
+	IFormattedUser,
+	IUser,
+	ZUserSchema,
+} from "../validation/user.validation";
 export const signUp = async (req: Request, res: Response) => {
 	try {
 		// Validate request
@@ -34,7 +38,7 @@ export const signUp = async (req: Request, res: Response) => {
 		}
 
 		// Create new user
-		const newUser: IUser = {
+		const newUser: IFormattedUser = {
 			name: user.name,
 			email: user.email,
 			password: user.password,
@@ -65,7 +69,7 @@ export const adminSignUp = async (req: Request, res: Response) => {
 			}
 		);
 
-		if (validationError.success === false) {
+		if (!validationError.success) {
 			return res
 				.status(400)
 				.json(fromZodError(validationError.error).message);
@@ -90,7 +94,7 @@ export const adminSignUp = async (req: Request, res: Response) => {
 			return res.status(400).json("Invalid admin email");
 		}
 
-		const newUser: IUser = {
+		const newUser: IFormattedUser = {
 			name: user.name,
 			email: user.email,
 			password: user.password,

@@ -15,6 +15,7 @@ import {
 	findUserById,
 } from "../services/user.service";
 import {
+	IEvent,
 	IFormattedEvent,
 	ZEventSchema,
 	ZOptionalEvent,
@@ -60,7 +61,15 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 				.json(`Event with title ${event.title} already exists`);
 		}
 
-		const createdEvent = await createEvent(event);
+		// formatted event
+		const showEvent: IFormattedEvent = {
+			title: event.title as string,
+			description: event.description as string,
+			location: event.location as string,
+			date: event.date as string,
+		};
+
+		const createdEvent = await createEvent(showEvent);
 		if (createdEvent) {
 			existingUser.events!.push(createdEvent);
 			if (existingUser._id && existingUser.events) {
@@ -69,15 +78,16 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 			}
 		}
 
-		// formatted event
-		const showEvent: IFormattedEvent = {
-			_id: createdEvent?._id,
-			title: createdEvent?.title as string,
-			description: createdEvent?.description as string,
-			location: createdEvent?.location as string,
-			date: createdEvent?.date as string,
-		};
-		res.status(201).json("Event created successfully" + showEvent);
+		res.status(201).json({
+			message: "Event created successfully",
+			event: {
+				_id: createdEvent?._id,
+				title: createdEvent?.title,
+				description: createdEvent?.description,
+				location: createdEvent?.location,
+				date: createdEvent?.date,
+			},
+		});
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}

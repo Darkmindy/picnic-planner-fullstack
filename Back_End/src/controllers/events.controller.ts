@@ -15,17 +15,12 @@ import {
 	findUserById,
 } from "../services/user.service";
 import {
+	IEvent,
 	IFormattedEvent,
 	ZEventSchema,
 	ZOptionalEvent,
 } from "../validation/event.valitation";
 
-/* 
-- validate request
-- import event from req.body
-- the event already exists-
-- create event
-*/
 export const addEvent = async (req: ExtendedRequest, res: Response) => {
 	try {
 		// validate request
@@ -60,7 +55,15 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 				.json(`Event with title ${event.title} already exists`);
 		}
 
-		const createdEvent = await createEvent(event);
+		// formatted event for client side
+		const showEvent: IFormattedEvent = {
+			title: event.title as string,
+			description: event.description as string,
+			location: event.location as string,
+			date: event.date as string,
+		};
+
+		const createdEvent = await createEvent(showEvent);
 		if (createdEvent) {
 			existingUser.events!.push(createdEvent);
 			if (existingUser._id && existingUser.events) {
@@ -69,15 +72,15 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 			}
 		}
 
-		// formatted event
-		const showEvent: IFormattedEvent = {
-			_id: createdEvent?._id,
-			title: createdEvent?.title as string,
-			description: createdEvent?.description as string,
-			location: createdEvent?.location as string,
-			date: createdEvent?.date as string,
-		};
-		res.status(201).json("Event created successfully" + showEvent);
+		res.status(201).json({
+			message: "Event created successfully",
+			event: {
+				title: createdEvent?.title,
+				description: createdEvent?.description,
+				location: createdEvent?.location,
+				date: createdEvent?.date,
+			},
+		});
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}
@@ -122,10 +125,17 @@ export const updateEventHandler = async (
 				.json(fromZodError(validationResult.error).message);
 		}
 
-		const updateExtingEvent = await updateEvent(
-			eventId,
-			validationResult.data
-		);
+		const event = validationResult.data;
+
+		// formatted event for client side
+		const showEvent: IFormattedEvent = {
+			title: event.title as string,
+			description: event.description as string,
+			location: event.location as string,
+			date: event.date as string,
+		};
+
+		const updateExtingEvent = await updateEvent(eventId, showEvent);
 		if (!updateExtingEvent) {
 			return res
 				.status(400)
@@ -134,7 +144,15 @@ export const updateEventHandler = async (
 
 		// update the event inside the user
 		await updateUserEvent(existingUser, eventId, updateExtingEvent);
-		res.status(201).json(updateExtingEvent);
+		res.status(201).json({
+			message: "Event updated successfully",
+			event: {
+				title: updateExtingEvent?.title,
+				description: updateExtingEvent?.description,
+				location: updateExtingEvent?.location,
+				date: updateExtingEvent?.date,
+			},
+		});
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}
@@ -143,7 +161,21 @@ export const updateEventHandler = async (
 export const getEvents = async (req: ExtendedRequest, res: Response) => {
 	try {
 		const allEvents = await showEvents();
-		res.status(200).json(allEvents);
+		const formattedEvents: IFormattedEvent[] = [];
+
+		for (const event of allEvents) {
+			// formatted event for client side
+			const showEvent: IFormattedEvent = {
+				_id: event._id,
+				title: event.title as string,
+				description: event.description as string,
+				location: event.location as string,
+				date: event.date as string,
+			};
+
+			formattedEvents.push(showEvent);
+		}
+		res.status(200).json(formattedEvents);
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}

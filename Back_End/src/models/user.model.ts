@@ -4,36 +4,50 @@ import { IUser, Roles } from "../validation/user.validation";
 import { eventSchema } from "./event.model";
 
 // Create the User schema
-export const userSchema = new mongoose.Schema<IUser>({
-	name: {
-		type: String,
-	},
-	email: {
-		type: String,
-	},
-	password: {
-		type: String,
-	},
-	role: {
-		type: String,
-		enum: Roles,
-		default: "user",
-	},
-	isOnline: {
-		type: Boolean,
-	},
-	events: [
-		{
-			type: eventSchema,
-			ref: "Event",
+export const userSchema = new mongoose.Schema<IUser>(
+	{
+		name: {
+			type: String,
 		},
-	],
-	friends: [
-		{
-			type: String,// perhaps is best to use: mongoose.Schema.Types.ObjectId,
-			ref: "User",
-		}
-	]
+		email: {
+			type: String,
+		},
+		password: {
+			type: String,
+		},
+		role: {
+			type: String,
+			enum: Roles,
+			default: "user",
+		},
+		isOnline: {
+			type: Boolean,
+		},
+		events: [
+			{
+				type: eventSchema,
+				ref: "Event",
+			},
+		],
+		friends: [
+			{
+				type: String, // perhaps is best to use: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
+	},
+	{
+		toJSON: { virtuals: true },
+	}
+);
+
+// delete __v property from client side
+userSchema.set("toObject", {
+	transform: (ret) => {
+		ret.id = ret._id.toString(); // Convert ObjectId to string for convenience
+		delete ret.__v; // Remove __v property
+		return ret;
+	},
 });
 
 // pre save hook

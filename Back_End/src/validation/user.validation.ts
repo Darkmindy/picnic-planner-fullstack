@@ -26,3 +26,12 @@ export type IOptionalUser = z.infer<typeof ZOptionalUser>;
 export interface IUser extends z.infer<typeof ZUserSchema> {
 	_id?: mongoose.Types.ObjectId;
 }
+
+// formatted user interface
+export interface IFormattedUser {
+	name: string;
+	email: string;
+	password: string;
+	role: string;
+	isOnline: boolean;
+}

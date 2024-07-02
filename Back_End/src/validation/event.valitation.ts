@@ -13,8 +13,8 @@ export interface IEvent extends z.infer<typeof ZEventSchema> {
 	_id?: mongoose.Types.ObjectId;
 }
 
-// formatted event interface
-export interface IFormattedEvent extends IEvent {
+// formatted event interface for client side
+export interface IFormattedEvent {
 	_id?: mongoose.Types.ObjectId;
 	title: string;
 	description: string;

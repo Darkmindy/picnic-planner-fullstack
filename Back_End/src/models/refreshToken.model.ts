@@ -2,17 +2,29 @@ import mongoose from "mongoose";
 import { env } from "../utility/env";
 import { IRefreshToken } from "../validation/refreshToken.validation";
 
-const refreshTokenSchema = new mongoose.Schema<IRefreshToken>({
-	token: {
-		type: String,
+const refreshTokenSchema = new mongoose.Schema<IRefreshToken>(
+	{
+		token: {
+			type: String,
+		},
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		},
+		createdAt: {
+			type: Date,
+			default: Date.now,
+		},
 	},
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
-	},
-	createdAt: {
-		type: Date,
-		default: Date.now,
+	{ toJSON: { virtuals: true } }
+);
+
+// delete __v property from client side
+refreshTokenSchema.set("toObject", {
+	transform: (ret) => {
+		ret.id = ret._id.toString(); // Convert ObjectId to string for convenience
+		delete ret.__v; // Remove __v property
+		return ret;
 	},
 });
 

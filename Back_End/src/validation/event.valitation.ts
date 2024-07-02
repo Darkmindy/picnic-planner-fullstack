@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { z } from "zod";
 export const ZEventSchema = z.object({
 	title: z.string().toLowerCase().min(1).max(50),
@@ -8,4 +9,15 @@ export const ZEventSchema = z.object({
 
 export const ZOptionalEvent = ZEventSchema.partial();
 export type IOptionalEvent = z.infer<typeof ZOptionalEvent>;
-export type IEvent = z.infer<typeof ZEventSchema>;
+export interface IEvent extends z.infer<typeof ZEventSchema> {
+	_id?: mongoose.Types.ObjectId;
+}
+
+// formatted event interface
+export interface IFormattedEvent extends IEvent {
+	_id?: mongoose.Types.ObjectId;
+	title: string;
+	description: string;
+	location: string;
+	date: string;
+}

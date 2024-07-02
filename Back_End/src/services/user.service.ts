@@ -32,8 +32,16 @@ export const updateUserStatusHandler = async (
 };
 
 //! to implement later: check if user is already registered
-//* export const isUserAlreadyRegistered = async (id: string): Promise<boolean> =>
-//*	!!(await User.findOne({ id }));
+// export const isUserAlreadyRegistered = async (id: string): Promise<boolean> => {
+// 	try {
+// 	  const user = await User.findOne({ _id: id });
+// 	  return !!user;
+// 	} catch (error) {
+// 	  console.error("Error checking user registration:", error);
+// 	  // Puoi anche restituire false o un valore di errore personalizzato
+// 	  return false;
+// 	}
+//   }
 
 // class that is responsible for decoded token verification and retrieval
 export class authorizationHandler {

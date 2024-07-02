@@ -1,10 +1,10 @@
 POST http://localhost:3000/add-event HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODI4N2Q2YWVjOTkxZWFkMTAxMDZlZCIsImlhdCI6MTcxOTkyNzg3NywiZXhwIjoxNzE5OTI4Nzc3fQ.xNExYa4T-jtzcVNpqNLv9Av2_UTBWua-AIbpNzSRIXQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODQwZWYzZGY1MTRkYmZmNGZkZGIxZiIsImlhdCI6MTcxOTkzNTM3NSwiZXhwIjoxNzE5OTM2Mjc1fQ.S72OPVl0lq60W9SIFbTAdkzpE4QDfH2iNGfZ3e7aiGk
 Content-Type: application/json
 
 {
-    "title": "non lo so3",
+    "title": "non lo so6",
     "description": "Posto bello",
     "location": "Catania",
-    "date": "02/07/2024"
+    "date": "04/07/2024"
 }

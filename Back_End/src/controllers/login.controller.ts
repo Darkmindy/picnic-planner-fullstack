@@ -67,7 +67,7 @@ export const logIn = async (req: Request, res: Response) => {
 		if (userByEmail.isOnline === false && id) {
 			const token = createToken(id);
 
-			// formatting refresh token
+			// formatting refresh token for client side
 			const formattedRefreshToken: IFormattedRefreshToken = {
 				token: token.refreshToken,
 			};

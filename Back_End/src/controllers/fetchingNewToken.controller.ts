@@ -12,6 +12,7 @@ import {
 	createToken,
 } from "../utility/commonAuthFunctions";
 import { IDecodedToken } from "../validation/decodedToken.validation";
+import { IFormattedRefreshToken } from "../validation/refreshToken.validation";
 
 export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 	try {
@@ -56,7 +57,16 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 		}
 
 		const newToken = createToken(id);
-		await updateRefreshToken(refreshToken, newToken.refreshToken);
+
+		// formatting refresh token for client side
+		const formattedRefreshToken: IFormattedRefreshToken = {
+			token: newToken.refreshToken,
+		};
+
+		const updatedRefreshToken = await updateRefreshToken(
+			refreshToken,
+			formattedRefreshToken.token
+		);
 
 		const decoded: IDecodedToken | null = await authHandler.verifyToken(
 			newToken.accessToken
@@ -80,7 +90,7 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 			.json({
 				message: "New access token generated successfully",
 				accessTokenExp: accessTokenExp,
-				refreshToken: newToken.refreshToken, //send new refresh token
+				refreshToken: updatedRefreshToken?.token, //send new refresh token
 			});
 	} catch (error) {
 		res.status(500).json(

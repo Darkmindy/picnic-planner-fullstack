@@ -5,12 +5,10 @@ export interface IEvent {
     description: string;
 }
 
-export interface Event {
-    id: string, 
-    title: string, 
-    date: string, 
-    time: string, 
-    location: string, 
-    participants: string[], 
-    status: "In pianificazione" | "In Corso" | "Completato",
-}
+export interface EventData {
+    _id?: string;
+    title: string;
+    description: string;
+    location: string;
+    date: string;
+  }

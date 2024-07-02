@@ -1,11 +1,5 @@
 import { apiClient } from "./userApi";
-
-export interface EventData {
-  title: string;
-  description: string;
-  location: string;
-  date: string;
-}
+import { EventData } from "../types/IEvent";
 
 export const fetchEvents = async () => {
   try {
@@ -29,9 +23,26 @@ export const createEvent = async (
       },
     });
     console.log(response);
-    return [response.data, response.headers["authorization"]];
+    return response.data;
   } catch (error) {
     console.error("Error:", error);
     throw new Error("Failed to create event");
   }
 };
+
+
+export const updateEvent = async (accessToken: string, event: EventData) => {
+  try {
+    const response = await apiClient.put(`/update-event/${event._id}`, {...event}, {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to update event");
+  }
+}

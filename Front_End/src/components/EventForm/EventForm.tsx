@@ -1,10 +1,17 @@
-import { createEvent, EventData } from '../../api/eventApi';
+import { createEvent } from '../../api/eventApi';
+import { EventData } from 'types/IEvent';
 import React, { useState } from 'react';
 import { useAuth } from '../../services/AuthContext'; 
 //import { logOut } from 'api/userApi';
 import './EventForm.css';
 
-const EventForm: React.FC = () => {
+interface EventFormProps {
+  events: EventData[];
+  setEvents: React.Dispatch<React.SetStateAction<EventData[]>>;
+  getEvents: () => void;
+}
+
+const EventForm: React.FC<EventFormProps> = ({events, setEvents, getEvents}) => {
   const [title, setEventTitle] = useState('');
   const [description, setEventDescription] = useState('');
   const [location, setEventLocation] = useState('');
@@ -28,16 +35,18 @@ const EventForm: React.FC = () => {
         throw new Error('Access token not available');
       }
 
-      await createEvent(accessToken.current, eventData);
+      const data = await createEvent(accessToken.current, eventData);
+      console.log(data);
+      setEvents((prev) => {
+        return [...prev, {id: data[0].split(":")[1], ...eventData}]})
       setSuccessMessage('Event created successfully!');
 
       console.log('Event created:', eventData);
-
-      // Reset form fields
       setEventTitle('');
       setEventDescription('');
       setEventLocation('');
       setEventDate('');
+      getEvents();
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

@@ -8,49 +8,52 @@ import './HomePage.css';
 import { logOut } from '../../api/userApi';
 import { useAuth } from '../../services/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Event } from '../../types/IEvent';
+import { EventData } from '../../types/IEvent';
 import { useState } from 'react';
 import { fetchEvents } from '../../api/eventApi';
 
 
 const HomePage: React.FC = () => {
     const { setUser, accessToken, refreshToken, isLoggedIn } = useAuth();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const user = {
-    name: 'Nome Utente',
-    profileImage: 'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=740&t=st=1719444878~exp=1719445478~hmac=db2fad68971db4f83df5f6ab0eab1d99315cff993c7831f43b5f5482f016feda',
-};
+    const user = {
+        name: 'Nome Utente',
+        profileImage: 'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=740&t=st=1719444878~exp=1719445478~hmac=db2fad68971db4f83df5f6ab0eab1d99315cff993c7831f43b5f5482f016feda',
+    };
 
-    const [events, setEvents] = useState<Event[]>([]);
+    const [events, setEvents] = useState<EventData[]>([]);
+    const getEvents = async () => {
+        const data = await fetchEvents();
+        setEvents(data);
+    };
+
     useEffect(() => {
-        const getEvents = async () => {
-            const data = await fetchEvents();
-            setEvents(data);
-        };
-        getEvents();
-    }, []);
+        console.log(events);
+    }, [events])
 
-const invitedUsers = [
-    { id: '1', name: 'User 1', status: 'Confermato' },
-    { id: '2', name: 'User 2', status: 'In attesa' },
-    // Aggiungi altri invitati secondo necessità
-];
-  const handleLogout = async () => {
-    try {
-      await logOut(accessToken.current);
-      setUser(null);
-      accessToken.current = "";
-      refreshToken.current = "";
-      isLoggedIn.current = false;
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    useEffect(() => { getEvents() }, []); //Quando carica la pagina, carica gli eventi
+
+    const invitedUsers = [
+        { id: '1', name: 'User 1', status: 'Confermato' },
+        { id: '2', name: 'User 2', status: 'In attesa' },
+        // Aggiungi altri invitati secondo necessità
+    ];
+    const handleLogout = async () => {
+        try {
+            await logOut(accessToken.current);
+            setUser(null);
+            accessToken.current = "";
+            refreshToken.current = "";
+            isLoggedIn.current = false;
+            navigate("/login");
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const userImageURL = user.profileImage;
 
-const [showEventForm, setShowEventForm] = React.useState(false);
+    const [showEventForm, setShowEventForm] = React.useState(false);
 
     const handleAccept = (id: string) => {
         // Logica per accettare l'invito, ad esempio aggiornare lo stato degli invitati
@@ -117,18 +120,23 @@ const [showEventForm, setShowEventForm] = React.useState(false);
                             </Col>
                         </Row>
 
-                       <Row className="UpcomingSchedule mt-4">
+                        <Row className="UpcomingSchedule mt-4">
                             <Col md={12}>
                                 <h2>Upcoming Schedule</h2>
                                 <div className="schedule">
-                                    {events.map((event) => (
-                                        <EventCard
-                                            key={event.id}
-                                            title={event.title}
-                                            date={event.date}
-                                            location={event.location}
-                                            status="" // Modifica qui per includere lo stato dell'evento
-                                        />
+                                    {events.map((event, i) => (
+                                        <>
+                                            <EventCard
+                                                key={event._id || i}
+                                                _id={event._id}
+                                                title={event.title}
+                                                date={event.date}
+                                                location={event.location}
+                                                description={event.description}
+                                                getEvents={getEvents}
+                                            />
+                                            <button onClick={() => { console.log(event) }}>test</button>
+                                        </>
                                     ))}
                                 </div>
                             </Col>
@@ -157,9 +165,9 @@ const [showEventForm, setShowEventForm] = React.useState(false);
                                 <h2>Have a Good Day, Wendy</h2>
                                 <p>Fuel your days with the boundless enthusiasm of a lifelong explorer.</p>
                                 <Button variant="primary" onClick={() => setShowEventForm(true)}>I want to...</Button>
-                        </Col>
+                            </Col>
                         </Row>
-                        { showEventForm && <EventForm />}
+                        {showEventForm && <EventForm events={events} setEvents={setEvents} getEvents={getEvents} />}
                     </Col>
                 </Row>
             </Container>

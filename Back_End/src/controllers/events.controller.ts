@@ -4,6 +4,7 @@ import { fromZodError } from "zod-validation-error";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import {
 	createEvent,
+	deleteEventById,
 	getEventById,
 	getEventByTitle,
 	showEvents,
@@ -93,7 +94,6 @@ export const updateEventHandler = async (
 	try {
 		// find the id of the event to update
 		const eventId = req.params.id;
-		console.log("eventId: " + eventId);
 		// check if eventId is valid
 		const validEventId = mongoose.Types.ObjectId.isValid(eventId);
 		if (!validEventId) {
@@ -176,6 +176,62 @@ export const getEvents = async (req: ExtendedRequest, res: Response) => {
 			formattedEvents.push(showEvent);
 		}
 		res.status(200).json(formattedEvents);
+	} catch (error) {
+		res.status(500).json("Internal server error: " + error);
+	}
+};
+
+export const deleteEvent = async (req: ExtendedRequest, res: Response) => {
+	try {
+		// find the id of the event to delete
+		const eventId = req.params.id;
+
+		if (typeof eventId !== "string") {
+			return res.status(400).json(`Event ID must be a string`);
+		}
+		// validate request
+		const validationResult = ZOptionalEvent.safeParse({ eventId });
+		if (!validationResult.success) {
+			return res
+				.status(400)
+				.json(fromZodError(validationResult.error).message);
+		}
+
+		// check if eventId is valid
+		const isValidEventId = mongoose.Types.ObjectId.isValid(eventId);
+
+		if (!isValidEventId) {
+			return res
+				.status(400)
+				.json(`Invalid event id, please provide a valid id`);
+		}
+
+		// check if event exists
+		const existingEvent = await getEventById(eventId);
+		if (!existingEvent) {
+			return res.status(400).json(`Event with id ${eventId} not found`);
+		}
+		// check if userid exists
+		const userId = req.user?._id as string;
+		const existingUser = await findUserById(userId);
+		if (!existingUser) {
+			return res.status(400).json(`User not found`);
+		}
+		// check if user is online
+		if (existingUser.isOnline === false) {
+			return res.status(400).json(`User not logged in`);
+		}
+
+		const deleteEvent: IEvent | null = await deleteEventById(eventId);
+		if (!deleteEvent) {
+			return res
+				.status(400)
+				.json(`Event with id ${eventId} not found in user's events`);
+		}
+
+		// update the event inside the user
+		await updateUserEvent(existingUser, eventId, null); //! to implement later: consider to delete the event from the user's events array
+		res.status(201).json("Event deleted successfully");
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);
 	}

@@ -9,16 +9,20 @@ export const getEventByTitle = async (
 	return await EventModel.findOne({ title });
 };
 
-export const createEvent  = async (event: IEvent) : Promise<IEvent | null> => {
-    return await EventModel.create(event);
-}
+export const createEvent = async (event: IEvent): Promise<IEvent | null> => {
+	return await EventModel.create(event);
+};
 
-export const showEvents = async () : Promise<IEvent[]> => {
-    return await EventModel.find();
-}
+export const showEvents = async (): Promise<IEvent[]> => {
+	return await EventModel.find();
+};
 
 export const getEventById = async (id: string): Promise<IEvent | null> => {
 	return await EventModel.findById(id);
+};
+
+export const deleteEventById = async (id: string): Promise<IEvent | null> => {
+	return await EventModel.findByIdAndDelete(id);
 };
 
 export const updateEvent = async (
@@ -35,14 +39,15 @@ export const updateEvent = async (
 export const updateUserEvent = async (
 	user: IUser,
 	eventId: string,
-	eventUpdated: IEvent
+	eventUpdated: IEvent | null
 ): Promise<IUser | null> => {
 	const result = await User.updateOne(
 		{ _id: user._id, "events._id": eventId },
-		{ $set: { "events.$": eventUpdated } }
+		{ $set: { "events.$[element]": eventUpdated } },
+		{ arrayFilters: [{ "element._id": eventId }] } //! to implement later: consider to use arrayFilters to find the event and delete it
 	);
 
-	if(!result){
+	if (!result) {
 		return null;
 	}
 	return await User.findById(user._id);

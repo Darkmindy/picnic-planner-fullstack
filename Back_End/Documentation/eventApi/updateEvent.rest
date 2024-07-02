@@ -1,10 +1,10 @@
 PUT http://localhost:3000/update-event/668421ba2e3f95ed72811096
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODQwZWYzZGY1MTRkYmZmNGZkZGIxZiIsImlhdCI6MTcxOTkzNTM3NSwiZXhwIjoxNzE5OTM2Mjc1fQ.S72OPVl0lq60W9SIFbTAdkzpE4QDfH2iNGfZ3e7aiGk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODQwZWYzZGY1MTRkYmZmNGZkZGIxZiIsImlhdCI6MTcxOTk0MjYxMSwiZXhwIjoxNzE5OTQzNTExfQ.2ObWB82ec9A5CHVb5g_6ZyeQV99Va9hYpQ5_wGgxWes
 Content-Type: application/json
 
 {
     "title": "Pineta4",
     "description": "Posto molto molto  beeeeeeeelllloooooo",
-    "location": "Catania",
+    "location": "Paliemmo",
     "date": "07/07/2024"
 }

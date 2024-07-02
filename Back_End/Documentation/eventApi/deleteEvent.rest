@@ -1,0 +1,2 @@
+GET http://localhost:3000/delete-event/6683feb949c78766e591ab63 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODQwZWYzZGY1MTRkYmZmNGZkZGIxZiIsImlhdCI6MTcxOTk0MjYxMSwiZXhwIjoxNzE5OTQzNTExfQ.2ObWB82ec9A5CHVb5g_6ZyeQV99Va9hYpQ5_wGgxWes

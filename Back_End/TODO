@@ -23,7 +23,7 @@ eventi
 ✔ rotta modifica evento @done(24-07-03 11:22)
 ✔ rotta elimina evento @done(24-07-03 11:22)
 ✔ modificare al fine di semplificare il service e la logica per creare un evento e pusharlo nell'user's events array @done(24-07-03 16:13)
-☐ valutare se utile creare un'unico service che modifica il singolo documento evento, e lo modifichi all'interno dell'array user's events (utilizzare " Promise.all")
+☐ valutare se utile creare un utilizzo in parallelo dei service "updateEvent" e "updateUserEvents" (utilizzare " Promise.all" in "updateEventHandler")
 
 friends
 ✔ gestire il caso in cui un utente prova ad aggiungere se stesso come amico @done(24-07-03 12:11)

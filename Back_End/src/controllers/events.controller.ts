@@ -4,23 +4,23 @@ import { fromZodError } from "zod-validation-error";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import {
 	createEvent,
-	createOrUpdateUserEvents,
 	deleteEventById,
 	deleteFromUserEvents,
 	getEventById,
 	getEventByTitle,
+	pushToUserEvents,
 	showEvents,
 	updateEvent,
-	updateUserEvent,
+	updateUserEvents,
 } from "../services/event.service";
 import { findUserById } from "../services/user.service";
 import {
-	IEvent,
 	IFormattedEvent,
 	ZEventSchema,
 	ZOptionalEvent,
 } from "../validation/event.valitation";
 
+//* create event
 export const addEvent = async (req: ExtendedRequest, res: Response) => {
 	try {
 		// validate request
@@ -31,7 +31,7 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 				.json(fromZodError(validationEvent.error).message);
 		}
 
-		// control if userid exists
+		// check if userid exists
 		const userId = req.user?._id as string;
 		const existingUser = await findUserById(userId);
 
@@ -64,13 +64,12 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 		};
 
 		const createdEvent = await createEvent(showEvent);
-		if (createdEvent) {
-			existingUser.events!.push(createdEvent);
-			if (existingUser._id && existingUser.events) {
-				const userId = existingUser._id.toString();
-				await createOrUpdateUserEvents(userId, existingUser.events);
-			}
+		if (!createdEvent) {
+			return res.status(500).json(`Event not created`);
 		}
+
+		// push to the user's events
+		await pushToUserEvents(userId, createdEvent);
 
 		res.status(201).json({
 			message: "Event created successfully",
@@ -86,6 +85,7 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 	}
 };
 
+//* update event
 export const updateEventHandler = async (
 	req: ExtendedRequest,
 	res: Response
@@ -142,7 +142,7 @@ export const updateEventHandler = async (
 		}
 
 		// update the event inside the user
-		await updateUserEvent(existingUser, eventId, updateExtingEvent);
+		await updateUserEvents(existingUser, eventId, updateExtingEvent);
 		res.status(201).json({
 			message: "Event updated successfully",
 			event: {
@@ -157,6 +157,7 @@ export const updateEventHandler = async (
 	}
 };
 
+//* get events
 export const getEvents = async (req: ExtendedRequest, res: Response) => {
 	try {
 		const allEvents = await showEvents();
@@ -180,6 +181,7 @@ export const getEvents = async (req: ExtendedRequest, res: Response) => {
 	}
 };
 
+//* delete event
 export const deleteEvent = async (req: ExtendedRequest, res: Response) => {
 	try {
 		// find the id of the event to delete

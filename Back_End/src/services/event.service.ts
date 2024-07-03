@@ -25,6 +25,22 @@ export const deleteEventById = async (id: string): Promise<IEvent | null> => {
 	return await EventModel.findByIdAndDelete(id);
 };
 
+//? to value: use pushToUserEvents service, cause it's more efficient on controller side
+// export const createOrUpdateUserEvents = async (
+// 	userId: string,
+// 	events: IEvent[]
+// ): Promise<IUser | null> => {
+// 	return await User.findByIdAndUpdate(userId, { events }, { new: true });
+// };
+
+// push the event to the user's events array
+export const pushToUserEvents = async (
+	userId: string,
+	event: IEvent
+): Promise<IUser | null> => {
+	return await User.findByIdAndUpdate(userId, { $push: { events: event } });
+};
+
 export const updateEvent = async (
 	eventId: string,
 	event: IOptionalEvent
@@ -36,14 +52,7 @@ export const updateEvent = async (
 	);
 };
 
-export const createOrUpdateUserEvents = async (
-	userId: string,
-	events: IEvent[]
-): Promise<IUser | null> => {
-	return await User.findByIdAndUpdate(userId, { events }, { new: true });
-};
-
-export const updateUserEvent = async (
+export const updateUserEvents = async (
 	user: IUser,
 	eventId: string,
 	eventUpdated: IEvent

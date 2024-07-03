@@ -7,19 +7,20 @@ user
 ✔ creare rotta con tutti gli eventi del singolo user @started(24-06-28 23:38) @done(24-07-01 18:06) @lasted(2d18h28m20s)
 ✔ creare rotta con tutti gli eventi del singolo user @started(24-06-30 20:04) @done(24-06-30 20:16) @lasted(12m46s)
 ✔ gestire errore relativo ad un utente che prova a loggare senza essere registrato @done(24-07-02 15:05)
-☐ formattare le response, e i dati stored nel db
+✔ formattare le response, e le response lato client @done(24-07-03 11:20)
 
 eventi
-☐ creare rotta con tutti gli eventi
+✔ creare rotta con tutti gli eventi @done(24-07-03 11:20)
+☐ implementare rotta per tutti gli eventi considerando di aggiungere il checkRoleMiddleware
 ☐ implementare data e ora in formato date
-☐ implentare stato [attivo, concluso]
+☐ implentare stato [attivo, concluso, cancellato]; lo stato "cancellato" potrebbe riguardare un implementazione per la rimozione di un evento
 ☐ evento accesso libero, ad invito, a pagamento
 ☐ contatore numero di partecipanti
 ☐ contatore mi piace
 ☐ contatore non mi piace
 ☐ implentare ordine cronologico eventi (front o back)
-☐ rotta modifica evento
-☐ rotta elimina evento
+✔ rotta modifica evento @done(24-07-03 11:22)
+✔ rotta elimina evento @done(24-07-03 11:22)
 
 friends
 ☐ gestire il caso in cui un utente prova ad aggiungere se stesso come amico

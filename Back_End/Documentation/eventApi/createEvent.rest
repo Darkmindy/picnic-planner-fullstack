@@ -1,9 +1,9 @@
 POST http://localhost:3000/add-event HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODQwZWYzZGY1MTRkYmZmNGZkZGIxZiIsImlhdCI6MTcxOTkzNTM3NSwiZXhwIjoxNzE5OTM2Mjc1fQ.S72OPVl0lq60W9SIFbTAdkzpE4QDfH2iNGfZ3e7aiGk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODUxMGY2YzE4MzdmNzA2Njg5YWIzZSIsImlhdCI6MTcxOTk5NzE4MiwiZXhwIjoxNzE5OTk4MDgyfQ.7aOdnfhiq28BEwZ8Wt0g64CXiC-Q3frS3h_BCua5hw8
 Content-Type: application/json
 
 {
-    "title": "non lo so6",
+    "title": "un evento fantastico",
     "description": "Posto bello",
     "location": "Catania",
     "date": "04/07/2024"

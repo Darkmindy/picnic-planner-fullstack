@@ -72,13 +72,6 @@ export class authorizationHandler {
 	}
 }
 
-export const createOrUpdateUserEvents = async (
-	userId: string,
-	events: IEvent[]
-): Promise<IUser | null> => {
-	return await User.findByIdAndUpdate(userId, { events }, { new: true });
-};
-
 export const addFriendUser = async (userId: string, friendId: string) => {
 	return await User.findByIdAndUpdate(
 		userId,

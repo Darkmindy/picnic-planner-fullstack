@@ -36,19 +36,34 @@ export const updateEvent = async (
 	);
 };
 
+export const createOrUpdateUserEvents = async (
+	userId: string,
+	events: IEvent[]
+): Promise<IUser | null> => {
+	return await User.findByIdAndUpdate(userId, { events }, { new: true });
+};
+
 export const updateUserEvent = async (
 	user: IUser,
 	eventId: string,
-	eventUpdated: IEvent | null
+	eventUpdated: IEvent
 ): Promise<IUser | null> => {
 	const result = await User.updateOne(
 		{ _id: user._id, "events._id": eventId },
-		{ $set: { "events.$[element]": eventUpdated } },
-		{ arrayFilters: [{ "element._id": eventId }] } //! to implement later: consider to use arrayFilters to find the event and delete it
+		{ $set: { "events.$": eventUpdated } }
 	);
 
 	if (!result) {
 		return null;
 	}
 	return await User.findById(user._id);
+};
+
+export const deleteFromUserEvents = async (
+	user: IUser,
+	eventId: string
+): Promise<IUser | null> => {
+	return await User.findByIdAndUpdate(user._id, {
+		$pull: { events: { _id: eventId } },
+	});
 };

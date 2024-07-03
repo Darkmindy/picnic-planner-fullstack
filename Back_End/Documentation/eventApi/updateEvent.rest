@@ -1,9 +1,9 @@
-PUT http://localhost:3000/update-event/668421ba2e3f95ed72811096
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODQwZWYzZGY1MTRkYmZmNGZkZGIxZiIsImlhdCI6MTcxOTk0MjYxMSwiZXhwIjoxNzE5OTQzNTExfQ.2ObWB82ec9A5CHVb5g_6ZyeQV99Va9hYpQ5_wGgxWes
+PUT http://localhost:3000/update-event/66851318a8ccf0c4910ab909 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODUxMGY2YzE4MzdmNzA2Njg5YWIzZSIsImlhdCI6MTcxOTk5NzE4MiwiZXhwIjoxNzE5OTk4MDgyfQ.7aOdnfhiq28BEwZ8Wt0g64CXiC-Q3frS3h_BCua5hw8
 Content-Type: application/json
 
 {
-    "title": "Pineta4",
+    "title": "un evento fantastico",
     "description": "Posto molto molto  beeeeeeeelllloooooo",
     "location": "Paliemmo",
     "date": "07/07/2024"

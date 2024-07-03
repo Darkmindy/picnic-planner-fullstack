@@ -4,17 +4,16 @@ import { fromZodError } from "zod-validation-error";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import {
 	createEvent,
+	createOrUpdateUserEvents,
 	deleteEventById,
+	deleteFromUserEvents,
 	getEventById,
 	getEventByTitle,
 	showEvents,
 	updateEvent,
 	updateUserEvent,
 } from "../services/event.service";
-import {
-	createOrUpdateUserEvents,
-	findUserById,
-} from "../services/user.service";
+import { findUserById } from "../services/user.service";
 import {
 	IEvent,
 	IFormattedEvent,
@@ -222,15 +221,9 @@ export const deleteEvent = async (req: ExtendedRequest, res: Response) => {
 			return res.status(400).json(`User not logged in`);
 		}
 
-		const deleteEvent: IEvent | null = await deleteEventById(eventId);
-		if (!deleteEvent) {
-			return res
-				.status(400)
-				.json(`Event with id ${eventId} not found in user's events`);
-		}
-
-		// update the event inside the user
-		await updateUserEvent(existingUser, eventId, null); //! to implement later: consider to delete the event from the user's events array
+		await deleteEventById(eventId);
+		// delete the event also from the user's events array
+		await deleteFromUserEvents(existingUser, eventId);
 		res.status(201).json("Event deleted successfully");
 	} catch (error) {
 		res.status(500).json("Internal server error: " + error);

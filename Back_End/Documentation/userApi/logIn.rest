@@ -2,11 +2,6 @@ POST http://localhost:3000/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "melo@example.com",
+    "email": "franco@example.com",
     "password": "password123"
 }
-
-###
-
-# access/ refresh(logic to add, later) token
-# saro papa access token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzA0ZDRlMzUzNzNhM2E2YTVjZTY2OCIsImlhdCI6MTcxODYzNjAyMiwiZXhwIjoxNzE4NjM2MzIyfQ.SnBiFYuI-JeJO3OBs9OlZuoAaFqjiMkBDl_00NFyL3Y

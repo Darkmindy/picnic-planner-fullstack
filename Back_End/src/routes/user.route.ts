@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { fetchUser } from "../controllers/fetchUser.controller";
-import { fetchingNewToken } from "../controllers/fetchingNewToken.controller";
-import { logIn } from "../controllers/login.controller";
-import { logOut } from "../controllers/logout.controller";
-import { adminSignUp, signUp } from "../controllers/signup.controller";
+import {
+	adminSignUp,
+	fetchUser,
+	logIn,
+	logOut,
+	signUp,
+} from "../controllers/users.controller";
 import { authMiddleware } from "../middleware/authorization.middleware";
 import { checkRoleMiddleware } from "../middleware/checkRole.middleware";
 
@@ -19,4 +21,3 @@ router.get(
 	logOut
 );
 router.get("/fetch-user", authMiddleware, fetchUser);
-router.get("/token", fetchingNewToken); //? hp of add authMiddleware in this route

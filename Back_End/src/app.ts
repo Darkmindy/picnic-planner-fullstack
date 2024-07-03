@@ -1,15 +1,12 @@
 import cors from "cors";
 import express from "express";
-import {
-	router as fetchUserApi,
-	router as fetchingNewTokenApi,
-	router as logInApi,
-	router as logOutApi,
-	router as signUpApi,
-} from "./routes/user.route";
 import { router as EventApi } from "./routes/event.route";
+import { router as fetchingNewTokenApi } from "./routes/fetchNewToken.route";
 import { router as friendApi } from "./routes/friend.route";
+import { router as userApi } from "./routes/user.route";
+
 export const app = express();
+
 app.use(express.urlencoded({ extended: true })); // This setting allows parsing of nested objects and arrays within the data
 
 // Configura CORS
@@ -29,10 +26,7 @@ app.get("/", (req, res) => {
 	res.json({ message: "Server is online" });
 });
 
-app.use("/", signUpApi);
-app.use("/", logInApi);
-app.use("/", logOutApi);
-app.use("/", fetchUserApi);
-app.use("/", fetchingNewTokenApi);
+app.use("/", userApi);
 app.use("/", EventApi);
 app.use("/", friendApi);
+app.use("/", fetchingNewTokenApi);

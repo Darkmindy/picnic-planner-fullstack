@@ -14,16 +14,16 @@ import { ZOptionalUser } from "../validation/user.validation";
 export const addFriend = async (req: ExtendedRequest, res: Response) => {
 	try {
 		// Validate request
-		const validationResult = ZOptionalUser.safeParse(
+		const validationUserEmail = ZOptionalUser.safeParse(
 			req.body as { email: string }
 		);
-		if (!validationResult.success) {
+		if (!validationUserEmail.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationResult.error).message);
+				.json(fromZodError(validationUserEmail.error).message);
 		}
 
-		const friendEmail = validationResult.data.email;
+		const friendEmail = validationUserEmail.data.email;
 
 		// Check if user (the logged in user) exists
 		const userId = req.user?._id;
@@ -75,11 +75,11 @@ export const removeFriend = async (req: ExtendedRequest, res: Response) => {
 			return res.status(400).json(`Friend ID must be a string`);
 		}
 		// validate request
-		const validationResult = ZOptionalUser.safeParse({ friendId });
-		if (!validationResult.success) {
+		const validationFriendId = ZOptionalUser.safeParse({ friendId });
+		if (!validationFriendId.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationResult.error).message);
+				.json(fromZodError(validationFriendId.error).message);
 		}
 
 		// check if friendId is valid

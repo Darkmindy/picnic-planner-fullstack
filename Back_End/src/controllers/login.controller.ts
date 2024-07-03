@@ -16,26 +16,26 @@ import { ZUserSchema } from "../validation/user.validation";
 export const logIn = async (req: Request, res: Response) => {
 	try {
 		// validate request
-		const validationError = ZUserSchema.safeParse(
+		const validationUser = ZUserSchema.safeParse(
 			req.body as {
 				email: string;
 				password: string;
 			}
 		);
 
-		if (!validationError.success) {
+		if (!validationUser.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationError.error).message);
+				.json(fromZodError(validationUser.error).message);
 		}
 
 		// Get user by email and password
-		const user = validationError.data as {
+		const user = validationUser.data as {
 			email: string;
 			password: string;
 		};
 
-		const userByEmail = await findByEmail(validationError.data.email);
+		const userByEmail = await findByEmail(validationUser.data.email);
 
 		// Check if user exists
 		if (!userByEmail) {

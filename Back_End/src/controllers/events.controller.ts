@@ -24,11 +24,11 @@ import {
 export const addEvent = async (req: ExtendedRequest, res: Response) => {
 	try {
 		// validate request
-		const validationResult = ZEventSchema.safeParse(req.body);
-		if (!validationResult.success) {
+		const validationEvent = ZEventSchema.safeParse(req.body);
+		if (!validationEvent.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationResult.error).message);
+				.json(fromZodError(validationEvent.error).message);
 		}
 
 		// control if userid exists
@@ -44,7 +44,7 @@ export const addEvent = async (req: ExtendedRequest, res: Response) => {
 			return res.status(400).json(`User not logged in`);
 		}
 
-		const event = validationResult.data;
+		const event = validationEvent.data;
 
 		const existingEvent = await getEventByTitle(event.title);
 
@@ -117,14 +117,14 @@ export const updateEventHandler = async (
 		}
 
 		// validate request
-		const validationResult = ZOptionalEvent.safeParse(req.body);
-		if (!validationResult.success) {
+		const validationEvent = ZOptionalEvent.safeParse(req.body);
+		if (!validationEvent.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationResult.error).message);
+				.json(fromZodError(validationEvent.error).message);
 		}
 
-		const event = validationResult.data;
+		const event = validationEvent.data;
 
 		// formatted event for client side
 		const showEvent: IFormattedEvent = {

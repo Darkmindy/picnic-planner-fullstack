@@ -10,7 +10,7 @@ import {
 export const signUp = async (req: Request, res: Response) => {
 	try {
 		// Validate request
-		const validationError = ZUserSchema.safeParse(
+		const validationUser = ZUserSchema.safeParse(
 			req.body as {
 				name: string;
 				email: string;
@@ -18,13 +18,13 @@ export const signUp = async (req: Request, res: Response) => {
 			}
 		);
 
-		if (!validationError.success) {
+		if (!validationUser.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationError.error).message);
+				.json(fromZodError(validationUser.error).message);
 		}
 
-		const user = validationError.data as {
+		const user = validationUser.data as {
 			name: string;
 			email: string;
 			password: string;
@@ -60,7 +60,7 @@ export const signUp = async (req: Request, res: Response) => {
 
 export const adminSignUp = async (req: Request, res: Response) => {
 	try {
-		const validationError = ZUserSchema.safeParse(
+		const validationUser = ZUserSchema.safeParse(
 			req.body as {
 				name: string;
 				email: string;
@@ -68,13 +68,13 @@ export const adminSignUp = async (req: Request, res: Response) => {
 			}
 		);
 
-		if (!validationError.success) {
+		if (!validationUser.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationError.error).message);
+				.json(fromZodError(validationUser.error).message);
 		}
 
-		const user = validationError.data as {
+		const user = validationUser.data as {
 			name: string;
 			email: string;
 			password: string;

@@ -10,14 +10,14 @@ import { ZLogOutSchema } from "../validation/user.validation";
 
 export const logOut = async (req: ExtendedRequest, res: Response) => {
 	try {
-		const validationError = ZLogOutSchema.safeParse(req.params);
-		if (!validationError.success) {
+		const validationUserId = ZLogOutSchema.safeParse(req.params);
+		if (!validationUserId.success) {
 			return res
 				.status(400)
-				.json(fromZodError(validationError.error).message);
+				.json(fromZodError(validationUserId.error).message);
 		}
 		// get user id
-		const userId = req.user?._id || validationError?.data?.id;
+		const userId = req.user?._id || validationUserId?.data?.id;
 		if (!userId) {
 			return res.status(400).json("Missing user id");
 		}

@@ -108,7 +108,7 @@ to both transpile your code and start the server using Nodemon. Nodemon will aut
 
 ### <b> **Documentation** </b>
 
-Please check the [Documentation](Back_End/Documentation) for an example on how the API calls work; to use them you need to download [Rest client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) or launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
+Please check the [Documentation](./Documentation) for an example on how the API calls work; to use them you need to download [Rest client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) or launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
 
     ext install humao.rest-client
 
@@ -148,16 +148,16 @@ Please check the [Documentation](Back_End/Documentation) for an example on how t
 
 ### <b> User Interface </b>
 
-| Key      | Type             |
-| -------- | ---------------- |
-| \_id     | ObjectId         |
-| name     | String           |
-| email    | String           |
-| password | String           |
-| role     | Enum             |
-| isOnline | Boolean          |
-| events   | [EventInterface] |
-| friends  | [String]         |
+| Key      | Type              |
+| -------- | ----------------- |
+| \_id     | ObjectId          |
+| name     | String            |
+| email    | String            |
+| password | String            |
+| role     | Enum              |
+| isOnline | Boolean           |
+| events   | [Event Interface] |
+| friends  | [String]          |
 
 ### Role Enum
 

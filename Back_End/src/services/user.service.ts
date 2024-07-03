@@ -2,7 +2,6 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { User } from "../models/user.model";
 import { env } from "../utility/env";
 import { IDecodedToken } from "../validation/decodedToken.validation";
-import { IEvent } from "../validation/event.valitation";
 import { IFormattedUser, IUser } from "../validation/user.validation";
 
 export const createUser = async (user: IFormattedUser): Promise<IUser> => {
@@ -71,19 +70,3 @@ export class authorizationHandler {
 		return this.decodedToken;
 	}
 }
-
-export const addFriendUser = async (userId: string, friendId: string) => {
-	return await User.findByIdAndUpdate(
-		userId,
-		{ $push: { friends: friendId } },
-		{ new: true }
-	);
-};
-
-export const isFriendAlreadyAdded = async (
-	userId: string,
-	friendId: string
-): Promise<boolean> =>
-	await User.findById(userId, "friends").then((user) =>
-		user && user.friends!.includes(friendId) ? true : false
-	);

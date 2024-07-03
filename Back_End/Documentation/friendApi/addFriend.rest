@@ -1,5 +1,5 @@
 POST http://localhost:3000/add-friend HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODQwZWYzZGY1MTRkYmZmNGZkZGIxZiIsImlhdCI6MTcxOTkzNzQwNSwiZXhwIjoxNzE5OTM4MzA1fQ.e0EHKZplED_Opc4aGOjile8kraMzdhREae_McL2T3fE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODUyMzY4MDAwMWE4N2UyOWI1MThjNSIsImlhdCI6MTcyMDAwMzk0MCwiZXhwIjoxNzIwMDA0ODQwfQ.CdwrUy9FkfvoKlaR_eGZVr95KXFf6Pcyj-7WQPLZpE4
 Content-Type: application/json
 
 {

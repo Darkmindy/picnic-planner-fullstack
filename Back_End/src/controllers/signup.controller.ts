@@ -48,7 +48,6 @@ export const signUp = async (req: Request, res: Response) => {
 
 		const userCreated = await createUser(newUser);
 		res.status(200).json({
-			_id: userCreated._id,
 			name: userCreated.name,
 			email: userCreated.email,
 			role: userCreated.role,
@@ -105,7 +104,6 @@ export const adminSignUp = async (req: Request, res: Response) => {
 		const userCreated = await createUser(newUser);
 		res.status(200).json({
 			user: {
-				_id: userCreated._id,
 				name: userCreated.name,
 				email: userCreated.email,
 				role: userCreated.role,

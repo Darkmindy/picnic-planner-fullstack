@@ -1,6 +1,7 @@
 generale 
-☐ modificare il file README.md relativamente alla descrizione del progetto, funzionalità, tecnologie usate (eventuali implementazioni)
+✔ modificare il file README.md relativamente alla descrizione del progetto, funzionalità, tecnologie usate (eventuali implementazioni) @done(24-07-04 10:44)
 ✔ modificare la struttura dei controller dello user, rendendola unica (es. "user.controller.ts") @done(24-07-03 16:12)
+☐ considerare di integrare una logica di migrazione del database (chiedi file di possibile esempio ad Andrea)
 
 user
 ✔ creare array di eventi negli utenti @started(24-06-28 22:27) @done(24-06-28 22:29) @lasted(2m26s)
@@ -9,6 +10,7 @@ user
 ✔ creare rotta con tutti gli eventi del singolo user @started(24-06-30 20:04) @done(24-06-30 20:16) @lasted(12m46s)
 ✔ gestire errore relativo ad un utente che prova a loggare senza essere registrato @done(24-07-02 15:05)
 ✔ formattare le response, e le response lato client @done(24-07-03 11:20)
+☐ considerare di introdurre un role "guest"
 
 eventi
 ✔ creare rotta con tutti gli eventi @done(24-07-03 11:20)
@@ -30,3 +32,17 @@ friends
 ✔ creare i services per friends distinti da quelli degli users @done(24-07-03 12:22)
 ✔ rotta per rimuovere l'amici dall'user's friends array @done(24-07-03 13:04)
 ☐ valutare di utilizzare la logica relativa a controllare il friendId per verificare se esiste nel db, oppure quella attuale che fa lo stesso controllo utilizzando la funzione isFriendAlreadyAdded
+
+messages
+☐ creare un interfaccia Message del tipo: "content": string, "sender": string (id), "recipient": string (id), "createdAt": Date (oppure un timestamps)
+☐ creare una rotta per la creazione del messaggio
+
+calendar
+☐ capire che libreria utilizzare
+
+maps
+☐ capire che libreria utilizzare
+
+menu suggestion
+
+ticket

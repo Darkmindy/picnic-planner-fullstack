@@ -1,11 +1,12 @@
-MONGODB_URI=mongodb://localhost:27017/
+MONGODB_URI=mongodb://localhost:"Your port number ex.= 27017, use no quotation marks"/
 
 ACCESS_SECRET_TOKEN=generate random key
-REFRESH_SECRET_TOKEN=generate random key
+REFRESH_SECRET_TOKEN=generate random key (use: the command you find in the README)
 
-PROTECTED_EMAILS=<admin@amin.it> (could cointains more that one, just separate them with a comma)
+PROTECTED_EMAILS=<admin@amin.it> (remove "<>"; could contain more that one, just separate them with a comma)
 
-REFRESH_TOKEN_EXPIRATION_DAYS=<number of days you want that the refresh token expires>
+ACCESS_TOKEN_EXPIRATION_TIME=expiration time of the access token
+REFRESH_TOKEN_EXPIRATION_TIME=expiration time of the refresh token
 
 LOCAL=local
 DEV=dev

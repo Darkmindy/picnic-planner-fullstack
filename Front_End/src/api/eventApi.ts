@@ -46,3 +46,19 @@ export const updateEvent = async (accessToken: string, event: EventData) => {
     throw new Error("Failed to update event");
   }
 }
+
+export const deleteEvent = async (accessToken: string, eventId: string) => {
+  try {
+    const response = await apiClient.get(`/delete-event/${eventId}`, {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to delete event");
+  }
+}

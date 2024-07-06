@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useAuth } from '../../services/AuthContext';
-import { updateEvent } from '../../api/eventApi';
+import { deleteEvent, updateEvent } from '../../api/eventApi';
 
 interface EventCardProps {
     _id?: string;
@@ -20,20 +20,38 @@ const EventCard: React.FC<EventCardProps> = ({ _id, title, date, location, descr
         date: date,
         location: location,
         description: description
-    })
+    });
+    const [isDeleting, setIsDeleting] = useState(false);
     const { accessToken } = useAuth();
-    const handleUpdate = () => {
+    const toggleUpdateForm = () => {
         setIsEditing(!isEditing)
     }
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const toggleDeleteForm = () => {
+        setIsDeleting(!isDeleting);
+    }
+
+
+
+    const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await updateEvent(accessToken.current, {_id, ...formData});
-            handleUpdate();
+            toggleUpdateForm();
             getEvents();
         } catch (error) {
             console.error('Error updating event:', error);
+        }
+    }
+
+    const handleDelete = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await deleteEvent(accessToken.current, _id!);
+            toggleDeleteForm();
+            getEvents();
+        } catch (error) {
+            console.error('Error deleting event:', error);
         }
     }
 
@@ -48,7 +66,8 @@ const EventCard: React.FC<EventCardProps> = ({ _id, title, date, location, descr
                     <strong>Stato:</strong> {status}
                 </Card.Text>
                 <Button variant="primary">Dettagli</Button>
-                <Button variant="secondary" onClick={handleUpdate}>Edit...</Button>
+                <Button variant="secondary" onClick={toggleUpdateForm}>Edit...</Button>
+                <Button variant="danger" onClick={toggleDeleteForm}>Delete</Button>
                 {isEditing && (
                     <form>
                         <label htmlFor="title">Title:</label>
@@ -59,7 +78,13 @@ const EventCard: React.FC<EventCardProps> = ({ _id, title, date, location, descr
                         <input type="text" id="location" name="location" defaultValue={location} onChange={e => setFormData({...formData, location: e.target.value})}/>
                         <label htmlFor="description">Description:</label>
                         <input type="text" id="status" name="description" defaultValue={description} onChange={e => setFormData({...formData, description: e.target.value})}/>
-                        <button type="submit" onClick={handleSubmit}>Update</button>
+                        <button type="submit" onClick={handleUpdate}>Update</button>
+                    </form>
+                )}
+                {isDeleting && (
+                    <form>
+                        <p>Are you sure you want to delete this event?</p>
+                        <button type="submit" onClick={handleDelete}>Delete</button>
                     </form>
                 )}
             </Card.Body>

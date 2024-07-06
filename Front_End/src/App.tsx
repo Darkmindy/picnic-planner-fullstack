@@ -5,7 +5,6 @@ import PrivateRoute from './routes/PrivateRoute';
 import TokenModal from './components/Modal/TokenModal';
 import HomePage from './pages/Home/HomePage';
 import AdminPage from './pages/AdminPage/AdminPage';
-import EventForm from './components/EventForm/EventForm';
 import LoginPage from './pages/LoginPage/LoginPage';
 const App: React.FC = () => {
   return (
@@ -17,9 +16,9 @@ const App: React.FC = () => {
           <Route
             path="/"
             element={
-              <PrivateRoute allowedRoles={['user']}>
+              // <PrivateRoute allowedRoles={['user']}>
                 <HomePage />
-              </PrivateRoute>
+              // </PrivateRoute>
             }
           />
           <Route
@@ -27,14 +26,6 @@ const App: React.FC = () => {
             element={
               <PrivateRoute allowedRoles={['admin']}>
                 <AdminPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/create-event"
-            element={
-              <PrivateRoute allowedRoles={['user', 'admin']}>
-                <EventForm />
               </PrivateRoute>
             }
           />

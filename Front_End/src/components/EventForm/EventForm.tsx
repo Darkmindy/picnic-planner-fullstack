@@ -6,12 +6,10 @@ import { useAuth } from '../../services/AuthContext';
 import './EventForm.css';
 
 interface EventFormProps {
-  events: EventData[];
-  setEvents: React.Dispatch<React.SetStateAction<EventData[]>>;
   getEvents: () => void;
 }
 
-const EventForm: React.FC<EventFormProps> = ({events, setEvents, getEvents}) => {
+const EventForm: React.FC<EventFormProps> = ({getEvents}) => {
   const [title, setEventTitle] = useState('');
   const [description, setEventDescription] = useState('');
   const [location, setEventLocation] = useState('');
@@ -37,8 +35,7 @@ const EventForm: React.FC<EventFormProps> = ({events, setEvents, getEvents}) => 
 
       const data = await createEvent(accessToken.current, eventData);
       console.log(data);
-      setEvents((prev) => {
-        return [...prev, {id: data[0].split(":")[1], ...eventData}]})
+      getEvents();
       setSuccessMessage('Event created successfully!');
 
       console.log('Event created:', eventData);
@@ -46,7 +43,6 @@ const EventForm: React.FC<EventFormProps> = ({events, setEvents, getEvents}) => 
       setEventDescription('');
       setEventLocation('');
       setEventDate('');
-      getEvents();
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

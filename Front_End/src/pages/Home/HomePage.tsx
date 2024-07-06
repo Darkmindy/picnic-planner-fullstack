@@ -66,22 +66,24 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div className="HomePage">
-            <BootstrapNavbar bg="light" expand="lg" className="Navbar">
-                <Container fluid>
-                    <BootstrapNavbar.Brand as={Link} to="/">Picnic Planner</BootstrapNavbar.Brand>
-                    <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
-                    <BootstrapNavbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/">Home</Nav.Link>
-                            <Nav.Link as={Link} to="/calendar">Calendario</Nav.Link>
-                            <Nav.Link as={Link} to="/activity">Attività</Nav.Link>
-                            <Nav.Link as={Link} to="/messages">Messaggi</Nav.Link>
-                            <Nav.Link as={Link} to="/settings">Impostazioni</Nav.Link>
-                        </Nav>
+        <>
+            <BootstrapNavbar bg="light" expand="lg" className='d-flex w-100 navbar-container'>
+                <Nav id="nav-logo" className="navbar-component">
+                    <a id="nav-brand" href="/">Picnic Planner</a>
+                    <BootstrapNavbar.Toggle aria-controls="nav-main" />
+                </Nav>
+                <BootstrapNavbar.Collapse id="nav-main">
+                    <Nav id="nav-buttons">
+                        <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/calendar">Calendario</Nav.Link>
+                        <Nav.Link as={Link} to="/activity">Attività</Nav.Link>
+                        <Nav.Link as={Link} to="/messages">Messaggi</Nav.Link>
+                        <Nav.Link as={Link} to="/settings">Impostazioni</Nav.Link>
+                    </Nav>
+                    <Nav className="nav-search">
                         <Form className="d-flex search-bar">
-                            <Form.Control type="search" placeholder="Cerca..." className="me-2" />
-                            <Button variant="outline-success">Cerca</Button>
+                            <Form.Control type="search" placeholder="Cerca..." className="me-2" id="search-input" />
+                            <Button variant="outline-gray" id="search-button">S</Button>
                         </Form>
                         <Dropdown align="end">
                             <Dropdown.Toggle variant="link" id="dropdown-profile">
@@ -94,8 +96,8 @@ const HomePage: React.FC = () => {
                                 <Dropdown.Item as={Link} to="/logout">Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                    </BootstrapNavbar.Collapse>
-                </Container>
+                    </Nav>
+                </BootstrapNavbar.Collapse>
             </BootstrapNavbar>
 
             <Container fluid className="main-container">
@@ -167,12 +169,12 @@ const HomePage: React.FC = () => {
                                 <Button variant="primary" onClick={() => setShowEventForm(true)}>I want to...</Button>
                             </Col>
                         </Row>
-                        {showEventForm && <EventForm events={events} setEvents={setEvents} getEvents={getEvents} />}
+                        {showEventForm && <EventForm getEvents={getEvents} />}
                     </Col>
                 </Row>
             </Container>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
-        </div>
+        </>
     );
 };
 

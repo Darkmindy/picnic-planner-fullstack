@@ -31,7 +31,7 @@ export const userSchema = new mongoose.Schema<IUser>(
 		],
 		friends: [
 			{
-				type: String, // perhaps is best to use: mongoose.Schema.Types.ObjectId,
+				type: mongoose.Schema.Types.ObjectId, // perhaps is best to use: mongoose.Schema.Types.ObjectId,
 				ref: "User",
 			},
 		],

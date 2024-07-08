@@ -1,4 +1,5 @@
 import { Response } from "express";
+import jwt from "jsonwebtoken";
 import {
 	authHandler,
 	ExtendedRequest,
@@ -9,8 +10,9 @@ import {
 } from "../services/refreshToken.service";
 import {
 	calculateAccessTokenExpiresAt,
-	createToken,
+	createNewAccessToken,
 } from "../utility/commonAuthFunctions";
+import { env } from "../utility/env";
 import { IDecodedToken } from "../validation/decodedToken.validation";
 import { IFormattedRefreshToken } from "../validation/refreshToken.validation";
 
@@ -56,11 +58,13 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 				);
 		}
 
-		const newToken = createToken(id);
+		const newRefreshToken = jwt.sign({ id }, env.REFRESH_SECRET_TOKEN, {
+			expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "s",
+		});
 
 		// formatting refresh token for client side
 		const formattedRefreshToken: IFormattedRefreshToken = {
-			token: newToken.refreshToken,
+			token: newRefreshToken,
 		};
 
 		const updatedRefreshToken = await updateRefreshToken(
@@ -68,8 +72,10 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 			formattedRefreshToken.token
 		);
 
+		const newAccessToken = createNewAccessToken(id);
+
 		const decoded: IDecodedToken | null = await authHandler.verifyToken(
-			newToken.accessToken
+			newAccessToken
 		);
 
 		if (!decoded) {
@@ -86,7 +92,7 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 		req.user = { _id: decoded.id } as ExtendedRequest["user"]; //specifying as ExtendRequest because it does not take a paramater that could be null otherwise
 		return res
 			.status(200)
-			.header("Authorization", `Bearer ${newToken.accessToken}`)
+			.header("Authorization", `Bearer ${newAccessToken}`)
 			.json({
 				message: "New access token generated successfully",
 				accessTokenExp: accessTokenExp,

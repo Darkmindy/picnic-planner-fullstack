@@ -4,6 +4,7 @@ import { fromZodError } from "zod-validation-error";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import {
 	createRefreshToken,
+	findRefreshToken,
 	removeItemFromUserRefreshTokens,
 } from "../services/refreshToken.service";
 import {
@@ -14,10 +15,13 @@ import {
 } from "../services/user.service";
 import {
 	calculateAccessTokenExpiresAt,
-	createToken,
+	createTokens,
 } from "../utility/commonAuthFunctions";
 import { env } from "../utility/env";
-import { IFormattedRefreshToken } from "../validation/refreshToken.validation";
+import {
+	IFormattedRefreshToken,
+	IRefreshToken,
+} from "../validation/refreshToken.validation";
 import {
 	IFormattedUser,
 	ZLogOutSchema,
@@ -187,11 +191,11 @@ export const logIn = async (req: Request, res: Response) => {
 
 		// Check and Update user's online status + access token
 		if (userByEmail.isOnline === false && id) {
-			const token = createToken(id);
+			const newTokens = createTokens(id);
 
 			// formatting refresh token for client side
 			const formattedRefreshToken: IFormattedRefreshToken = {
-				token: token.refreshToken,
+				token: newTokens.refreshToken,
 			};
 
 			// calculate exact expiration time for access token
@@ -199,19 +203,28 @@ export const logIn = async (req: Request, res: Response) => {
 
 			await updateUserStatusHandler(id, true);
 
-			const createdRefreshToken = await createRefreshToken(
-				formattedRefreshToken.token,
-				id
-			);
+			const createdRefreshToken: IRefreshToken | null =
+				await createRefreshToken(formattedRefreshToken.token, id);
 
-			return res
-				.status(200)
-				.header("Authorization", `Bearer ${token.accessToken}`)
-				.json({
-					message: `User logged in successfully!`,
-					accessTokenExp: accessTokenExp,
-					refreshToken: createdRefreshToken?.token, // send refresh token
-				});
+			//! to implement: query the refresh token
+			const refreshToken = await findRefreshToken(
+				createdRefreshToken?.token as string
+			).then((refreshToken) => refreshToken!.isExpired);
+
+			//! to implement: access the isExpired property
+			const isExpired = createdRefreshToken?.isExpired as unknown as {
+				isExpired: boolean;
+			};
+			if (!isExpired) {
+				return res
+					.status(200)
+					.header("Authorization", `Bearer ${newTokens.accessToken}`)
+					.json({
+						message: `User logged in successfully!`,
+						accessTokenExp: accessTokenExp,
+						refreshToken: createdRefreshToken?.token, // send refresh token
+					});
+			}
 		} else if (userByEmail.isOnline === true && id) {
 			return res.status(400).json("User already logged in");
 		} else {

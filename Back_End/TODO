@@ -12,6 +12,9 @@ user
 ✔ formattare le response, e le response lato client @done(24-07-03 11:20)
 ☐ considerare di introdurre un role "guest"
 
+refreshToken
+☐ modificare la logica di createdAt con la proprietà {timestamps: true} di mongoose integrandola con la proprietà virtual 'isExpired'
+
 eventi
 ✔ creare rotta con tutti gli eventi @done(24-07-03 11:20)
 ☐ implementare rotta per tutti gli eventi considerando di aggiungere il checkRoleMiddleware

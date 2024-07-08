@@ -11,12 +11,11 @@ const refreshTokenSchema = new mongoose.Schema<IRefreshToken>(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 		},
-		createdAt: {
-			type: Date,
-			default: Date.now,
-		},
 	},
-	{ toJSON: { virtuals: true } }
+	{
+		timestamps: true,
+		toJSON: { virtuals: true },
+	}
 );
 
 // delete __v property from client side

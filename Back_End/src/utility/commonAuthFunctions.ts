@@ -11,8 +11,8 @@ export async function hashStuff(password: string | undefined): Promise<string> {
 	return await bcrypt.hash(password, salt);
 }
 
-// Create token
-export const createToken = (id: string) => {
+// Create both access token and refresh token
+export const createTokens = (id: string) => {
 	const accessSecret = env.ACCESS_SECRET_TOKEN;
 	const refreshSecret = env.REFRESH_SECRET_TOKEN;
 
@@ -30,6 +30,18 @@ export const createToken = (id: string) => {
 	});
 
 	return { accessToken, refreshToken };
+};
+
+// create just new access token
+export const createNewAccessToken = (id: string) => {
+	const accessSecret = env.ACCESS_SECRET_TOKEN;
+	if (!accessSecret) {
+		throw new Error("Missing environment variable ACCESS_SECRET_TOKEN");
+	}
+	const accessToken = jwt.sign({ id }, accessSecret, {
+		expiresIn: env.ACCESS_TOKEN_EXPIRATION_TIME + "m",
+	});
+	return accessToken;
 };
 
 // calculate exact expiration time for access token

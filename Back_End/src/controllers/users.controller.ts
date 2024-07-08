@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 import { fromZodError } from "zod-validation-error";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import {
-	createRefreshToken,
+	createOrUpdateRefreshToken,
+	findRefreshToken,
 	removeItemFromUserRefreshTokens,
 } from "../services/refreshToken.service";
 import {
@@ -14,10 +15,13 @@ import {
 } from "../services/user.service";
 import {
 	calculateAccessTokenExpiresAt,
-	createToken,
+	createTokens,
 } from "../utility/commonAuthFunctions";
 import { env } from "../utility/env";
-import { IFormattedRefreshToken } from "../validation/refreshToken.validation";
+import {
+	IFormattedRefreshToken,
+	IRefreshToken,
+} from "../validation/refreshToken.validation";
 import {
 	IFormattedUser,
 	ZLogOutSchema,
@@ -187,11 +191,11 @@ export const logIn = async (req: Request, res: Response) => {
 
 		// Check and Update user's online status + access token
 		if (userByEmail.isOnline === false && id) {
-			const token = createToken(id);
+			const newTokens = createTokens(id);
 
 			// formatting refresh token for client side
 			const formattedRefreshToken: IFormattedRefreshToken = {
-				token: token.refreshToken,
+				token: newTokens.refreshToken,
 			};
 
 			// calculate exact expiration time for access token
@@ -199,14 +203,24 @@ export const logIn = async (req: Request, res: Response) => {
 
 			await updateUserStatusHandler(id, true);
 
-			const createdRefreshToken = await createRefreshToken(
-				formattedRefreshToken.token,
-				id
-			);
+			const createdRefreshToken: IRefreshToken | null =
+				await createOrUpdateRefreshToken(
+					id,
+					formattedRefreshToken.token
+				);
 
+			//! to implement: query the refresh token
+			// const refreshToken = await findRefreshToken(
+			// 	createdRefreshToken?.token as string
+			// )
+
+			//! to implement: access the isExpired property
+			// const isExpired = refreshToken?.isExpired
+			// if (!isExpired) {
+			// }
 			return res
 				.status(200)
-				.header("Authorization", `Bearer ${token.accessToken}`)
+				.header("Authorization", `Bearer ${newTokens.accessToken}`)
 				.json({
 					message: `User logged in successfully!`,
 					accessTokenExp: accessTokenExp,

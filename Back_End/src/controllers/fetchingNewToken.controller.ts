@@ -59,7 +59,7 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 		}
 
 		const newRefreshToken = jwt.sign({ id }, env.REFRESH_SECRET_TOKEN, {
-			expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "s",
+			expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "d",
 		});
 
 		// formatting refresh token for client side

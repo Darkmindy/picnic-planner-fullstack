@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { fromZodError } from "zod-validation-error";
 import { ExtendedRequest } from "../middleware/authorization.middleware";
 import {
-	createRefreshToken,
+	createOrUpdateRefreshToken,
 	findRefreshToken,
 	removeItemFromUserRefreshTokens,
 } from "../services/refreshToken.service";
@@ -204,27 +204,28 @@ export const logIn = async (req: Request, res: Response) => {
 			await updateUserStatusHandler(id, true);
 
 			const createdRefreshToken: IRefreshToken | null =
-				await createRefreshToken(formattedRefreshToken.token, id);
+				await createOrUpdateRefreshToken(
+					id,
+					formattedRefreshToken.token
+				);
 
 			//! to implement: query the refresh token
-			const refreshToken = await findRefreshToken(
-				createdRefreshToken?.token as string
-			).then((refreshToken) => refreshToken!.isExpired);
+			// const refreshToken = await findRefreshToken(
+			// 	createdRefreshToken?.token as string
+			// )
 
 			//! to implement: access the isExpired property
-			const isExpired = createdRefreshToken?.isExpired as unknown as {
-				isExpired: boolean;
-			};
-			if (!isExpired) {
-				return res
-					.status(200)
-					.header("Authorization", `Bearer ${newTokens.accessToken}`)
-					.json({
-						message: `User logged in successfully!`,
-						accessTokenExp: accessTokenExp,
-						refreshToken: createdRefreshToken?.token, // send refresh token
-					});
-			}
+			// const isExpired = refreshToken?.isExpired
+			// if (!isExpired) {
+			// }
+			return res
+				.status(200)
+				.header("Authorization", `Bearer ${newTokens.accessToken}`)
+				.json({
+					message: `User logged in successfully!`,
+					accessTokenExp: accessTokenExp,
+					refreshToken: createdRefreshToken?.token, // send refresh token
+				});
 		} else if (userByEmail.isOnline === true && id) {
 			return res.status(400).json("User already logged in");
 		} else {

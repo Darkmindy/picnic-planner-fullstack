@@ -1,11 +1,23 @@
 import { RefreshToken } from "../models/refreshToken.model";
 import { IRefreshToken } from "../validation/refreshToken.validation";
 
-export const createRefreshToken = async (
+/* export const createRefreshToken = async (
 	token: string,
 	user: string
 ): Promise<IRefreshToken | null> => {
 	return await RefreshToken.create({ token, user });
+}; */
+
+export const createOrUpdateRefreshToken = async (
+	user: string,
+	token: string
+): Promise<IRefreshToken | null> => {
+	const updatedToken = await RefreshToken.findOneAndUpdate(
+		{ user },
+		{ token },
+		{ new: true, upsert: true, setDefaultsOnInsert: true }
+	).exec();
+	return updatedToken;
 };
 
 // delete the user's refreshToken from the database

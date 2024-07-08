@@ -26,7 +26,7 @@ export const createTokens = (id: string) => {
 		expiresIn: env.ACCESS_TOKEN_EXPIRATION_TIME + "m",
 	});
 	const refreshToken = jwt.sign({ id }, refreshSecret, {
-		expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "s",
+		expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "d",
 	});
 
 	return { accessToken, refreshToken };

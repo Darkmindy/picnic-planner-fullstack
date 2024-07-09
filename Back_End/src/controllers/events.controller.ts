@@ -158,7 +158,7 @@ export const updateEventHandler = async (
 };
 
 //* get events
-export const getEvents = async (req: ExtendedRequest, res: Response) => {
+export const getEvents = async (res: Response) => {
 	try {
 		const allEvents = await showEvents();
 		const formattedEvents: IFormattedEvent[] = [];

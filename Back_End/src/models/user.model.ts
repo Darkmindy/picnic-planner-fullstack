@@ -44,7 +44,7 @@ export const userSchema = new mongoose.Schema<IUser>(
 // delete __v property from client side
 userSchema.set("toObject", {
 	transform: (ret) => {
-		ret.id = ret._id.toString(); // Convert ObjectId to string for convenience
+		ret.id = ret._id.toString(); //! to check: Convert ObjectId to string for convenience
 		delete ret.__v; // Remove __v property
 		return ret;
 	},

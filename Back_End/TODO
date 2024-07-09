@@ -35,6 +35,7 @@ friends
 ✔ creare i services per friends distinti da quelli degli users @done(24-07-03 12:22)
 ✔ rotta per rimuovere l'amici dall'user's friends array @done(24-07-03 13:04)
 ☐ valutare di utilizzare la logica relativa a controllare il friendId per verificare se esiste nel db, oppure quella attuale che fa lo stesso controllo utilizzando la funzione isFriendAlreadyAdded
+☐ limitare la visualizzazione di tutti gli eventi agli admin; e agli user invece solo relativamente alla sua cerchia di amici (valutare in tema di partecipazione)
 
 messages
 ☐ creare un interfaccia Message del tipo: "content": string, "sender": string (id), "recipient": string (id), "createdAt": Date (oppure un timestamps)

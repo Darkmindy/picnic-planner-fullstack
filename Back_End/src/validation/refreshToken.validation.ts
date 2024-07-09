@@ -4,6 +4,7 @@ import { ZUserSchema } from "./user.validation";
 export const ZRefreshTokenSchema = z.object({
 	token: z.string().min(1),
 	user: ZUserSchema,
+	// isExpired: z.boolean().optional(),
 });
 
 // create interface

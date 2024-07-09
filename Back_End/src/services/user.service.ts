@@ -22,6 +22,7 @@ export const updateUserStatusHandler = async (
 	id: string,
 	status: boolean
 ): Promise<IUser | null> => {
+	console.log(id, status);
 	const user = await User.findOneAndUpdate(
 		{ _id: id },
 		{ $set: { isOnline: status } },

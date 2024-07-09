@@ -9,11 +9,11 @@ import { IRefreshToken } from "../validation/refreshToken.validation";
 }; */
 
 export const createOrUpdateRefreshToken = async (
-	user: string,
+	userId: string,
 	token: string
 ): Promise<IRefreshToken | null> => {
 	const updatedToken = await RefreshToken.findOneAndUpdate(
-		{ user },
+		{ user: userId },
 		{ token },
 		{ new: true, upsert: true, setDefaultsOnInsert: true }
 	).exec();

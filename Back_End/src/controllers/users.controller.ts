@@ -209,15 +209,15 @@ export const logIn = async (req: Request, res: Response) => {
 					formattedRefreshToken.token
 				);
 
-			//! to implement: query the refresh token
-			// const refreshToken = await findRefreshToken(
-			// 	createdRefreshToken?.token as string
-			// )
-
-			//! to implement: access the isExpired property
-			// const isExpired = refreshToken?.isExpired
-			// if (!isExpired) {
+			// check if refresh token is expired
+			// if (createdRefreshToken?.isExpired) {
+			// 	return res
+			// 		.status(401)
+			// 		.json(
+			// 			"Unauthorized: Invalid token, your access may be expired or your refresh token is not found in database"
+			// 		);
 			// }
+
 			return res
 				.status(200)
 				.header("Authorization", `Bearer ${newTokens.accessToken}`)

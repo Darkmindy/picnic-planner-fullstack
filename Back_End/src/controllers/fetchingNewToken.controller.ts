@@ -8,6 +8,7 @@ import {
 	findRefreshToken,
 	updateRefreshToken,
 } from "../services/refreshToken.service";
+import { updateUserStatusHandler } from "../services/user.service";
 import {
 	calculateAccessTokenExpiresAt,
 	createNewAccessToken,
@@ -33,14 +34,31 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 			return res
 				.status(401)
 				.json(
-					"Unauthorized: Invalid token, your access may be expired or your refresh token is not found in database"
+					"Unauthorized: Invalid token, your refresh token is not found in database"
 				);
 		}
 
 		const verifyingRefreshToken: IDecodedToken | null =
 			await authHandler.verifyRefreshToken(refreshToken);
 
-		if (!verifyingRefreshToken) {
+		// find userId
+		req.user = {
+			_id: verifyingRefreshToken?.id,
+		} as ExtendedRequest["user"];
+
+		if (
+			!verifyingRefreshToken ||
+			verifyingRefreshToken instanceof jwt.TokenExpiredError
+		) {
+			try {
+				const updatedStatus = await updateUserStatusHandler(
+					verifyingRefreshToken?.id as string,
+					false
+				);
+				console.log(updatedStatus);
+			} catch (error) {
+				console.log(error);
+			}
 			return res
 				.status(401)
 				.json(
@@ -59,7 +77,7 @@ export const fetchingNewToken = async (req: ExtendedRequest, res: Response) => {
 		}
 
 		const newRefreshToken = jwt.sign({ id }, env.REFRESH_SECRET_TOKEN, {
-			expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "d",
+			expiresIn: env.REFRESH_TOKEN_EXPIRATION_TIME + "m",
 		});
 
 		// formatting refresh token for client side
